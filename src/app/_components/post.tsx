@@ -2,40 +2,71 @@
 
 import { useState } from "react";
 
+import { Input } from "@/components/ui/input";
+
+import type { PostFormData } from "@/lib/types/post";
 import { api } from "@/trpc/react";
+
+const defaultPost: PostFormData = {
+  title: "",
+  content: "",
+  category: "",
+  authorId: "",
+};
 
 export function LatestPost() {
   const [latestPost] = api.post.getLatest.useSuspenseQuery();
 
   const utils = api.useUtils();
-  const [name, setName] = useState("");
+  const [post, setPost] = useState<PostFormData>(defaultPost);
   const createPost = api.post.create.useMutation({
     onSuccess: async () => {
       await utils.post.invalidate();
-      setName("");
+      setPost(defaultPost);
     },
   });
 
   return (
     <div className="w-full max-w-xs">
       {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
+        <p className="truncate">Your most recent post: {latestPost.title}</p>
       ) : (
         <p>You have no posts yet.</p>
       )}
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          createPost.mutate({ name });
+          createPost.mutate({ ...post });
         }}
         className="flex flex-col gap-2"
       >
-        <input
+        <Input
           type="text"
-          placeholder="Title"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-full bg-white/10 px-4 py-2 text-white"
+          value={post.title}
+          onChange={(e) =>
+            setPost((prev) => ({ ...prev, title: e.target.value }))
+          }
+        />
+        <Input
+          type="text"
+          value={post.content}
+          onChange={(e) =>
+            setPost((prev) => ({ ...prev, content: e.target.value }))
+          }
+        />
+        <Input
+          type="text"
+          value={post.category}
+          onChange={(e) =>
+            setPost((prev) => ({ ...prev, category: e.target.value }))
+          }
+        />
+        <Input
+          type="text"
+          value={post.authorId}
+          onChange={(e) =>
+            setPost((prev) => ({ ...prev, authorId: e.target.value }))
+          }
         />
         <button
           type="submit"

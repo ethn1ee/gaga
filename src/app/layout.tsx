@@ -3,6 +3,9 @@ import "@/styles/globals.css";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 
+import { Header } from "@/components/header";
+import { Sidebar } from "@/components/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
@@ -22,7 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <SidebarProvider>
+          <Sidebar />
+          <SidebarInset>
+            <Header />
+            <TRPCReactProvider>{children}</TRPCReactProvider>
+          </SidebarInset>
+        </SidebarProvider>
       </body>
     </html>
   );
