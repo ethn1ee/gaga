@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 
-import type { PostFormData } from "@/lib/types/post";
+import type { PostFormData } from "@/lib/types/comment";
 import { api } from "@/trpc/react";
 
 const defaultPost: PostFormData = {

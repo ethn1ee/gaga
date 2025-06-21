@@ -1,6 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TableCell, TableRow } from "@/components/ui/table";
-import type { PostWithComments } from "@/lib/types/post";
+import type { PostWithComments } from "@/lib/schema";
+import { getRelativeTime } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 
 type PostRowProps = {
@@ -35,7 +36,7 @@ const PostRow = (props: PostRowProps) => {
         <div className="space-x-1 text-muted-foreground">
           <span>{post.authorId}</span>
           <span>·</span>
-          <span>3 minutes ago</span>
+          <span>{getRelativeTime(post.createdAt)}</span>
         </div>
       </TableCell>
 

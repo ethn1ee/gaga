@@ -1,7 +1,7 @@
-@import "tailwindcss";
 @import "tw-animate-css";
+@import "tailwindcss";
 
-@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&: is(.dark *)); */
 
 @theme {
   --font-sans:
@@ -127,7 +127,7 @@
     @apply cursor-pointer;
   }
   main {
-    @apply mx-auto w-full max-w-4xl px-4;
+    @apply mx-auto w-full max-w-4xl px-4 pt-10 md:pt-20;
   }
 
   h1 {
@@ -139,6 +139,6 @@
   }
 
   h3 {
-    @apply scroll-m-20 text-2xl font-semibold tracking-tight;
+    @apply scroll-m-20 text-xl font-medium tracking-tight;
   }
 }

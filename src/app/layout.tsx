@@ -6,6 +6,7 @@ import { Geist } from "next/font/google";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({
           <SidebarInset>
             <Header />
             <TRPCReactProvider>{children}</TRPCReactProvider>
+            <Toaster />
           </SidebarInset>
         </SidebarProvider>
       </body>
