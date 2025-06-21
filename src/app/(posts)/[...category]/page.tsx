@@ -14,7 +14,7 @@ const Posts = (props: PostsProps) => {
   const [data] = api.post.getByCategory.useSuspenseQuery(category.join("/"));
 
   return (
-    <main>
+    <div>
       <h1 className="mb-4 mt-10">
         {category.map((part, i) => {
           const formatted = slugToTitle(part);
@@ -30,7 +30,7 @@ const Posts = (props: PostsProps) => {
         })}
       </h1>
       <PostTable data={data} />
-    </main>
+    </div>
   );
 };
 

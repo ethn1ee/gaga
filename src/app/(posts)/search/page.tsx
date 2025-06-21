@@ -15,10 +15,10 @@ const SearchPage = () => {
   const [data] = api.post.search.useSuspenseQuery(query!);
 
   return (
-    <main>
+    <div>
       <h1 className="mb-4 mt-10">Results for &quot;{query}&quot;</h1>
       <PostTable data={data} />
-    </main>
+    </div>
   );
 };
 

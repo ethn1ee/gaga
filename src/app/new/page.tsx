@@ -38,7 +38,7 @@ const New = () => {
       title: "",
       content: "",
       category: "",
-      authorId: "ethantlee",
+      authorId: "admin",
     },
   });
 
