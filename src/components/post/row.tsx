@@ -42,23 +42,12 @@ const PostRow = (props: PostRowProps) => {
 
       <TableCell dir="rtl">
         <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale w-fit">
-          {post.comments.map((comment, i) => (
+          {post.comments.slice(0, 3).map((comment, i) => (
             <Avatar key={i} className="size-6">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback>{comment.authorId}</AvatarFallback>
             </Avatar>
           ))}
-          <Avatar className="size-6">
-            <AvatarImage src="https://github.com/leerob.png" alt="@leerob" />
-            <AvatarFallback>LR</AvatarFallback>
-          </Avatar>
-          <Avatar className="size-6">
-            <AvatarImage
-              src="https://github.com/evilrabbit.png"
-              alt="@evilrabbit"
-            />
-            <AvatarFallback>ER</AvatarFallback>
-          </Avatar>
         </div>
       </TableCell>
     </TableRow>

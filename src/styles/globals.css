@@ -142,3 +142,9 @@
     @apply scroll-m-20 text-xl font-medium tracking-tight;
   }
 }
+
+@layer utilities {
+  .clear-input-style {
+    @apply focus-visible:ring-0 border-none bg-transparent shadow-none ring-0;
+  }
+}
