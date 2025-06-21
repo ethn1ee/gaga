@@ -1,9 +1,12 @@
 import { Search } from "@/components/search";
+import { Suspense } from "react";
 
 const PostsLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <main className="px-4">
-      <Search />
+      <Suspense>
+        <Search />
+      </Suspense>
       {children}
     </main>
   );
