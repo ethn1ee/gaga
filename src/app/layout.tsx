@@ -4,8 +4,6 @@ import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 
 import { Header } from "@/components/header";
-import { Sidebar } from "@/components/sidebar";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { TRPCReactProvider } from "@/trpc/react";
 
@@ -26,14 +24,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>
-        <SidebarProvider>
-          <Sidebar />
-          <SidebarInset>
-            <Header />
-            <TRPCReactProvider>{children}</TRPCReactProvider>
-            <Toaster />
-          </SidebarInset>
-        </SidebarProvider>
+        <Header />
+        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Toaster />
       </body>
     </html>
   );
