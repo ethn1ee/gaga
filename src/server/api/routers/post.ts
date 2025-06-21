@@ -24,7 +24,7 @@ export const postRouter = createTRPCRouter({
   }),
 
   getByCategory: publicProcedure
-    .input(z.object({ category: postInput.shape.category }))
+    .input(z.object({ category: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       const posts = await ctx.db.post.findMany({
         where: { category: input.category },
