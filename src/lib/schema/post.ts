@@ -5,6 +5,7 @@ const postInput = z.object({
   title: z.string().min(1, "Title cannot be empty"),
   content: z.string().min(1, "Comment cannot be empty"),
   category: z.string().min(1, "Category cannot be empty"),
+  attachments: z.array(z.string()).max(5, "Maximum 5 attachments are allowed"),
   authorId: z.string().min(1, "AuthorId cannot be empty"),
 });
 

@@ -1,6 +1,6 @@
 export const slugToTitle = (slug: string) => {
   return slug
     .split("-")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
     .join(" ");
 };

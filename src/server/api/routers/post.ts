@@ -10,6 +10,7 @@ export const postRouter = createTRPCRouter({
         title: input.title,
         content: input.content,
         category: input.category,
+        attachments: input.attachments,
         authorId: input.authorId,
       },
     });
