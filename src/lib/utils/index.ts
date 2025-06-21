@@ -1,5 +1,5 @@
 import { cn } from "./cn";
 import { getNow, getRelativeTime } from "./get-time";
-import { inferSchema } from "./infer-schema";
+import { slugToTitle } from "./slug-to-title";
 
-export { cn, getNow, getRelativeTime, inferSchema };
+export { cn, getNow, getRelativeTime, slugToTitle };

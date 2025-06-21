@@ -1,6 +1,6 @@
 "use client";
 
-import { api } from "@/trpc/react";
+import type { PostWithComments } from "@/lib/schema";
 import {
   Table,
   TableBody,
@@ -12,13 +12,11 @@ import {
 import PostRow from "./row";
 
 type PostTableProps = {
-  category: string;
+  data: PostWithComments[];
 };
 
 const PostTable = (props: PostTableProps) => {
-  const { category } = props;
-
-  const [data] = api.post.getByCategory.useSuspenseQuery({ category });
+  const { data } = props;
 
   return (
     <Table className="w-full overflow-x-hidden">

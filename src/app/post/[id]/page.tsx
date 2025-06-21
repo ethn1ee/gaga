@@ -20,7 +20,7 @@ const Post = (props: PostProps) => {
   const { id } = use(params);
   const router = useRouter();
   const utils = api.useUtils();
-  const [data] = api.post.getById.useSuspenseQuery({ id: id });
+  const [data] = api.post.getById.useSuspenseQuery(id);
 
   const defaultComment: CommentInput = {
     content: "",

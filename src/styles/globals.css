@@ -127,7 +127,7 @@
     @apply cursor-pointer;
   }
   main {
-    @apply mx-auto w-full max-w-4xl px-4 pt-10 md:pt-20;
+    @apply mx-auto w-full max-w-4xl px-4 pt-10;
   }
 
   h1 {

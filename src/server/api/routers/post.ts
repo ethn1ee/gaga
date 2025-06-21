@@ -24,14 +24,12 @@ export const postRouter = createTRPCRouter({
   }),
 
   getByCategory: publicProcedure
-    .input(z.object({ category: z.string().min(1) }))
+    .input(postInput.shape.category)
     .query(async ({ ctx, input }) => {
       const posts = await ctx.db.post.findMany({
-        where: { category: input.category },
+        where: { category: input },
         include: {
-          comments: {
-            orderBy: { createdAt: "desc" },
-          },
+          comments: true,
         },
         orderBy: { createdAt: "desc" },
       });
@@ -40,10 +38,10 @@ export const postRouter = createTRPCRouter({
     }),
 
   getById: publicProcedure
-    .input(z.object({ id: z.string().cuid2() }))
+    .input(z.string().cuid2())
     .query(async ({ ctx, input }) => {
       const post = await ctx.db.post.findUnique({
-        where: { id: input.id },
+        where: { id: input },
         include: {
           comments: {
             orderBy: { createdAt: "desc" },
@@ -52,5 +50,39 @@ export const postRouter = createTRPCRouter({
       });
 
       return post;
+    }),
+
+  search: publicProcedure
+    .input(z.string().min(1))
+    .query(async ({ ctx, input }) => {
+      const formattedInput = input.split(" ").join(" | ");
+      const posts = await ctx.db.post.findMany({
+        where: {
+          OR: [
+            {
+              title: {
+                search: formattedInput,
+              },
+            },
+            {
+              content: {
+                search: formattedInput,
+              },
+            },
+          ],
+        },
+        include: {
+          comments: true,
+        },
+        orderBy: {
+          _relevance: {
+            fields: ["title", "content"],
+            search: formattedInput,
+            sort: "desc",
+          },
+        },
+      });
+
+      return posts;
     }),
 });
