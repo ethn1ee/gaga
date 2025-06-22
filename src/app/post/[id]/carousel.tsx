@@ -7,8 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { cn, extractOriginalFilename } from "@/lib/utils";
-import { getFileType } from "@/lib/utils/get-file-type";
+import { cn, extractOriginalFilename, getFileType } from "@/lib/utils";
 import { type Post } from "@prisma/client";
 import { motion } from "motion/react";
 import Image from "next/image";
@@ -34,7 +33,7 @@ const Carousel = ({ attachments }: CarouselProps) => {
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
     });
-  }, [api, images.length]);
+  }, [api, attachments, images.length]);
 
   const handleClick = () => {
     if (!api) return;
@@ -51,16 +50,18 @@ const Carousel = ({ attachments }: CarouselProps) => {
         {images.map((img, i) => (
           <CarouselItem
             key={i}
-            className="basis-1 sm:basis-1/2 md:basis-1/3 lg:basis-1/4mr-4"
+            className="sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
           >
             <AspectRatio
-              ratio={1}
-              className="relative overflow-hidden rounded-md"
+              ratio={1 / 1}
+              className="relative overflow-hidden rounded-md w-full"
             >
               <Image
                 src={img}
                 alt={extractOriginalFilename(img)}
                 fill
+                quality={50}
+                sizes="(max-width: 640px) 80vw, (max-width: 768px) 70vw, (max-width: 1024px) 50vw, 600px"
                 className="object-cover"
               />
             </AspectRatio>
@@ -85,7 +86,7 @@ const Carousel = ({ attachments }: CarouselProps) => {
                     }
                   : { width: 8, opacity: 0.2 }
               }
-              className="h-2 rounded-full border bg-muted-foreground"
+              className="h-2 rounded-full border bg-muted-foreground w-2"
             />
           ))}
         </div>

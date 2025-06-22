@@ -20,7 +20,17 @@ const Subcategory = (props: SubcategoryProps) => {
 
   return (
     <div>
-      <Title category={category} subcategory={subcategory} />
+      <Title
+        category={category}
+        subcategory={subcategory}
+        size="xs"
+        className="absolute top-4 left-14 z-40"
+      />
+      <Title
+        category={category}
+        subcategory={subcategory}
+        className="max-2xl:hidden"
+      />
       <PostTable data={data} isLoading={query.isLoading} />
     </div>
   );

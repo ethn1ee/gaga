@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { extractOriginalFilename } from "@/lib/utils";
-import { getFileType } from "@/lib/utils/get-file-type";
+import { extractOriginalFilename, getFileType } from "@/lib/utils";
 import { type Post } from "@prisma/client";
 import { PaperclipIcon } from "lucide-react";
 import Image from "next/image";

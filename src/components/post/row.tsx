@@ -21,9 +21,9 @@ const PostRow = ({ post }: PostRowProps) => {
   return (
     <TableRow
       onClick={handleClick}
-      className="flex cursor-pointer @container items-center h-24 gap-3"
+      className="flex cursor-pointer @container items-center h-24 gap-3 px-1"
     >
-      <TableCell className="@max-sm:hidden py-3 h-full px-0">
+      <TableCell className="@max-sm:hidden py-3 h-full px-0 @md:pl-1">
         <Avatar className="size-9 mb-2">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
@@ -50,7 +50,7 @@ const PostRow = ({ post }: PostRowProps) => {
         </div>
       </TableCell>
 
-      <TableCell className="@max-sm:hidden py-3 h-full flex flex-col justify-end items-end px-0">
+      <TableCell className="@max-sm:hidden @md:pr-1 py-3 h-full flex flex-col justify-end items-end px-0">
         <div className="h-[28px] py-0.5 *:data-[slot=avatar]:ring-background flex justify-end -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale w-fit">
           {post.comments?.slice(0, 3).map((comment, i) => (
             <Avatar key={i} className="size-6">

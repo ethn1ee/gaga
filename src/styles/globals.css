@@ -121,13 +121,13 @@
     @apply border-border outline-ring/50 stroke-current;
   }
   body {
-    @apply bg-background text-foreground mx-4 mb-20;
+    @apply bg-background text-foreground mb-20;
   }
   button {
     @apply cursor-pointer;
   }
   main {
-    @apply mx-auto w-full lg:mt-10 lg:max-w-6xl 2xl:max-w-7xl;
+    @apply mx-auto w-full mt-4 lg:mt-10 lg:max-w-6xl 2xl:max-w-7xl px-4;
   }
 
   h1 {

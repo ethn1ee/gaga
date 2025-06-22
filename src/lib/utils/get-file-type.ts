@@ -19,6 +19,10 @@ export const getFileType = (file: string): "image" | "document" | "etc" => {
     case "svg":
       return "image";
     case "pdf":
+    case "docx":
+    case "doc":
+    case "xlsx":
+    case "hwp":
       return "document";
     default:
       return "etc";

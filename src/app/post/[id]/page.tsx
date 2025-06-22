@@ -27,9 +27,9 @@ const Post = ({ params }: PostProps) => {
     <main className="space-y-10">
       {/* POST */}
       <div>
-        <Category {...data} />
-        <h2 className="mb-5">{data.title}</h2>
-         <Carousel attachments={data.attachments} />
+        <Category category={data.category} subcategory={data.subcategory} />
+        <h2 className="mb-5 mt-1">{data.title}</h2>
+        <Carousel attachments={data.attachments} />
         <p className="min-h-96 my-5">{data.content}</p>
         <Attachments attachments={data.attachments} />
       </div>

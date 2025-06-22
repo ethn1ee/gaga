@@ -1,11 +1,11 @@
-import NavBar from "./nav-bar";
-import NavSheet from "./nav-sheet";
+import NavDesktop from "./nav-desktop";
+import NavMobile from "./nav-mobile";
 
 const Nav = () => {
   return (
     <div className="@container">
-      <NavBar className="@max-2xl:hidden" />
-      <NavSheet className="@2xl:hidden" />
+      <NavDesktop className="@max-2xl:hidden" />
+      <NavMobile className="@2xl:hidden" />
     </div>
   );
 };

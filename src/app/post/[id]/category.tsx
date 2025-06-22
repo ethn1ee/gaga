@@ -1,19 +1,17 @@
-import { categoryToArray } from "@/lib/utils/category-to-array";
+import { slugToTitle } from "@/lib/utils";
 import { type Post } from "@prisma/client";
 
 type CategoryProps = {
   category: Post["category"];
+  subcategory: Post["subcategory"];
 };
 
-const Category = ({ category }: CategoryProps) => {
-  const categoryArray = categoryToArray(category);
+const Category = ({ category, subcategory }: CategoryProps) => {
   return (
-    <div>
-      {categoryArray.map((item, i) => (
-        <span key={i} className="text-muted-foreground text-sm">
-          {item}
-        </span>
-      ))}
+    <div className="text-muted-foreground text-sm space-x-2">
+      <span>{slugToTitle(category)}</span>
+      <span>/</span>
+      <span>{slugToTitle(subcategory)}</span>
     </div>
   );
 };

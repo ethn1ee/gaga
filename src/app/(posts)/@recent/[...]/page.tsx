@@ -9,7 +9,7 @@ const RecentPosts = () => {
 
   return (
     <div className="border rounded-lg p-4">
-      <Title category="Recent Posts" size="small" />
+      <Title category="Recent Posts" size="sm" />
       <PostTable data={data} isLoading={query.isLoading} />
     </div>
   );

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { navGroups } from "./data";
 
-const NavBar = ({ className }: React.ComponentProps<typeof NavigationMenu>) => {
+const NavDesktop = ({ className }: React.ComponentProps<typeof NavigationMenu>) => {
   return (
     <NavigationMenu viewport={false} className={className}>
       <NavigationMenuList className="w-screen flex justify-center items-center p-4 relative z-50">
@@ -63,7 +63,7 @@ const NavBar = ({ className }: React.ComponentProps<typeof NavigationMenu>) => {
   );
 };
 
-export default NavBar;
+export default NavDesktop;
 
 const ListItem = ({
   title,
