@@ -127,11 +127,11 @@
     @apply cursor-pointer;
   }
   main {
-    @apply mx-auto w-full pt-10 lg:max-w-6xl 2xl:max-w-7xl;
+    @apply mx-auto w-full lg:mt-10 lg:max-w-6xl 2xl:max-w-7xl;
   }
 
   h1 {
-    @apply scroll-m-20 text-4xl font-bold tracking-tight text-balance;
+    @apply scroll-m-20 text-2xl md:text-4xl font-bold tracking-tight text-balance;
   }
 
   h2 {

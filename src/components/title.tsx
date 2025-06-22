@@ -13,7 +13,7 @@ const Title = ({ category, subcategory, size = "default" }: TitleProps) => {
     <div
       className={cn(
         "w-full flex gap-4 items-center",
-        size === "default" && "mb-4",
+        size === "default" && "md:mb-4",
       )}
     >
       <TitleTag className="space-x-2 block w-fit shrink-0">

@@ -20,7 +20,7 @@ type PostTableProps = {
 
 const PostTable = ({ data, isLoading }: PostTableProps) => {
   if (!isLoading && data.length === 0) {
-    return <p className="text-muted-foreground">No posts yet</p>;
+    return <p className="text-muted-foreground">No posts</p>;
   }
 
   return (
