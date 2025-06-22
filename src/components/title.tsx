@@ -25,7 +25,7 @@ const Title = ({
   return (
     <div
       className={cn(
-        "w-full flex gap-4 items-center",
+        "flex gap-4 items-center",
         size === "default" && "md:mb-4",
         className,
       )}

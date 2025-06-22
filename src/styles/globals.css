@@ -120,14 +120,17 @@
   * {
     @apply border-border outline-ring/50 stroke-current;
   }
+
   body {
-    @apply bg-background text-foreground mb-20 w-screen overflow-x-hidden overflow-y-scroll;
+    @apply bg-background text-foreground;
   }
+
+  main {
+    @apply mx-auto px-4 mt-4 w-full lg:mt-10 lg:max-w-6xl 2xl:max-w-7xl box-border overflow-x-hidden;
+  }
+
   button {
     @apply cursor-pointer;
-  }
-  main {
-    @apply mx-auto mt-4 box-border w-full px-4 lg:mt-10 lg:max-w-6xl 2xl:max-w-7xl;
   }
 
   h1 {
