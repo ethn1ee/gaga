@@ -6,6 +6,7 @@ import { api } from "@/trpc/react";
 import { notFound } from "next/navigation";
 import { use } from "react";
 import Attachments from "./attachments";
+import Carousel from "./carousel";
 import Category from "./category";
 import Comments from "./comments";
 
@@ -28,7 +29,8 @@ const Post = ({ params }: PostProps) => {
       <div>
         <Category {...data} />
         <h2 className="mb-5">{data.title}</h2>
-        <p className="min-h-96 mb-5">{data.content}</p>
+         <Carousel attachments={data.attachments} />
+        <p className="min-h-96 my-5">{data.content}</p>
         <Attachments attachments={data.attachments} />
       </div>
 

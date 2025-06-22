@@ -9,32 +9,48 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import PostRow from "./row";
+import PostRow, { PostRowSkeleton } from "./row";
 
 type PostTableProps = {
   data: PostWithComments[];
+  showCategory?: boolean;
+  showSubcategory?: boolean;
+  isLoading: boolean;
 };
 
-const PostTable = (props: PostTableProps) => {
-  const { data } = props;
+const PostTable = ({
+  data,
+  isLoading,
+  showCategory = false,
+  showSubcategory = false,
+}: PostTableProps) => {
+  if (!isLoading && data.length === 0) {
+    return <p className="text-muted-foreground">No posts yet</p>;
+  }
 
   return (
-    <Table className="w-full overflow-x-hidden">
-      <TableCaption className="sr-only">
-        A list of your recent invoices.
-      </TableCaption>
+    <Table className="w-full overflow-x-hidden @container">
+      <TableCaption className="sr-only">A list of posts.</TableCaption>
       <TableHeader className="sr-only">
         <TableRow>
-          <TableHead className="w-[100px]">Invoice</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead className="w-[100px] @max-sm:hidden">Author</TableHead>
+          <TableHead>Post Title</TableHead>
+          <TableHead className="text-right @max-sm:hidden">
+            Recent commenters
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody className="relative">
-        {data.map((post, i) => (
-          <PostRow key={i} post={post} />
-        ))}
+        {isLoading
+          ? [...Array<0>(5)].map((_, i) => <PostRowSkeleton key={i} />)
+          : data.map((post, i) => (
+              <PostRow
+                key={i}
+                post={post}
+                showCategory={showCategory}
+                showSubcategory={showSubcategory}
+              />
+            ))}
       </TableBody>
     </Table>
   );

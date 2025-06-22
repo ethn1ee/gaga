@@ -2,11 +2,12 @@ import { Prisma } from "@prisma/client";
 import { z } from "zod";
 
 const postInput = z.object({
-  title: z.string().min(1, "Title cannot be empty"),
-  content: z.string().min(1, "Comment cannot be empty"),
-  category: z.string().min(1, "Category cannot be empty"),
+  title: z.string().min(1, "Title is required"),
+  content: z.string().min(1, "Content is required"),
+  category: z.string().min(1, "Category is required"),
+  subcategory: z.string().min(1, "Subcategory is required"),
   attachments: z.array(z.string()).max(5, "Maximum 5 attachments are allowed"),
-  authorId: z.string().min(1, "AuthorId cannot be empty"),
+  authorId: z.string().min(1, "Author ID cannot be empty"),
 });
 
 type PostInput = z.infer<typeof postInput>;

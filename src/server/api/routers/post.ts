@@ -10,18 +10,23 @@ export const postRouter = createTRPCRouter({
         title: input.title,
         content: input.content,
         category: input.category,
+        subcategory: input.subcategory,
         attachments: input.attachments,
         authorId: input.authorId,
       },
     });
   }),
 
-  getLatest: publicProcedure.query(async ({ ctx }) => {
-    const post = await ctx.db.post.findFirst({
+  getRecent: publicProcedure.query(async ({ ctx }) => {
+    const posts = await ctx.db.post.findMany({
       orderBy: { createdAt: "desc" },
+      include: {
+        comments: true,
+      },
+      take: 10,
     });
 
-    return post ?? null;
+    return posts;
   }),
 
   getByCategory: publicProcedure
@@ -29,6 +34,23 @@ export const postRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const posts = await ctx.db.post.findMany({
         where: { category: input },
+        include: {
+          comments: true,
+        },
+        orderBy: { createdAt: "desc" },
+      });
+
+      return posts;
+    }),
+
+  getByCategoryAndSubcategory: publicProcedure
+    .input(z.object({
+      category: postInput.shape.category,
+      subcategory: postInput.shape.subcategory,
+    }))
+    .query(async ({ ctx, input }) => {
+      const posts = await ctx.db.post.findMany({
+        where: { category: input.category, subcategory: input.subcategory },
         include: {
           comments: true,
         },

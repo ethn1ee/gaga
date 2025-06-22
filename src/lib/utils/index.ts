@@ -1,10 +1,8 @@
 import { cn } from "./cn";
-import {
-  extractOriginalFilename,
-  replaceFileExtension,
-} from "./filename";
+import { extractOriginalFilename, replaceFileExtension } from "./filename";
 import { getNow, getRelativeTime } from "./get-time";
 import { slugToTitle } from "./slug-to-title";
+import { toSlug } from "./to-slug";
 
 export {
   cn,
@@ -13,4 +11,5 @@ export {
   getRelativeTime,
   replaceFileExtension,
   slugToTitle,
+  toSlug,
 };

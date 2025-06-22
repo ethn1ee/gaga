@@ -27,6 +27,7 @@ const Form = () => {
       title: "",
       content: "",
       category: "",
+      subcategory: "",
       attachments: [],
       authorId: "admin",
     },

@@ -21,13 +21,19 @@ const SuspenseWrapper = () => {
     notFound();
   }
 
-  const query = searchParams.get("q");
+  const q = searchParams.get("q");
 
-  const [data] = api.post.search.useSuspenseQuery(query!);
+  const [data, query] = api.post.search.useSuspenseQuery(q!);
+
   return (
-    <>
-      <h1 className="mb-4 mt-10">Results for &quot;{query}&quot;</h1>
-      <PostTable data={data} />
-    </>
+    <div>
+      <h1 className="mb-4 mt-10">Results for &quot;{q}&quot;</h1>
+      <PostTable
+        data={data}
+        isLoading={query.isLoading}
+        showCategory
+        showSubcategory
+      />
+    </div>
   );
 };
