@@ -1,11 +1,11 @@
 import "@/styles/globals.css";
 
-import { type Metadata } from "next";
-import { Geist } from "next/font/google";
-
+import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { Toaster } from "@/components/ui/sonner";
 import { TRPCReactProvider } from "@/trpc/react";
+import { type Metadata } from "next";
+import { Geist } from "next/font/google";
 
 export const metadata: Metadata = {
   title: "EmoryLife",
@@ -24,9 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>
-        <Nav />
-        <TRPCReactProvider>{children}</TRPCReactProvider>
-        <Toaster />
+        <div className="bg-background min-h-svh pb-20">
+          <Nav />
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <Toaster />
+        </div>
+        <Footer />
       </body>
     </html>
   );
