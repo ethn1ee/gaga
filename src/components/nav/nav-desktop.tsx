@@ -11,7 +11,9 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { navGroups } from "./data";
 
-const NavDesktop = ({ className }: React.ComponentProps<typeof NavigationMenu>) => {
+const NavDesktop = ({
+  className,
+}: React.ComponentProps<typeof NavigationMenu>) => {
   return (
     <NavigationMenu viewport={false} className={className}>
       <NavigationMenuList className="w-screen flex justify-center items-center p-4 relative z-50">
@@ -53,7 +55,7 @@ const NavDesktop = ({ className }: React.ComponentProps<typeof NavigationMenu>) 
             <Link href="/new">
               <Button>
                 <PlusIcon className="text-primary-foreground" />
-                <span>New</span>
+                <span>New Post</span>
               </Button>
             </Link>
           </NavigationMenuLink>

@@ -20,7 +20,7 @@ const Subcategory = (props: SubcategoryProps) => {
       <Title
         category={category}
         size="xs"
-        className="md:hidden absolute top-4 left-14 z-40"
+        className="md:hidden absolute top-4 left-14 z-30"
       />
       <Title category={category} className="max-md:hidden" />
       <PostTable data={data} isLoading={query.isLoading} />

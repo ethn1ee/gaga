@@ -24,7 +24,7 @@ const Subcategory = (props: SubcategoryProps) => {
         category={category}
         subcategory={subcategory}
         size="xs"
-        className="md:hidden absolute top-4 left-14 z-40"
+        className="md:hidden absolute top-4 left-14 z-30"
       />
       <Title
         category={category}
