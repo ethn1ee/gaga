@@ -47,7 +47,11 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
             className="absolute top-14 left-0 bg-background z-40 w-screen h-svh overflow-auto flex flex-col gap-2"
           >
             <li className="w-full px-4">
-              <Link href="/new" className="w-full">
+              <Link
+                href="/new"
+                onClick={() => setOpen(false)}
+                className="w-full"
+              >
                 <Button className="w-full">
                   <PlusIcon className="text-primary-foreground" />
                   <span>New Post</span>

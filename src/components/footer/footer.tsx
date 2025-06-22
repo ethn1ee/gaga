@@ -40,7 +40,7 @@ const Footer = () => {
           <div className="absolute left-0 bottom-0 p-4 items-end w-full flex justify-between">
             <Link
               href="https://github.com/ethn1ee"
-              className="text-muted-foreground group leading-none"
+              className="text-muted-foreground group leading-none text-sm"
             >
               Made by Taehoon Lee, Class of &apos;26
               <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-foreground/20" />
