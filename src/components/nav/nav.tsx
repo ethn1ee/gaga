@@ -3,10 +3,10 @@ import NavMobile from "./nav-mobile";
 
 const Nav = () => {
   return (
-    <div className="@container">
-      <NavDesktop className="@max-2xl:hidden" />
-      <NavMobile className="@2xl:hidden" />
-    </div>
+    <header>
+      <NavDesktop className="max-md:hidden" />
+      <NavMobile className="md:hidden" />
+    </header>
   );
 };
 

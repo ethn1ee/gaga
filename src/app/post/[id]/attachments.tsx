@@ -46,7 +46,7 @@ type FileThumbnailProps = {
 const FileThumbnail = ({ file }: FileThumbnailProps) => {
   switch (getFileType(file)) {
     case "image":
-      return <Image src={file} alt={file} fill />;
+      return <Image src={file} alt={file} fill sizes="40px" />;
     default:
       return <PaperclipIcon className="text-muted-foreground" />;
   }

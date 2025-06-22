@@ -42,10 +42,12 @@ const Title = ({
           {slugToTitle(category)}
         </Link>,
         subcategory && (
-          <Link href={`/${category}/${subcategory}`}>
+          <>
             <span className="text-muted-foreground">/</span>
-            <span>{slugToTitle(subcategory)}</span>
-          </Link>
+            <Link href={`/${category}/${subcategory}`}>
+              {slugToTitle(subcategory)}
+            </Link>
+          </>
         ),
       )}
       {size === "default" && <hr className="h-0.5 bg-accent w-full" />}
