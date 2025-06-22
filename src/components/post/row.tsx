@@ -2,17 +2,16 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { PostWithComments } from "@/lib/schema";
 import { getRelativeTime, slugToTitle } from "@/lib/utils";
+import { MessageCircleIcon, PaperclipIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Badge } from "../ui/badge";
 import { Skeleton } from "../ui/skeleton";
 
 type PostRowProps = {
   post: PostWithComments;
-  showCategory: boolean;
-  showSubcategory: boolean;
 };
 
-const PostRow = ({ post, showCategory, showSubcategory }: PostRowProps) => {
+const PostRow = ({ post }: PostRowProps) => {
   const router = useRouter();
 
   function handleClick() {
@@ -22,25 +21,24 @@ const PostRow = ({ post, showCategory, showSubcategory }: PostRowProps) => {
   return (
     <TableRow
       onClick={handleClick}
-      className="flex items-center cursor-pointer @container"
+      className="flex cursor-pointer @container items-center h-24"
     >
-      <TableCell className="@max-sm:hidden">
-        <Avatar className="size-9">
+      <TableCell className="@max-sm:hidden py-3 h-full">
+        <Avatar className="size-9 mb-2">
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
       </TableCell>
 
-      <TableCell className="overflow-hidden flex-1 w-0">
-        <div className="flex gap-1">
-          {showCategory && (
-            <Badge className="">{slugToTitle(post.category)}</Badge>
-          )}
-          {showSubcategory && (
-            <Badge variant="outline" className="">
-              {slugToTitle(post.subcategory)}
-            </Badge>
-          )}
+      <TableCell className="overflow-hidden py-3 flex-1 w-0 h-full">
+        <div className="flex gap-1 mb-1">
+          <Badge className="py-[1px] px-1.5">
+            {slugToTitle(post.category)}
+          </Badge>
+          <span className="text-muted-foreground">/</span>
+          <Badge variant="outline" className="py-[1px] px-1.5">
+            {slugToTitle(post.subcategory)}
+          </Badge>
         </div>
         <span className="block font-medium text-lg overflow-hidden whitespace-nowrap overflow-ellipsis w-full">
           {post.title}
@@ -52,14 +50,20 @@ const PostRow = ({ post, showCategory, showSubcategory }: PostRowProps) => {
         </div>
       </TableCell>
 
-      <TableCell dir="rtl" className="@max-sm:hidden">
-        <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale w-fit">
+      <TableCell className="@max-sm:hidden py-3 h-full flex flex-col justify-end items-end">
+        <div className="h-[28px] py-0.5 *:data-[slot=avatar]:ring-background flex justify-end -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale w-fit">
           {post.comments?.slice(0, 3).map((comment, i) => (
             <Avatar key={i} className="size-6">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback>{comment.authorId}</AvatarFallback>
             </Avatar>
           ))}
+        </div>
+        <div className="text-muted-foreground flex items-center gap-1">
+          <PaperclipIcon size={12} />
+          <span className="mr-2 font-mono">{post.attachments.length}</span>
+          <MessageCircleIcon size={12} />
+          <span className="font-mono">{post.comments.length}</span>
         </div>
       </TableCell>
     </TableRow>

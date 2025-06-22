@@ -18,12 +18,7 @@ type PostTableProps = {
   isLoading: boolean;
 };
 
-const PostTable = ({
-  data,
-  isLoading,
-  showCategory = false,
-  showSubcategory = false,
-}: PostTableProps) => {
+const PostTable = ({ data, isLoading }: PostTableProps) => {
   if (!isLoading && data.length === 0) {
     return <p className="text-muted-foreground">No posts yet</p>;
   }
@@ -43,14 +38,7 @@ const PostTable = ({
       <TableBody className="relative">
         {isLoading
           ? [...Array<0>(5)].map((_, i) => <PostRowSkeleton key={i} />)
-          : data.map((post, i) => (
-              <PostRow
-                key={i}
-                post={post}
-                showCategory={showCategory}
-                showSubcategory={showSubcategory}
-              />
-            ))}
+          : data.map((post, i) => <PostRow key={i} post={post} />)}
       </TableBody>
     </Table>
   );

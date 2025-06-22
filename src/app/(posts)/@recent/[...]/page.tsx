@@ -1,6 +1,7 @@
 "use client";
 
 import { PostTable } from "@/components/post";
+import Title from "@/components/title";
 import { api } from "@/trpc/react";
 
 const RecentPosts = () => {
@@ -8,7 +9,7 @@ const RecentPosts = () => {
 
   return (
     <div className="border rounded-lg p-4">
-      <h3>Recent Posts</h3>
+      <Title category="Recent Posts" size="small" />
       <PostTable data={data} isLoading={query.isLoading} />
     </div>
   );

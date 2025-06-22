@@ -90,12 +90,12 @@ const navGroups = [
       {
         title: "Campus",
         description: "School buildings, landmarks, and campus events",
-        url: "/gallery/campus",
+        url: "/photos/campus",
       },
       {
         title: "Dorms",
         description: "Residence halls, room layouts, and living spaces",
-        url: "/gallery/dorms",
+        url: "/photos/dorms",
       },
     ],
   },

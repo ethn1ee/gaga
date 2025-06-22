@@ -16,15 +16,10 @@ const Results = () => {
 
   return (
     <div>
-      <h1 className="mb-4 mt-10">Results for &quot;{q}&quot;</h1>
-      <PostTable
-        data={data}
-        isLoading={query.isLoading}
-        showCategory
-        showSubcategory
-      />
+      <h1 className="mb-4">Results for &quot;{q}&quot;</h1>
+      <PostTable data={data} isLoading={query.isLoading} />
     </div>
   );
-}
+};
 
-export default Results
+export default Results;

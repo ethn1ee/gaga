@@ -1,7 +1,7 @@
 "use client";
 
 import { PostTable } from "@/components/post";
-import { slugToTitle } from "@/lib/utils";
+import Title from "@/components/title";
 import { api } from "@/trpc/react";
 import { use } from "react";
 
@@ -17,8 +17,8 @@ const Subcategory = (props: SubcategoryProps) => {
 
   return (
     <div>
-      <h1 className="mb-4">{slugToTitle(category)}</h1>
-      <PostTable data={data} isLoading={query.isLoading} showSubcategory />
+      <Title category={category} />
+      <PostTable data={data} isLoading={query.isLoading} />
     </div>
   );
 };
