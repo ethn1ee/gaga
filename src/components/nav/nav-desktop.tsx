@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { navGroups } from "./data";
 import UserButton from "./user-button";
 

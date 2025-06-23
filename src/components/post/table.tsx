@@ -1,6 +1,5 @@
 "use client";
 
-import type { PostWithComments } from "@/lib/schema";
 import {
   Table,
   TableBody,
@@ -8,7 +7,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
+} from "@/components/ui/table";
+import type { PostWithComments } from "@/lib/schema";
 import PostRow, { PostRowSkeleton } from "./row";
 
 type PostTableProps = {

@@ -2,7 +2,7 @@ import FlexibleTextarea from "@/components/flexible-textarea";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { UserAvatarWithTime } from "@/components/user";
-import { useAuth } from "@/hooks";
+import { useAuth, useRequireAuth } from "@/hooks";
 import { type CommentInput, commentInput } from "@/lib/schema";
 import { getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
@@ -16,8 +16,10 @@ type CommentsProps = {
   postId: Post["id"];
   comments: Comment[];
 };
+
 const Comments = ({ postId, comments }: CommentsProps) => {
-  const { session, isSessionLoading } = useAuth({ protect: false });
+  const { session, isSessionLoading } = useAuth();
+  const requireAuth = useRequireAuth();
   const utils = api.useUtils();
 
   const form = useForm<CommentInput>({
@@ -45,10 +47,12 @@ const Comments = ({ postId, comments }: CommentsProps) => {
   });
 
   const handleSubmit = async (values: CommentInput) => {
-    createComment.mutate({
-      ...values,
-      authorId: session?.user.username ?? "anonymous",
-    });
+    requireAuth(() =>
+      createComment.mutate({
+        ...values,
+        authorId: session?.user.username ?? "anonymous",
+      }),
+    );
   };
 
   if (isSessionLoading) {

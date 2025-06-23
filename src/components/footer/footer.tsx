@@ -3,7 +3,7 @@
 import { IconBrandGithub } from "@tabler/icons-react";
 import Link from "next/link";
 import { navGroups } from "../nav";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   return (

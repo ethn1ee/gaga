@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/lib/auth";
-import { signInInput, type SignInInput, signUpInput } from "@/lib/schema";
+import { signInInput, type SignInInput } from "@/lib/schema";
 import { getNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
@@ -35,7 +35,7 @@ const SignUp = () => {
   const handleSubmit = async (values: SignInInput) => {
     await authClient.signIn
       .username(
-        { ...values },
+        { username: values.username, password: values.password },
         {
           onRequest: () => {
             setIsLoading(true);
@@ -73,13 +73,9 @@ const SignUp = () => {
               name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="">Email</FormLabel>
+                  <FormLabel className="">Username</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="john.doe@emory.edu"
-                      className=""
-                    />
+                    <Input {...field} placeholder="Username" className="" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -106,7 +102,7 @@ const SignUp = () => {
               size="lg"
               type="submit"
               disabled={
-                isLoading || !!signUpInput.safeParse(form.watch()).error
+                isLoading || !!signInInput.safeParse(form.watch()).error
               }
             >
               {isLoading ? <Loader2Icon className="animate-spin" /> : "Submit"}

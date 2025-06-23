@@ -5,7 +5,7 @@ import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { navGroups } from "./data";
 import UserButton from "./user-button";
 

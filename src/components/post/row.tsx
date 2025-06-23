@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { PostWithComments } from "@/lib/schema";
 import { getRelativeTime, slugToTitle } from "@/lib/utils";
 import { MessageCircleIcon, PaperclipIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Badge } from "../ui/badge";
-import { Skeleton } from "../ui/skeleton";
 
 type PostRowProps = {
   post: PostWithComments;
