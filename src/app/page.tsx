@@ -17,16 +17,16 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { getFileType, getRelativeTime } from "@/lib/utils";
-import { api } from "@/trpc/react";
+import { api } from "@/trpc/server";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
-export default function Page() {
-  const [recents, recentQuery] = api.post.getRecent.useSuspenseQuery(5);
-  const [photos] = api.post.getPhotos.useSuspenseQuery();
+export default async function Page() {
+  const recents = await api.post.getRecent(5);
+  const photos = await api.post.getPhotos();
 
   return (
     <main className="space-y-10">
@@ -36,7 +36,7 @@ export default function Page() {
 
       <section>
         <Title category="Recent Posts" />
-        <PostTable data={recents} isLoading={recentQuery.isLoading} />
+        <PostTable data={recents} isLoading={false} />
       </section>
 
       <section id="photos" className="">
