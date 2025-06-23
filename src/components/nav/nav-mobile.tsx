@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { navGroups } from "./data";
+import UserButton from "./user-button";
 
 const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
   const [open, setOpen] = useState(false);
@@ -14,7 +15,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
   return (
     <nav
       className={cn(
-        "w-full relative flex p-4 items-center border-b",
+        "w-full relative flex justify-between p-4 items-center border-b",
         className,
       )}
     >
@@ -37,6 +38,8 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
         />
       </Button>
 
+      <UserButton />
+
       <AnimatePresence>
         {open && (
           <motion.ul
@@ -44,14 +47,10 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
             animate={{ opacity: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, filter: "blur(10px)" }}
             transition={{ duration: 0.3, ease: "backOut" }}
-            className="absolute top-14 left-0 bg-background z-40 w-screen h-svh overflow-auto flex flex-col gap-2"
+            className="fixed top-0 left-0 bg-background z-40 w-screen h-svh flex flex-col gap-2 py-20 overflow-y-scroll pointer-events-auto"
           >
-            <li className="w-full px-4">
-              <Link
-                href="/new"
-                onClick={() => setOpen(false)}
-                className="w-full"
-              >
+            <li className="w-full px-4 flex flex-col gap-2">
+              <Link href="/new" onClick={() => setOpen(false)}>
                 <Button className="w-full">
                   <PlusIcon className="text-primary-foreground" />
                   <span>New Post</span>

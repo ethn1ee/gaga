@@ -1,9 +1,12 @@
+import { Suspense } from "react";
 import Form from "./_form";
 
 const New = () => {
   return (
     <main>
-      <Form />
+      <Suspense>
+        <Form />
+      </Suspense>
     </main>
   );
 };

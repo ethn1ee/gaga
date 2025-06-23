@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Form as FormComponent } from "@/components/ui/form";
+import useAuth from "@/hooks/use-auth";
 import { postInput, type PostInput } from "@/lib/schema";
 import { getNow, replaceFileExtension } from "@/lib/utils";
 import { api } from "@/trpc/react";
@@ -20,6 +21,7 @@ import TitleInput from "./title";
 
 const Form = () => {
   const router = useRouter();
+  const { session, isSessionLoading } = useAuth();
 
   const form = useForm<PostInput>({
     resolver: zodResolver(postInput),
@@ -29,16 +31,17 @@ const Form = () => {
       category: "",
       subcategory: "",
       attachments: [],
-      authorId: "admin",
+      authorId: "anonymous",
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [attachments, setAttachments] = useState<File[]>([]);
 
   const createPost = api.post.create.useMutation({
     onSuccess: async (data: Post) => {
-      toast("Successfully posted!", {
+      toast.success("Successfully posted!", {
+        position: "top-center",
         description: getNow(),
         action: {
           label: "View",
@@ -49,20 +52,23 @@ const Form = () => {
       router.push(`/post/${data.id}`);
     },
     onError: async (error) => {
-      toast("Failed to post!", {
-        description: error.message,
+      toast.success("Failed to post!", {
+        position: "top-center",
+        description: "Please try again later",
       });
+      console.error(error);
     },
   });
 
   useEffect(() => {
     if (createPost.isPending) {
-      setIsLoading(true);
+      setIsSubmitLoading(true);
     }
   }, [createPost.isPending]);
 
   const handleSubmit = async (values: PostInput) => {
-    setIsLoading(true);
+    setIsSubmitLoading(true);
+
     const urls = await Promise.all(
       attachments.map(async (file) => {
         let converted = file;
@@ -94,9 +100,17 @@ const Form = () => {
 
         return blob.url;
       }),
-    ).finally(() => setIsLoading(false));
-    createPost.mutate({ ...values, attachments: urls });
+    ).finally(() => setIsSubmitLoading(false));
+    createPost.mutate({
+      ...values,
+      attachments: urls,
+      authorId: session?.user.username ?? "",
+    });
   };
+
+  if (isSessionLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <FormProvider {...form}>
@@ -116,9 +130,15 @@ const Form = () => {
           <Button
             size="lg"
             type="submit"
-            disabled={isLoading || !!postInput.safeParse(form.watch()).error}
+            disabled={
+              isSubmitLoading || !!postInput.safeParse(form.watch()).error
+            }
           >
-            {isLoading ? <Loader2Icon className="animate-spin" /> : "Submit"}
+            {isSubmitLoading ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              "Submit"
+            )}
           </Button>
         </form>
       </FormComponent>

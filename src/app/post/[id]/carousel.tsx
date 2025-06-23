@@ -54,7 +54,7 @@ const Carousel = ({ attachments }: CarouselProps) => {
           >
             <AspectRatio
               ratio={1 / 1}
-              className="relative overflow-hidden rounded-md w-full"
+              className="relative overflow-hidden rounded-md border w-full"
             >
               <Image
                 src={img}

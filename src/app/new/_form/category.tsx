@@ -20,15 +20,23 @@ import { useFormContext } from "react-hook-form";
 const CategoryInput = () => {
   const form = useFormContext<PostInput>();
 
+  const handleCategoryChange = (value: string) => {
+    form.setValue("category", value);
+    form.setValue("subcategory", "");
+  };
+
   return (
     <div className="flex max-md:flex-col gap-2 items-center">
       <FormField
         control={form.control}
         name="category"
         render={({ field }) => (
-          <FormItem className="max-md:w-full">
+          <FormItem className="max-md:w-full w-50">
             <FormLabel className="sr-only">Category</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select
+              onValueChange={handleCategoryChange}
+              defaultValue={field.value}
+            >
               <FormControl>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a category" />
@@ -53,9 +61,9 @@ const CategoryInput = () => {
         control={form.control}
         name="subcategory"
         render={({ field }) => (
-          <FormItem className="max-md:w-full">
+          <FormItem className="max-md:w-full w-50">
             <FormLabel className="sr-only">Subcategory</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a subcategory" />

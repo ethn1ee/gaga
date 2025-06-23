@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import { Footer } from "@/components/footer";
 import { Nav } from "@/components/nav";
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "@/contexts/auth-context";
 import { TRPCReactProvider } from "@/trpc/react";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
@@ -24,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>
-        <div className="bg-background min-h-svh pb-20">
-          <Nav />
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+        <div className="bg-background min-h-svh pb-20 border-b">
+          <AuthProvider>
+            <Nav />
+            <TRPCReactProvider>{children}</TRPCReactProvider>
+          </AuthProvider>
           <Toaster />
         </div>
         <Footer />

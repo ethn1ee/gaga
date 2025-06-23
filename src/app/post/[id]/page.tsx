@@ -17,10 +17,14 @@ type PostProps = {
 const Post = ({ params }: PostProps) => {
   const { id } = use(params);
 
-  const [data] = api.post.getById.useSuspenseQuery(id);
+  const [data, query] = api.post.getById.useSuspenseQuery(id);
 
   if (!data) {
     notFound();
+  }
+
+  if (query.isLoading) {
+    return <p>Loading ...</p>;
   }
 
   return (

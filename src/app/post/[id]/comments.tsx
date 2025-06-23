@@ -2,6 +2,7 @@ import FlexibleTextarea from "@/components/flexible-textarea";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { UserAvatarWithTime } from "@/components/user";
+import { useAuth } from "@/hooks";
 import { type CommentInput, commentInput } from "@/lib/schema";
 import { getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
@@ -16,13 +17,14 @@ type CommentsProps = {
   comments: Comment[];
 };
 const Comments = ({ postId, comments }: CommentsProps) => {
+  const { session, isSessionLoading } = useAuth({ protect: false });
   const utils = api.useUtils();
 
   const form = useForm<CommentInput>({
     resolver: zodResolver(commentInput),
     defaultValues: {
       content: "",
-      authorId: "ethantlee",
+      authorId: "anonymous",
       postId,
     },
   });
@@ -34,15 +36,24 @@ const Comments = ({ postId, comments }: CommentsProps) => {
       form.reset();
     },
     onError: async (error) => {
-      toast("Failed to post!", {
-        description: error.message,
+      toast.error("Failed to post!", {
+        position: "top-center",
+        description: "Please try again later.",
       });
+      console.error(error);
     },
   });
 
   const handleSubmit = async (values: CommentInput) => {
-    createComment.mutate({ ...values });
+    createComment.mutate({
+      ...values,
+      authorId: session?.user.username ?? "anonymous",
+    });
   };
+
+  if (isSessionLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <>
@@ -68,7 +79,6 @@ const Comments = ({ postId, comments }: CommentsProps) => {
               !!commentInput.safeParse(form.watch()).error
             }
           >
-            {" "}
             {createComment.isPending ? (
               <Loader2Icon className="animate-spin" />
             ) : (

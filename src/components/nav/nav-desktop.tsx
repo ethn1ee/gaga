@@ -12,56 +12,71 @@ import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { navGroups } from "./data";
+import UserButton from "./user-button";
 
 const NavDesktop = ({
   className,
 }: React.ComponentProps<typeof NavigationMenu>) => {
   return (
     <NavigationMenu viewport={false} className={className}>
-      <NavigationMenuList className="w-screen flex justify-center items-center p-4 relative z-50">
-        {navGroups.map((group, i) => (
-          <NavigationMenuItem key={i}>
-            <NavigationMenuTrigger>
-              <group.icon size={20} className="text-muted-foreground mr-2" />
-              <span>{group.title}</span>
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <li className="row-span-3">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
-                      href={group.url}
-                    >
-                      <div className="mt-4 mb-2 text-lg font-medium flex items-center gap-2">
-                        {group.title}
-                        <ChevronRightIcon size={20} />
-                      </div>
-                      <p className="text-muted-foreground text-sm leading-tight">
-                        {group.description}
-                      </p>
-                    </Link>
-                  </NavigationMenuLink>
-                </li>
-                {group.items.map((item, j) => (
-                  <ListItem key={j} href={item.url} title={item.title}>
-                    {item.description}
-                  </ListItem>
-                ))}
-              </ul>
-            </NavigationMenuContent>
+      <NavigationMenuList className="w-screen flex justify-between items-center p-4 relative z-50">
+        <div className="flex gap-2">
+          {navGroups.map((group, i) => (
+            <NavigationMenuItem key={i}>
+              <NavigationMenuTrigger>
+                <group.icon size={20} className="text-muted-foreground mr-2" />
+                <span>{group.title}</span>
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                  <li className="row-span-3">
+                    <NavigationMenuLink asChild>
+                      <Link
+                        className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
+                        href={group.url}
+                      >
+                        <div className="mt-4 mb-2 text-lg font-medium flex items-center gap-2">
+                          {group.title}
+                          <ChevronRightIcon size={20} />
+                        </div>
+                        <p className="text-muted-foreground text-sm leading-tight">
+                          {group.description}
+                        </p>
+                      </Link>
+                    </NavigationMenuLink>
+                  </li>
+                  {group.items.map((item, j) => (
+                    <ListItem key={j} href={item.url} title={item.title}>
+                      {item.description}
+                    </ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          ))}
+        </div>
+
+        <div className="flex">
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              asChild
+              className="focus:bg-transparent hover:bg-trasparent"
+            >
+              <Link href="/new">
+                <Button>
+                  <PlusIcon className="text-primary-foreground" />
+                  <span>New Post</span>
+                </Button>
+              </Link>
+            </NavigationMenuLink>
           </NavigationMenuItem>
-        ))}
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className="hover:bg-trasparent">
-            <Link href="/new">
-              <Button>
-                <PlusIcon className="text-primary-foreground" />
-                <span>New Post</span>
-              </Button>
-            </Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <NavigationMenuLink className="focus:bg-transparent hover:bg-trasparent">
+              <UserButton />
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </div>
       </NavigationMenuList>
     </NavigationMenu>
   );

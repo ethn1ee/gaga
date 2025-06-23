@@ -161,7 +161,9 @@ export const FileUploader = forwardRef<
         const files = acceptedFiles;
 
         if (!files) {
-          toast.error("file error , probably too big");
+          toast.error("file error , probably too big", {
+            position: "top-center",
+          });
           return;
         }
 
@@ -185,11 +187,16 @@ export const FileUploader = forwardRef<
             if (rejectedFiles[i]?.errors[0]?.code === "file-too-large") {
               toast.error(
                 `File is too large. Max size is ${maxSize / 1024 / 1024}MB`,
+                {
+                  position: "top-center",
+                },
               );
               break;
             }
             if (rejectedFiles[i]?.errors[0]?.message) {
-              toast.error(rejectedFiles[i]?.errors[0]?.message);
+              toast.error(rejectedFiles[i]?.errors[0]?.message, {
+                position: "top-center",
+              });
               break;
             }
           }

@@ -6,14 +6,7 @@ import { z } from "zod";
 export const postRouter = createTRPCRouter({
   create: publicProcedure.input(postInput).mutation(async ({ ctx, input }) => {
     return ctx.db.post.create({
-      data: {
-        title: input.title,
-        content: input.content,
-        category: input.category,
-        subcategory: input.subcategory,
-        attachments: input.attachments,
-        authorId: input.authorId,
-      },
+      data: { ...input },
     });
   }),
 
@@ -22,6 +15,7 @@ export const postRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
       include: {
         comments: true,
+        author: true,
       },
       take: 10,
     });
@@ -36,6 +30,7 @@ export const postRouter = createTRPCRouter({
         where: { category: input },
         include: {
           comments: true,
+          author: true,
         },
         orderBy: { createdAt: "desc" },
       });
@@ -44,15 +39,18 @@ export const postRouter = createTRPCRouter({
     }),
 
   getByCategoryAndSubcategory: publicProcedure
-    .input(z.object({
-      category: postInput.shape.category,
-      subcategory: postInput.shape.subcategory,
-    }))
+    .input(
+      z.object({
+        category: postInput.shape.category,
+        subcategory: postInput.shape.subcategory,
+      }),
+    )
     .query(async ({ ctx, input }) => {
       const posts = await ctx.db.post.findMany({
-        where: { category: input.category, subcategory: input.subcategory },
+        where: { ...input },
         include: {
           comments: true,
+          author: true,
         },
         orderBy: { createdAt: "desc" },
       });
@@ -67,13 +65,34 @@ export const postRouter = createTRPCRouter({
         where: { id: input },
         include: {
           comments: {
+            include: {
+              author: true,
+            },
             orderBy: { createdAt: "desc" },
           },
+          author: true,
         },
       });
 
       return post;
     }),
+  
+  getByAuthorId: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const post = await ctx.db.post.findMany({
+      where: { authorId: input },
+      include: {
+        comments: {
+          include: {
+            author: true,
+          },
+          orderBy: { createdAt: "desc" },
+        },
+        author: true,
+      },
+    });
+
+    return post;
+  }),
 
   search: publicProcedure
     .input(z.string().min(1))
@@ -96,6 +115,7 @@ export const postRouter = createTRPCRouter({
         },
         include: {
           comments: true,
+          author: true,
         },
         orderBy: {
           _relevance: {
