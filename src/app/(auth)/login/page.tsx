@@ -10,19 +10,33 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
 import { signInInput, type SignInInput } from "@/lib/schema";
 import { getNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+const REDIRECT_PATH = "/";
 
 const SignUp = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { session } = useAuth();
+
+  // redirect if already signed in
+  useEffect(() => {
+    if (session) {
+      toast.info("Already signed in!", {
+        position: "top-center",
+      });
+      router.push(REDIRECT_PATH);
+    }
+  }, [session, router]);
 
   const form = useForm<SignInInput>({
     resolver: zodResolver(signInInput),
@@ -33,31 +47,29 @@ const SignUp = () => {
   });
 
   const handleSubmit = async (values: SignInInput) => {
-    await authClient.signIn
-      .username(
-        { username: values.username, password: values.password },
-        {
-          onRequest: () => {
-            setIsLoading(true);
-          },
-          onSuccess: () => {
-            setIsLoading(false);
-            toast.success(`Welcome!`, {
-              position: "top-center",
-              description: getNow(),
-            });
-          },
-          onError: (ctx) => {
-            setIsLoading(false);
-            toast.error("Failed to sign up!", {
-              position: "top-center",
-              description: "Please try again later",
-            });
-            console.error(ctx.error);
-          },
-        },
-      )
-      .finally(() => router.push("/"));
+    setIsLoading(true);
+    const { data, error } = await authClient.signIn.username({ ...values });
+
+    if (!error) {
+      setIsLoading(false);
+      toast.success(`Welcome, ${data.user.name.split(" ")[0]}`, {
+        position: "top-center",
+        description: getNow(),
+      });
+      router.push(REDIRECT_PATH);
+    } else {
+      setIsLoading(false);
+      let message = "Please try again later";
+      if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
+        message = "Invalid username or password";
+      }
+
+      toast.error("Failed to sign in!", {
+        position: "top-center",
+        description: message,
+      });
+      console.error(error);
+    }
   };
 
   return (
@@ -90,6 +102,7 @@ const SignUp = () => {
                   <FormControl>
                     <Input
                       {...field}
+                      type="password"
                       placeholder="Minimum 8 characters"
                       className=""
                     />
