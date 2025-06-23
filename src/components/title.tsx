@@ -1,27 +1,21 @@
 import { cn, slugToTitle } from "@/lib/utils";
 import Link from "next/link";
-import { type ComponentProps, createElement } from "react";
+import { type ComponentProps } from "react";
 
 type TitleProps = {
   category: string;
   subcategory?: string;
   size?: "default" | "sm" | "xs";
+  withLink?: boolean;
 };
 
 const Title = ({
   category,
   subcategory,
   size = "default",
+  withLink = false,
   className,
 }: TitleProps & ComponentProps<"div">) => {
-  const titleTags = {
-    default: "h1",
-    sm: "h3",
-    xs: "span",
-  } as const;
-
-  const titleTag = titleTags[size] ?? "h1";
-
   return (
     <div
       className={cn(
@@ -30,26 +24,45 @@ const Title = ({
         className,
       )}
     >
-      {createElement(
-        titleTag,
-        { className: "space-x-2 block w-fit shrink-0" },
-        <Link
-          href={`/${category}`}
-          className={cn(
-            subcategory ? "text-muted-foreground" : "text-foreground",
-          )}
-        >
-          {slugToTitle(category)}
-        </Link>,
-        subcategory && (
+      <h3
+        className={cn(
+          "space-x-2 block w-fit m-0 border-none shrink-0",
+          size === "default" && "text-2xl font-semibold",
+          size === "sm" && "text-xl",
+          size === "xs" && "text-base",
+        )}
+      >
+        {withLink ? (
+          <Link
+            href={`/${category}`}
+            className={cn(
+              subcategory ? "text-muted-foreground" : "text-foreground",
+            )}
+          >
+            {slugToTitle(category)}
+          </Link>
+        ) : (
+          <span
+            className={cn(
+              subcategory ? "text-muted-foreground" : "text-foreground",
+            )}
+          >
+            {slugToTitle(category)}
+          </span>
+        )}
+        {subcategory && (
           <>
             <span className="text-muted-foreground">/</span>
-            <Link href={`/${category}/${subcategory}`}>
-              {slugToTitle(subcategory)}
-            </Link>
+            {withLink ? (
+              <Link href={`/${category}/${subcategory}`}>
+                {slugToTitle(subcategory)}
+              </Link>
+            ) : (
+              <span>{slugToTitle(subcategory)}</span>
+            )}
           </>
-        ),
-      )}
+        )}
+      </h3>
       {size === "default" && <hr className="h-0.5 bg-accent w-full" />}
     </div>
   );

@@ -1,11 +1,11 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { navGroups } from "./data";
 import UserButton from "./user-button";
 
@@ -15,7 +15,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
   return (
     <nav
       className={cn(
-        "w-full relative flex justify-between p-4 items-center border-b",
+        "w-full relative flex justify-between px-4 py-2 items-center border-b",
         className,
       )}
     >
@@ -47,13 +47,24 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
             animate={{ opacity: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, filter: "blur(10px)" }}
             transition={{ duration: 0.3, ease: "backOut" }}
-            className="fixed top-0 left-0 bg-background z-40 w-screen h-svh flex flex-col gap-2 py-20 overflow-y-scroll pointer-events-auto"
+            className="fixed top-0 left-0 bg-background z-40 w-screen h-svh flex flex-col gap-1 pt-16 pb-20 overflow-y-scroll pointer-events-auto"
           >
-            <li className="w-full px-4 flex flex-col gap-2">
+            <li className="w-full px-4 flex flex-col gap-2 mb-2">
               <Link href="/new" onClick={() => setOpen(false)}>
                 <Button className="w-full">
                   <PlusIcon className="text-primary-foreground" />
                   <span>New Post</span>
+                </Button>
+              </Link>
+            </li>
+            <li>
+              <Link href="/" onClick={() => setOpen(false)}>
+                <Button
+                  variant="ghost"
+                  className="py-3 !px-4 w-full h-fit justify-between text-xl font-semibold"
+                >
+                  Home
+                  <ChevronRightIcon />
                 </Button>
               </Link>
             </li>

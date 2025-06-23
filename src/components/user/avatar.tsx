@@ -3,14 +3,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 type UserAvatarWithTimeProps = {
   id: string;
   time: string;
-  size?: "default" | "small";
+  size?: "default" | "sm";
 };
 
 const UserAvatarWithTime = (props: UserAvatarWithTimeProps) => {
   const { id, time, size } = props;
 
   switch (size) {
-    case "small":
+    case "sm":
       return (
         <div className="flex flex-row items-center gap-2">
           <Avatar className="size-6">

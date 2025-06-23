@@ -60,8 +60,14 @@ const Comments = ({ postId, comments }: CommentsProps) => {
   }
 
   return (
-    <>
-      <h3 className="mb-3">Comments</h3>
+    <section id="comments" className="border-t pt-4 flex flex-col gap-5">
+      <h3 className="flex items-center gap-2">
+        <span>Comments</span>
+        <span className="text-muted-foreground text-base">
+          {comments.length}
+        </span>
+      </h3>
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="flex gap-2">
           <FormField
@@ -91,11 +97,12 @@ const Comments = ({ postId, comments }: CommentsProps) => {
           </Button>
         </form>
       </Form>
+
       <div className="space-y-4">
         {comments.map((comment, i) => (
           <div key={i} className="space-y-2">
             <UserAvatarWithTime
-              size="small"
+              size="sm"
               id={comment.authorId}
               time={getRelativeTime(comment.createdAt)}
             />
@@ -103,7 +110,7 @@ const Comments = ({ postId, comments }: CommentsProps) => {
           </div>
         ))}
       </div>
-    </>
+    </section>
   );
 };
 

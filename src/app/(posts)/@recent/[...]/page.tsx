@@ -5,7 +5,7 @@ import Title from "@/components/title";
 import { api } from "@/trpc/react";
 
 const RecentPosts = () => {
-  const [data, query] = api.post.getRecent.useSuspenseQuery();
+  const [data, query] = api.post.getRecent.useSuspenseQuery(10);
 
   return (
     <div className="border rounded-lg p-4">

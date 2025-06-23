@@ -33,7 +33,7 @@ const UserButton = () => {
   };
 
   const handleLogIn = () => {
-    if (!session) router.push("/login");
+    if (!session) router.push("/signin");
   };
 
   return (

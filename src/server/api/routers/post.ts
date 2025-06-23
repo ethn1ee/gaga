@@ -10,23 +10,23 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  getRecent: publicProcedure.query(async ({ ctx }) => {
-    const posts = await ctx.db.post.findMany({
+  getRecent: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
+    const result = await ctx.db.post.findMany({
       orderBy: { createdAt: "desc" },
       include: {
         comments: true,
         author: true,
       },
-      take: 10,
+      take: input,
     });
 
-    return posts;
+    return result;
   }),
 
   getByCategory: publicProcedure
     .input(postInput.shape.category)
     .query(async ({ ctx, input }) => {
-      const posts = await ctx.db.post.findMany({
+      const result = await ctx.db.post.findMany({
         where: { category: input },
         include: {
           comments: true,
@@ -35,7 +35,7 @@ export const postRouter = createTRPCRouter({
         orderBy: { createdAt: "desc" },
       });
 
-      return posts;
+      return result;
     }),
 
   getByCategoryAndSubcategory: publicProcedure
@@ -61,7 +61,7 @@ export const postRouter = createTRPCRouter({
   getById: publicProcedure
     .input(z.string().cuid2())
     .query(async ({ ctx, input }) => {
-      const post = await ctx.db.post.findUnique({
+      const result = await ctx.db.post.findUnique({
         where: { id: input },
         include: {
           comments: {
@@ -74,31 +74,44 @@ export const postRouter = createTRPCRouter({
         },
       });
 
-      return post;
+      return result;
     }),
-  
-  getByAuthorId: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
-    const post = await ctx.db.post.findMany({
-      where: { authorId: input },
-      include: {
-        comments: {
-          include: {
-            author: true,
+
+  getByAuthorId: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const result = await ctx.db.post.findMany({
+        where: { authorId: input },
+        include: {
+          comments: {
+            include: {
+              author: true,
+            },
+            orderBy: { createdAt: "desc" },
           },
-          orderBy: { createdAt: "desc" },
+          author: true,
         },
-        author: true,
+      });
+
+      return result;
+    }),
+
+  getPhotos: publicProcedure.query(async ({ ctx }) => {
+    const result = await ctx.db.post.findMany({
+      where: { category: "photos" },
+      orderBy: {
+        createdAt: "desc",
       },
     });
 
-    return post;
+    return result;
   }),
 
   search: publicProcedure
     .input(z.string().min(1))
     .query(async ({ ctx, input }) => {
       const formattedInput = input.split(" ").join(" | ");
-      const posts = await ctx.db.post.findMany({
+      const result = await ctx.db.post.findMany({
         where: {
           OR: [
             {
@@ -126,6 +139,6 @@ export const postRouter = createTRPCRouter({
         },
       });
 
-      return posts;
+      return result;
     }),
 });

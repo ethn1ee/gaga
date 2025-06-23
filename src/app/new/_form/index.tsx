@@ -67,6 +67,16 @@ const Form = () => {
   }, [createPost.isPending]);
 
   const handleSubmit = async (values: PostInput) => {
+    if (
+      form.getValues("category") === "photos" &&
+      form.getValues("attachments").length === 0
+    ) {
+      toast.warning("Please attach at least one photo", {
+        position: "top-center",
+      });
+      return;
+    }
+
     setIsSubmitLoading(true);
 
     const urls = await Promise.all(
@@ -135,9 +145,12 @@ const Form = () => {
             }
           >
             {isSubmitLoading ? (
-              <Loader2Icon className="animate-spin" />
+              <>
+                <Loader2Icon className="animate-spin" />
+                Posting ...
+              </>
             ) : (
-              "Submit"
+              "Post"
             )}
           </Button>
         </form>

@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { extractOriginalFilename, getFileType } from "@/lib/utils";
 import { type Post } from "@prisma/client";
-import { PaperclipIcon } from "lucide-react";
+import { FileTextIcon, PaperclipIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -47,6 +47,8 @@ const FileThumbnail = ({ file }: FileThumbnailProps) => {
   switch (getFileType(file)) {
     case "image":
       return <Image src={file} alt={file} fill sizes="40px" />;
+    case "document":
+      return <FileTextIcon className="text-muted-foreground" />;
     default:
       return <PaperclipIcon className="text-muted-foreground" />;
   }

@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,7 +11,6 @@ import {
 } from "@/components/ui/navigation-menu";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { navGroups } from "./data";
 import UserButton from "./user-button";
 
@@ -19,8 +19,13 @@ const NavDesktop = ({
 }: React.ComponentProps<typeof NavigationMenu>) => {
   return (
     <NavigationMenu viewport={false} className={className}>
-      <NavigationMenuList className="w-screen flex justify-between items-center p-4 relative z-50">
-        <div className="flex gap-2">
+      <NavigationMenuList className="w-screen flex justify-between items-center py-4 px-5 relative z-50">
+        <div className="flex items-center max-w-[600px] justify-between flex-1">
+          <NavigationMenuItem>
+            <NavigationMenuLink asChild>
+              <Link href="/" className="size-10 bg-accent border rounded" />
+            </NavigationMenuLink>
+          </NavigationMenuItem>
           {navGroups.map((group, i) => (
             <NavigationMenuItem key={i}>
               <NavigationMenuTrigger>

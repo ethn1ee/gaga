@@ -29,14 +29,13 @@ const Post = ({ params }: PostProps) => {
 
   return (
     <main className="space-y-10">
-      {/* POST */}
-      <div>
+      <section id="post">
         <Category category={data.category} subcategory={data.subcategory} />
         <h2 className="mb-5 mt-1">{data.title}</h2>
         <Carousel attachments={data.attachments} />
         <p className="min-h-96 my-5">{data.content}</p>
         <Attachments attachments={data.attachments} />
-      </div>
+      </section>
 
       <UserAvatarWithTime
         id={data.authorId}

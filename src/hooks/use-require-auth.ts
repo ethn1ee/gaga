@@ -13,7 +13,7 @@ type RequireAuthOptions = {
 
 const useRequireAuth = (options: RequireAuthOptions = {}) => {
   const {
-    redirectTo = "/login",
+    redirectTo = "/signin",
     message = "You need to log in first!",
     showToast = true,
   } = options;

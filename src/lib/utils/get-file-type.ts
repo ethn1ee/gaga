@@ -22,7 +22,13 @@ export const getFileType = (file: string): "image" | "document" | "etc" => {
     case "docx":
     case "doc":
     case "xlsx":
+    case "xls":
+    case "pptx":
+    case "ppt":
+    case ".rtf":
     case "hwp":
+    case "txt":
+    case "md":
       return "document";
     default:
       return "etc";

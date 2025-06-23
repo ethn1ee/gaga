@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Form as FormComponent } from "@/components/ui/form";
 import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
-import { signUpInput, type SignUpInput } from "@/lib/schema";
+import { signInInput, type SignInInput } from "@/lib/schema";
 import { getNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
@@ -15,11 +15,11 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Email, Name, Password, Username } from "../_form";
+import { Password, Username } from "../_form";
 
 const REDIRECT_PATH = "/";
 
-const SignUp = () => {
+const SignIn = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { session } = useAuth();
@@ -34,19 +34,17 @@ const SignUp = () => {
     }
   }, [session, router]);
 
-  const form = useForm<SignUpInput>({
-    resolver: zodResolver(signUpInput),
+  const form = useForm<SignInInput>({
+    resolver: zodResolver(signInInput),
     defaultValues: {
-      email: "",
-      password: "",
-      name: "",
       username: "",
+      password: "",
     },
   });
 
-  const handleSubmit = async (values: SignUpInput) => {
+  const handleSubmit = async (values: SignInInput) => {
     setIsLoading(true);
-    const { data, error } = await authClient.signUp.email({ ...values });
+    const { data, error } = await authClient.signIn.username({ ...values });
 
     if (!error) {
       setIsLoading(false);
@@ -83,38 +81,36 @@ const SignUp = () => {
                 >
                   <div className="flex flex-col gap-6">
                     <div className="flex flex-col items-center text-center">
-                      <h1 className="text-2xl font-bold">Welcome</h1>
+                      <h1 className="text-2xl font-bold">Welcome back</h1>
                       <p className="text-muted-foreground text-balance">
-                        Create your EmoryLife account
+                        Login to your EmoryLife account
                       </p>
                     </div>
 
-                    <Name />
-                    <Email />
                     <Username />
-                    <Password isSignUp />
+                    <Password />
 
                     <Button
                       type="submit"
                       disabled={
-                        isLoading || !!signUpInput.safeParse(form.watch()).error
+                        isLoading || !!signInInput.safeParse(form.watch()).error
                       }
                       className="w-full"
                     >
                       {isLoading ? (
                         <Loader2Icon className="animate-spin" />
                       ) : (
-                        "Sign Up"
+                        "Log in"
                       )}
                     </Button>
 
                     <div className="text-center text-sm">
-                      Already have an account?{" "}
+                      Don&apos;t have an account?{" "}
                       <Link
-                        href="/signin"
+                        href="/signup"
                         className="underline underline-offset-4"
                       >
-                        Sign in
+                        Sign up
                       </Link>
                     </div>
                   </div>
@@ -143,4 +139,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;
