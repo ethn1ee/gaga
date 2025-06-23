@@ -27,9 +27,9 @@ const SignUp = () => {
   // redirect if already signed in
   useEffect(() => {
     if (session) {
-      toast.info("Already signed in!", {
-        position: "top-center",
-      });
+      // toast.info("Already signed in!", {
+      //   position: "top-center",
+      // });
       router.push(REDIRECT_PATH);
     }
   }, [session, router]);

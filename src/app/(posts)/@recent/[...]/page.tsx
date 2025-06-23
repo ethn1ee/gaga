@@ -4,6 +4,8 @@ import { PostTable } from "@/components/post";
 import Title from "@/components/title";
 import { api } from "@/trpc/react";
 
+export const dynamic = "force-dynamic";
+
 const RecentPosts = () => {
   const [data, query] = api.post.getRecent.useSuspenseQuery(10);
 

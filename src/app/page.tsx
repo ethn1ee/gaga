@@ -1,5 +1,3 @@
-"use client";
-
 import { PostTable } from "@/components/post";
 import { Search } from "@/components/search";
 import Title from "@/components/title";
@@ -22,6 +20,9 @@ import { getFileType, getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
+
+export const dynamic = "force-dynamic";
 
 export default function Page() {
   const [recents, recentQuery] = api.post.getRecent.useSuspenseQuery(5);
@@ -29,7 +30,9 @@ export default function Page() {
 
   return (
     <main className="space-y-10">
-      <Search />
+      <Suspense>
+        <Search />
+      </Suspense>
 
       <section>
         <Title category="Recent Posts" />
@@ -46,7 +49,7 @@ export default function Page() {
               );
               return (
                 photos[0] && (
-                  <CarouselItem key={i} className="basis-1/5 pl-2">
+                  <CarouselItem key={i} className="basis-1/3 md:basis-1/5 pl-2">
                     <Link href={`/post/${photoPost.id}`}>
                       <Card className="p-2 border-none shadow-none gap-3 hover:bg-accent">
                         <CardContent className="p-0">

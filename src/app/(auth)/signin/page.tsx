@@ -27,9 +27,9 @@ const SignIn = () => {
   // redirect if already signed in
   useEffect(() => {
     if (session) {
-      toast.info("Already signed in!", {
-        position: "top-center",
-      });
+      // toast.info("Already signed in!", {
+      //   position: "top-center",
+      // });
       router.push(REDIRECT_PATH);
     }
   }, [session, router]);
@@ -83,7 +83,7 @@ const SignIn = () => {
                     <div className="flex flex-col items-center text-center">
                       <h1 className="text-2xl font-bold">Welcome back</h1>
                       <p className="text-muted-foreground text-balance">
-                        Login to your EmoryLife account
+                        Sign in to your EmoryLife account
                       </p>
                     </div>
 
@@ -100,7 +100,7 @@ const SignIn = () => {
                       {isLoading ? (
                         <Loader2Icon className="animate-spin" />
                       ) : (
-                        "Log in"
+                        "Sign in"
                       )}
                     </Button>
 
