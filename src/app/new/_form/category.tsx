@@ -1,4 +1,3 @@
-import { navGroups } from "@/components/nav";
 import {
   FormControl,
   FormField,
@@ -14,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { type PostInput } from "@/lib/schema";
-import { toSlug } from "@/lib/utils";
+import { categories } from "@/sitemap";
 import { useFormContext } from "react-hook-form";
 
 const CategoryInput = () => {
@@ -43,9 +42,9 @@ const CategoryInput = () => {
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {navGroups.map((group, i) => (
-                  <SelectItem value={toSlug(group.title)} key={i}>
-                    {group.title}
+                {categories.map((category, i) => (
+                  <SelectItem value={category.slug} key={i}>
+                    {category.name}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -75,14 +74,14 @@ const CategoryInput = () => {
                     Select a category first
                   </SelectItem>
                 ) : (
-                  navGroups
+                  categories
                     .find(
-                      (group) =>
-                        toSlug(group.title) === form.getValues("category"),
+                      (category) =>
+                        category.slug === form.getValues("category"),
                     )
-                    ?.items.map((item, i) => (
-                      <SelectItem value={toSlug(item.title)} key={i}>
-                        {item.title}
+                    ?.subcategories.map((subcategory, i) => (
+                      <SelectItem value={subcategory.slug} key={i}>
+                        {subcategory.name}
                       </SelectItem>
                     ))
                 )}

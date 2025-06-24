@@ -9,9 +9,9 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { categories } from "@/sitemap";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
-import { navGroups } from "./data";
 import UserButton from "./user-button";
 
 const NavDesktop = ({
@@ -26,11 +26,14 @@ const NavDesktop = ({
               <Link href="/" className="size-10 bg-accent border rounded" />
             </NavigationMenuLink>
           </NavigationMenuItem>
-          {navGroups.map((group, i) => (
+          {categories.map((category, i) => (
             <NavigationMenuItem key={i}>
               <NavigationMenuTrigger>
-                <group.icon size={20} className="text-muted-foreground mr-2" />
-                <span>{group.title}</span>
+                <category.icon
+                  size={20}
+                  className="text-muted-foreground mr-2"
+                />
+                <span>{category.name}</span>
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -38,21 +41,25 @@ const NavDesktop = ({
                     <NavigationMenuLink asChild>
                       <Link
                         className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
-                        href={group.url}
+                        href={`/${category.slug}`}
                       >
                         <div className="mt-4 mb-2 text-lg font-medium flex items-center gap-2">
-                          {group.title}
+                          {category.name}
                           <ChevronRightIcon size={20} />
                         </div>
                         <p className="text-muted-foreground text-sm leading-tight">
-                          {group.description}
+                          {category.description}
                         </p>
                       </Link>
                     </NavigationMenuLink>
                   </li>
-                  {group.items.map((item, j) => (
-                    <ListItem key={j} href={item.url} title={item.title}>
-                      {item.description}
+                  {category.subcategories.map((subcategory, j) => (
+                    <ListItem
+                      key={j}
+                      href={`/${category.slug}/${subcategory.slug}`}
+                      title={subcategory.name}
+                    >
+                      {subcategory.description}
                     </ListItem>
                   ))}
                 </ul>

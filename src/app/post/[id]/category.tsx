@@ -9,9 +9,9 @@ type CategoryProps = {
 const Category = ({ category, subcategory }: CategoryProps) => {
   return (
     <div className="text-muted-foreground text-sm space-x-2">
-      <span>{slugToTitle(category)}</span>
+      <span>{slugToTitle(category, { isCategory: true })}</span>
       <span>/</span>
-      <span>{slugToTitle(subcategory)}</span>
+      <span>{slugToTitle(subcategory, { isSubcategory: true })}</span>
     </div>
   );
 };

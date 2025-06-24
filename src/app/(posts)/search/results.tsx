@@ -15,8 +15,7 @@ const Results = () => {
   const [data, query] = api.post.search.useSuspenseQuery(q);
 
   return (
-    <div>
-      <h1 className="mb-4">Results for &quot;{q}&quot;</h1>
+    <div className="min-h-[50svh] flex flex-col mt-4">
       <PostTable data={data} isLoading={query.isLoading} />
     </div>
   );

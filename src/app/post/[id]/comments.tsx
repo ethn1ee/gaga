@@ -60,7 +60,10 @@ const Comments = ({ postId, comments }: CommentsProps) => {
   }
 
   return (
-    <section id="comments" className="border-t pt-4 flex flex-col gap-5">
+    <section
+      id="comments"
+      className="border-t pt-4 flex flex-col gap-5 min-h-80"
+    >
       <h3 className="flex items-center gap-2">
         <span>Comments</span>
         <span className="text-muted-foreground text-base">
