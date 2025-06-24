@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
+import { getInitials } from "@/lib/utils";
 import { CircleUserIcon, Loader2Icon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -39,20 +41,27 @@ const UserButton = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          disabled={isSessionLoading}
-          onClick={handleLogIn}
-        >
-          {isSessionLoading ? (
-            <Loader2Icon className="animate-spin" />
-          ) : (
-            <>
-              <CircleUserIcon />
-              {session ? session.user.username : "Log In"}
-            </>
-          )}
-        </Button>
+        {session ? (
+          <Avatar className="size-9">
+            <AvatarImage>{session.user.image}</AvatarImage>
+            <AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
+          </Avatar>
+        ) : (
+          <Button
+            variant="outline"
+            disabled={isSessionLoading}
+            onClick={handleLogIn}
+          >
+            {isSessionLoading ? (
+              <Loader2Icon className="animate-spin" />
+            ) : (
+              <>
+                <CircleUserIcon />
+                Log In
+              </>
+            )}
+          </Button>
+        )}
       </DropdownMenuTrigger>
       {session && (
         <DropdownMenuContent>

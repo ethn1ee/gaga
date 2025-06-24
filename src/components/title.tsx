@@ -3,31 +3,25 @@ import Link from "next/link";
 import { type ComponentProps } from "react";
 
 type TitleProps = {
-  category: string;
-  subcategory?: string;
+  primary: string;
+  secondary?: string;
   size?: "default" | "sm" | "xs";
   withLink?: boolean;
 };
 
 const Title = ({
-  category,
-  subcategory,
+  primary: category,
+  secondary: subcategory,
   size = "default",
   withLink = false,
   className,
 }: TitleProps & ComponentProps<"div">) => {
   return (
-    <div
-      className={cn(
-        "flex gap-4 items-center",
-        size === "default" && "md:mb-4",
-        className,
-      )}
-    >
+    <div className={cn("flex gap-4 items-center", className)}>
       <h3
         className={cn(
           "space-x-2 block w-fit m-0 border-none shrink-0",
-          size === "default" && "text-2xl font-semibold",
+          size === "default" && "text-3xl font-semibold",
           size === "sm" && "text-xl",
           size === "xs" && "text-base",
         )}
@@ -39,7 +33,7 @@ const Title = ({
               subcategory ? "text-muted-foreground" : "text-foreground",
             )}
           >
-            {slugToTitle(category)}
+            {slugToTitle(category, { isCategory: true })}
           </Link>
         ) : (
           <span
@@ -47,7 +41,7 @@ const Title = ({
               subcategory ? "text-muted-foreground" : "text-foreground",
             )}
           >
-            {slugToTitle(category)}
+            {slugToTitle(category, { isCategory: true })}
           </span>
         )}
         {subcategory && (
@@ -55,15 +49,14 @@ const Title = ({
             <span className="text-muted-foreground">/</span>
             {withLink ? (
               <Link href={`/${category}/${subcategory}`}>
-                {slugToTitle(subcategory)}
+                {slugToTitle(subcategory, { isSubcategory: true })}
               </Link>
             ) : (
-              <span>{slugToTitle(subcategory)}</span>
+              <span>{slugToTitle(subcategory, { isSubcategory: true })}</span>
             )}
           </>
         )}
       </h3>
-      {size === "default" && <hr className="h-0.5 bg-accent w-full" />}
     </div>
   );
 };

@@ -126,10 +126,11 @@
   }
 
   main {
-    @apply mx-auto mt-4 box-border w-full overflow-x-hidden px-4 lg:mt-10 lg:max-w-6xl 2xl:max-w-7xl;
+    @apply mx-auto mt-4 box-border w-full overflow-x-hidden px-4 lg:mt-10 container;
   }
 
-  button, a {
+  button,
+  a {
     @apply cursor-pointer;
   }
 

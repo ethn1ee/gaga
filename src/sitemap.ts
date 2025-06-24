@@ -2,115 +2,109 @@ import {
   GlobeIcon,
   GraduationCapIcon,
   ImageIcon,
-  ShoppingBasketIcon,
   type LucideIcon,
+  ShoppingBasketIcon,
 } from "lucide-react";
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-};
-
-const navGroups = [
+const categories = [
   {
-    title: "General",
+    name: "General",
     description: "Essential information for navigating college life",
     icon: GlobeIcon,
-    url: "/general",
-    items: [
+    slug: "general",
+    subcategories: [
       {
-        title: "New Students",
+        name: "New Students",
         description:
           "Resources and guides for first-year students and transfers",
-        url: "/general/new-students",
+        slug: "new-students",
       },
       {
-        title: "International Students",
+        name: "International Students",
         description:
           "Support, visa information, and cultural adaptation resources",
-        url: "/general/international-students",
+        slug: "international-students",
       },
       {
-        title: "Financial Aid",
+        name: "Financial Aid",
         description:
           "Scholarships, grants, loans, and financial planning advice",
-        url: "/general/financial-aid",
+        slug: "financial-aid",
       },
     ],
   },
   {
-    title: "Academics",
+    name: "Academics",
     description: "Programs, courses, and study resources for students",
     icon: GraduationCapIcon,
-    url: "/academics",
-    items: [
+    slug: "academics",
+    subcategories: [
       {
-        title: "Pre-med",
+        name: "Pre-med",
         description:
           "Course requirements, MCAT prep, and medical school application tips",
-        url: "/academics/pre-med",
+        slug: "pre-med",
       },
     ],
   },
   {
-    title: "Living",
+    name: "Living",
     description: "Resources for daily life on and off campus",
     icon: ShoppingBasketIcon,
-    url: "/living",
-    items: [
+    slug: "living",
+    subcategories: [
       {
-        title: "Jobs",
+        name: "Jobs",
         description:
           "On-campus employment, internships, and part-time opportunities",
-        url: "/living/jobs",
+        slug: "jobs",
       },
       {
-        title: "Rents",
+        name: "Rents",
         description:
           "Off-campus housing options, finding roommates, and leasing advice",
-        url: "/living/rents",
+        slug: "rents",
       },
       {
-        title: "Marketplace",
+        name: "Marketplace",
         description:
           "Buy, sell, and trade textbooks, furniture, and other essentials",
-        url: "/living/marketplace",
+        slug: "marketplace",
       },
     ],
   },
   {
-    title: "Photos",
+    name: "Photos",
     description: "Visual galleries of campus life and facilities",
     icon: ImageIcon,
-    url: "/photos",
-    items: [
+    slug: "photos",
+    subcategories: [
       {
-        title: "Campus",
+        name: "Campus",
         description: "School buildings, landmarks, and campus events",
-        url: "/photos/campus",
+        slug: "campus",
       },
       {
-        title: "Dorms",
+        name: "Dorms",
         description: "Residence halls, room layouts, and living spaces",
-        url: "/photos/dorms",
+        slug: "dorms",
       },
     ],
   },
-] satisfies NavItem[];
+] satisfies Category[];
 
-type NavItem = {
-  title: string;
+type Category = {
+  name: string;
+  slug: string;
   description: string;
+  subcategories: Subcategory[];
   icon: LucideIcon;
-  url: string;
-  items?: {
-    title: string;
-    description: string;
-    url: string;
-  }[];
 };
 
-export { data, navGroups, type NavItem };
+type Subcategory = {
+  name: string;
+  slug: string;
+  description: string;
+};
+
+export { categories, type Category, type Subcategory };

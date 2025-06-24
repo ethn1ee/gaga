@@ -35,12 +35,12 @@ export default async function Page() {
       </Suspense>
 
       <section>
-        <Title category="Recent Posts" />
+        <Title primary="Recent Posts" />
         <PostTable data={recents} isLoading={false} />
       </section>
 
       <section id="photos" className="">
-        <Title category="Recent Photos" />
+        <Title primary="Recent Photos" />
         <Carousel>
           <CarouselContent className="-ml-2">
             {photos.map((photoPost, i) => {

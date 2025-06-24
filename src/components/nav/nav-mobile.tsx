@@ -2,11 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { categories } from "@/sitemap";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { useState } from "react";
-import { navGroups } from "./data";
 import UserButton from "./user-button";
 
 const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
@@ -68,27 +68,27 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
                 </Button>
               </Link>
             </li>
-            {navGroups.map((group, i) => (
+            {categories.map((category, i) => (
               <li key={i}>
-                <Link href={group.url} onClick={() => setOpen(false)}>
+                <Link href={`/${category.slug}`} onClick={() => setOpen(false)}>
                   <Button
                     variant="ghost"
                     className="py-3 !px-4 w-full h-fit justify-between text-xl font-semibold"
                   >
-                    {group.title}
+                    {category.name}
                     <ChevronRightIcon />
                   </Button>
                 </Link>
 
                 <ul className="border-l">
-                  {group.items.map((item, j) => (
+                  {category.subcategories.map((subcategory, j) => (
                     <li key={j}>
-                      <Link href={item.url} onClick={() => setOpen(false)}>
+                      <Link href={`/${category.slug}/${subcategory.slug}`} onClick={() => setOpen(false)}>
                         <Button
                           variant="ghost"
                           className="py-3 px-4 pl-6 w-full h-fit justify-start text-lg font-normal"
                         >
-                          {item.title}
+                          {subcategory.name}
                         </Button>
                       </Link>
                     </li>
