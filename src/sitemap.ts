@@ -45,6 +45,26 @@ const categories = [
           "Course requirements, MCAT prep, and medical school application tips",
         slug: "pre-med",
       },
+      {
+        name: "Pre-law",
+        description: "",
+        slug: "pre-law",
+      },
+      {
+        name: "Business",
+        description: "",
+        slug: "business",
+      },
+      {
+        name: "Nursing",
+        description: "",
+        slug: "nursing",
+      },
+      {
+        name: "Other",
+        description: "",
+        slug: "other",
+      },
     ],
   },
   {

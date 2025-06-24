@@ -2,20 +2,25 @@
 
 import { PostTable } from "@/components/post";
 import Title from "@/components/title";
-import { slugToTitle } from "@/lib/utils";
+import { isValidPath, slugToTitle } from "@/lib/utils";
 import { categories } from "@/sitemap";
 import { api } from "@/trpc/react";
 import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
-import { use } from "react";
+import { useRouter } from "next/navigation";
+import { use, useEffect } from "react";
 
 type SubcategoryProps = {
   params: Promise<{ category: string }>;
 };
 
-const Subcategory = (props: SubcategoryProps) => {
-  const { params } = props;
+const Subcategory = ({ params }: SubcategoryProps) => {
   const { category } = use(params);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isValidPath([category])) router.replace("/");
+  }, [category, router]);
 
   const [data, query] = api.post.getByCategory.useSuspenseQuery(category);
 

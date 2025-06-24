@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { PostWithComments } from "@/lib/schema";
-import { getRelativeTime } from "@/lib/utils";
+import { getInitials, getRelativeTime } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
 
@@ -33,8 +33,10 @@ const PostRow = ({ post }: PostRowProps) => {
         <div className="h-7 py-0.5 flex -gap-2 w-fit">
           {post.comments?.slice(0, 3).map((comment, i) => (
             <Avatar key={i} className="size-6 ring-background ring-2">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>{comment.authorId}</AvatarFallback>
+              <AvatarImage src={comment.author?.image ?? ""} />
+              <AvatarFallback>
+                {getInitials(comment.author?.name || "")}
+              </AvatarFallback>
             </Avatar>
           ))}
         </div>

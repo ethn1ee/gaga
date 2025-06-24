@@ -2,16 +2,22 @@
 
 import { PostTable } from "@/components/post";
 import Title from "@/components/title";
+import { isValidPath } from "@/lib/utils";
 import { api } from "@/trpc/react";
-import { use } from "react";
+import { useRouter } from "next/navigation";
+import { use, useEffect } from "react";
 
 type SubcategoryProps = {
   params: Promise<{ category: string; subcategory: string }>;
 };
 
-const Subcategory = (props: SubcategoryProps) => {
-  const { params } = props;
+const Subcategory = ({ params }: SubcategoryProps) => {
   const { category, subcategory } = use(params);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isValidPath([category, subcategory])) router.replace("/");
+  }, [category, subcategory, router]);
 
   const [data, query] = api.post.getByCategoryAndSubcategory.useSuspenseQuery({
     category,

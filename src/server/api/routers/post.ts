@@ -14,7 +14,9 @@ export const postRouter = createTRPCRouter({
     const result = await ctx.db.post.findMany({
       orderBy: { createdAt: "desc" },
       include: {
-        comments: true,
+        comments: {
+          include: { author: true },
+        },
         author: true,
       },
       take: input,
@@ -29,7 +31,9 @@ export const postRouter = createTRPCRouter({
       const result = await ctx.db.post.findMany({
         where: { category: input },
         include: {
-          comments: true,
+          comments: {
+            include: { author: true },
+          },
           author: true,
         },
         orderBy: { createdAt: "desc" },
@@ -49,7 +53,9 @@ export const postRouter = createTRPCRouter({
       const posts = await ctx.db.post.findMany({
         where: { ...input },
         include: {
-          comments: true,
+          comments: {
+            include: { author: true },
+          },
           author: true,
         },
         orderBy: { createdAt: "desc" },
@@ -65,9 +71,7 @@ export const postRouter = createTRPCRouter({
         where: { id: input },
         include: {
           comments: {
-            include: {
-              author: true,
-            },
+            include: { author: true },
             orderBy: { createdAt: "desc" },
           },
           author: true,
@@ -84,9 +88,7 @@ export const postRouter = createTRPCRouter({
         where: { authorId: input },
         include: {
           comments: {
-            include: {
-              author: true,
-            },
+            include: { author: true },
             orderBy: { createdAt: "desc" },
           },
           author: true,
@@ -127,7 +129,7 @@ export const postRouter = createTRPCRouter({
           ],
         },
         include: {
-          comments: true,
+          comments: { include: { author: true } },
           author: true,
         },
         orderBy: {
