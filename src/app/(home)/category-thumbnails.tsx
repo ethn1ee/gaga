@@ -117,7 +117,7 @@ const Thumbnail = ({
           <motion.div
             variants={detailVariant}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="text-muted-foreground text-sm font-light space-x-2"
+            className="text-muted-foreground text-sm font-light space-x-1"
           >
             <span>{stat.posts} posts</span>
             <span className="text-border">|</span>
