@@ -10,8 +10,8 @@ type TitleProps = {
 };
 
 const Title = ({
-  primary: category,
-  secondary: subcategory,
+  primary,
+  secondary,
   size = "default",
   withLink = false,
   className,
@@ -28,31 +28,31 @@ const Title = ({
       >
         {withLink ? (
           <Link
-            href={`/${category}`}
+            href={`/${primary}`}
             className={cn(
-              subcategory ? "text-muted-foreground" : "text-foreground",
+              secondary ? "text-muted-foreground" : "text-foreground",
             )}
           >
-            {slugToTitle(category, { isCategory: true })}
+            {slugToTitle(primary, { isCategory: true })}
           </Link>
         ) : (
           <span
             className={cn(
-              subcategory ? "text-muted-foreground" : "text-foreground",
+              secondary ? "text-muted-foreground" : "text-foreground",
             )}
           >
-            {slugToTitle(category, { isCategory: true })}
+            {slugToTitle(primary, { isCategory: true })}
           </span>
         )}
-        {subcategory && (
+        {secondary && (
           <>
             <span className="text-muted-foreground">/</span>
             {withLink ? (
-              <Link href={`/${category}/${subcategory}`}>
-                {slugToTitle(subcategory, { isSubcategory: true })}
+              <Link href={`/${primary}/${secondary}`}>
+                {slugToTitle(secondary, { isSubcategory: true })}
               </Link>
             ) : (
-              <span>{slugToTitle(subcategory, { isSubcategory: true })}</span>
+              <span>{slugToTitle(secondary, { isSubcategory: true })}</span>
             )}
           </>
         )}

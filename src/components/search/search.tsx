@@ -31,8 +31,8 @@ const Search = () => {
     <div>
       {paths[0] && (
         <Title
-          primary={paths[0]}
-          secondary={paths[1]}
+          primary={paths[0]?.toLowerCase()}
+          secondary={paths[1]?.toLowerCase()}
           withLink
           className="mb-4 max-md:hidden"
         />
