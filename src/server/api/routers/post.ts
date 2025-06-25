@@ -29,7 +29,12 @@ export const postRouter = createTRPCRouter({
     .input(postInput.shape.category)
     .query(async ({ ctx, input }) => {
       const result = await ctx.db.post.findMany({
-        where: { category: input },
+        where: {
+          category: {
+            equals: input,
+            mode: "insensitive",
+          },
+        },
         include: {
           comments: {
             include: { author: true },
@@ -51,7 +56,18 @@ export const postRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       const posts = await ctx.db.post.findMany({
-        where: { ...input },
+        where: {
+          AND: {
+            category: {
+              equals: input.category,
+              mode: "insensitive",
+            },
+            subcategory: {
+              equals: input.subcategory,
+              mode: "insensitive",
+            },
+          },
+        },
         include: {
           comments: {
             include: { author: true },
@@ -98,12 +114,13 @@ export const postRouter = createTRPCRouter({
       return result;
     }),
 
-  getPhotos: publicProcedure.query(async ({ ctx }) => {
+  getPhotos: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
     const result = await ctx.db.post.findMany({
       where: { category: "photos" },
       orderBy: {
         createdAt: "desc",
       },
+      take: input,
     });
 
     return result;
@@ -143,4 +160,15 @@ export const postRouter = createTRPCRouter({
 
       return result;
     }),
+
+  getCountByCategory: publicProcedure.query(async ({ ctx }) => {
+    const result = await ctx.db.post.groupBy({
+      by: ["category"],
+      _count: {
+        _all: true,
+      },
+    });
+
+    return result;
+  }),
 });

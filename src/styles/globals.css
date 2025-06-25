@@ -118,7 +118,7 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50 stroke-current;
+    @apply border-border outline-ring/50 stroke-current font-light;
   }
 
   body {
@@ -126,7 +126,7 @@
   }
 
   main {
-    @apply mx-auto mt-4 box-border w-full overflow-x-hidden px-4 lg:mt-10 container;
+    @apply container mx-auto mt-4 box-border w-full overflow-x-hidden px-4;
   }
 
   button,

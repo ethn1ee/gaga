@@ -19,7 +19,7 @@ const PostRow = ({ post }: PostRowProps) => {
   return (
     <TableRow onClick={handleClick} className="cursor-pointer">
       <TableCell className="truncate ">
-        <span className="text-lg group-data-[size=sm]:text-base">
+        <span className="text-lg group-data-[size=sm]:text-base font-normal">
           {post.title}
         </span>
         <div className="space-x-1 text-muted-foreground text-sm">

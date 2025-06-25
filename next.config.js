@@ -12,6 +12,9 @@ const config = {
       { hostname: "5ohpjhzc4espaz0u.public.blob.vercel-storage.com" },
     ],
   },
+  experimental: {
+    nodeMiddleware: true,
+  },
 };
 
 export default config;

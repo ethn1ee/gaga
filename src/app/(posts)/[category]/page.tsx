@@ -26,7 +26,7 @@ const Subcategory = ({ params }: SubcategoryProps) => {
 
   const subcategoriesMap = new Map<string, typeof data>();
   categories
-    .find((cat) => cat.slug === category)
+    .find((cat) => cat.slug === category.toLowerCase())
     ?.subcategories.forEach((subcat) => subcategoriesMap.set(subcat.slug, []));
 
   for (const post of data) {
@@ -57,8 +57,14 @@ const Subcategory = ({ params }: SubcategoryProps) => {
                   className="inline mb-0.5 ml-1 text-ring group-hover:translate-x-1 transition-all"
                 />
               </Link>
-              <div className="border rounded-xl px-4 py-2 h-[300px] mask-b-from-70% mask-b-to-100%">
-                <PostTable data={posts} isLoading={query.isLoading} size="sm" />
+              <div className="border rounded-xl px-4 py-2 h-[400px] overflow-hidden">
+                <div className="mask-b-from-80% mask-b-to-100% h-full">
+                  <PostTable
+                    data={posts}
+                    isLoading={query.isLoading}
+                    size="sm"
+                  />
+                </div>
               </div>
             </div>
           ))}
