@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { categories } from "@/sitemap";
+import { categories } from "@/site-config";
 import { IconBrandGithub } from "@tabler/icons-react";
 import Link from "next/link";
 

@@ -126,7 +126,7 @@
   }
 
   main {
-    @apply container mx-auto mt-4 box-border w-full overflow-x-hidden px-4;
+    @apply container mx-auto mt-4 box-border w-full overflow-x-hidden px-4 max-md:mt-16;
   }
 
   button,

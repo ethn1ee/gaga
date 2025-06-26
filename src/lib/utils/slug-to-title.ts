@@ -1,4 +1,4 @@
-import { categories } from "@/sitemap";
+import { categories } from "@/site-config";
 
 type SlugtoTitleOptions = {
   isCategory?: boolean;

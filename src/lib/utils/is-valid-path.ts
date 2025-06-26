@@ -1,4 +1,4 @@
-import { categories } from "@/sitemap";
+import { categories } from "@/site-config";
 
 export const isValidPath = (path: string[]) => {
   return categories.some((category) => {

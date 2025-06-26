@@ -6,12 +6,46 @@ import {
   ShoppingBasketIcon,
 } from "lucide-react";
 
+const colorMap = {
+  cyan: {
+    bg: "bg-cyan-50",
+    shadow: "shadow-cyan-100",
+    icon: "text-cyan-200",
+    title: "text-cyan-500",
+  },
+  lime: {
+    bg: "bg-lime-50",
+    shadow: "shadow-lime-100",
+    icon: "text-lime-200",
+    title: "text-lime-500",
+  },
+  emerald: {
+    bg: "bg-emerald-50",
+    shadow: "shadow-emerald-100",
+    icon: "text-emerald-200",
+    title: "text-emerald-500",
+  },
+  fuchsia: {
+    bg: "bg-fuchsia-50",
+    shadow: "shadow-fuchsia-100",
+    icon: "text-fuchsia-200",
+    title: "text-fuchsia-500",
+  },
+  slate: {
+    bg: "bg-slate-50",
+    shadow: "shadow-slate-100",
+    icon: "text-slate-200",
+    title: "text-slate-500",
+  },
+};
+
 const categories = [
   {
     name: "General",
     description: "Essential information for navigating college life",
     icon: GlobeIcon,
     slug: "general",
+    color: "cyan",
     subcategories: [
       {
         name: "New Students",
@@ -38,6 +72,7 @@ const categories = [
     description: "Programs, courses, and study resources for students",
     icon: GraduationCapIcon,
     slug: "academics",
+    color: "lime",
     subcategories: [
       {
         name: "Pre-med",
@@ -47,22 +82,26 @@ const categories = [
       },
       {
         name: "Pre-law",
-        description: "",
+        description:
+          "Resources for LSAT preparation, law school admissions, and career pathways in law",
         slug: "pre-law",
       },
       {
         name: "Business",
-        description: "",
+        description:
+          "Courses and guidance for business studies, including management, finance, and entrepreneurship",
         slug: "business",
       },
       {
         name: "Nursing",
-        description: "",
+        description:
+          "Education pathways for aspiring nurses, including NCLEX prep and career advice",
         slug: "nursing",
       },
       {
         name: "Other",
-        description: "",
+        description:
+          "Additional academic areas and interdisciplinary programs not covered by other subcategories",
         slug: "other",
       },
     ],
@@ -72,6 +111,7 @@ const categories = [
     description: "Resources for daily life on and off campus",
     icon: ShoppingBasketIcon,
     slug: "living",
+    color: "emerald",
     subcategories: [
       {
         name: "Jobs",
@@ -98,6 +138,7 @@ const categories = [
     description: "Visual galleries of campus life and facilities",
     icon: ImageIcon,
     slug: "photos",
+    color: "fuchsia",
     subcategories: [
       {
         name: "Campus",
@@ -119,6 +160,7 @@ type Category = {
   description: string;
   subcategories: Subcategory[];
   icon: LucideIcon;
+  color: keyof typeof colorMap;
 };
 
 type Subcategory = {
@@ -127,4 +169,4 @@ type Subcategory = {
   description: string;
 };
 
-export { categories, type Category, type Subcategory };
+export { categories, colorMap, type Category, type Subcategory };
