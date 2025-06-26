@@ -15,30 +15,6 @@ const CategoryThumbnails = ({ stats }: CategoryThumbnailsProps) => {
       {categories.map((category, i) => (
         <Thumbnail key={i} category={category} stat={stats[category.slug]} />
       ))}
-      {/* <Thumbnail
-        category="General"
-        stat={stats.general}
-        icon={GlobeIcon}
-        color="cyan"
-      />
-      <Thumbnail
-        category="Academics"
-        stat={stats.academics}
-        icon={GraduationCapIcon}
-        color="lime"
-      />
-      <Thumbnail
-        category="Living"
-        stat={stats.living}
-        icon={ShoppingBasketIcon}
-        color="emerald"
-      />
-      <Thumbnail
-        category="Photos"
-        stat={stats.photos}
-        icon={ImageIcon}
-        color="fuchsia"
-      /> */}
     </section>
   );
 };
@@ -87,11 +63,11 @@ const Thumbnail = ({
       initial="default"
       animate="default"
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className={`${colors.bg} ${colors.shadow} border  transition-all hover:shadow-md rounded-md p-3 relative overflow-hidden cursor-pointer`}
+      className={`${colors.bg} ${colors.shadow} border group transition-all hover:shadow-md rounded-md p-3 relative overflow-hidden cursor-pointer`}
     >
       <Link href={`/${category.slug}`} className="size-full">
         <category.icon
-          className={`${colors.icon} absolute -right-5 md:-right-10 -top-5 md:-top-10 size-30 md:size-40 lg:size-50`}
+          className={`${colors.icon} absolute -right-5 md:-right-10 -top-5 md:-top-10 size-30 md:size-40 lg:size-50 transition-all duration-300 group-hover:opacity-50 group-hover:scale-101`}
         />
 
         <div className="absolute left-3 bottom-3">
