@@ -20,6 +20,8 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
     const parts = pathname.split("/").slice(1);
     if (isValidPath(parts)) {
       setPath(parts);
+    } else {
+      setPath([]);
     }
   }, [pathname]);
 

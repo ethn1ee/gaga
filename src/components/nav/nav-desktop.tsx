@@ -73,24 +73,22 @@ const CategoryItem = ({ category }: CategoryItemProps) => {
         <span>{category.name}</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent>
-        <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-          <li className="row-span-5">
-            <NavigationMenuLink asChild>
-              <Link
-                className={`${colors.bg} flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 select-none`}
-                href={`/${category.slug}`}
+        <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] lg:grid-rows-5">
+          <li className={`${colors.bg} !hover:${colors.bg} row-span-5`}>
+            <Link
+              className="flex h-full w-full flex-col justify-end rounded-md p-6"
+              href={`/${category.slug}`}
+            >
+              <div
+                className={`${colors.title} mt-4 mb-2 text-lg font-medium flex items-center gap-2`}
               >
-                <div
-                  className={`${colors.title} mt-4 mb-2 text-lg font-medium flex items-center gap-2`}
-                >
-                  {category.name}
-                  <ChevronRightIcon size={20} className={colors.title} />
-                </div>
-                <p className="text-muted-foreground text-sm leading-tight">
-                  {category.description}
-                </p>
-              </Link>
-            </NavigationMenuLink>
+                {category.name}
+                <ChevronRightIcon size={20} className={colors.title} />
+              </div>
+              <p className="text-muted-foreground text-sm leading-tight">
+                {category.description}
+              </p>
+            </Link>
           </li>
           {category.subcategories.map((subcategory, j) => (
             <SubcategoryItem

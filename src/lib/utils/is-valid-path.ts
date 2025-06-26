@@ -1,3 +1,5 @@
+"use client";
+
 import { categories } from "@/site-config";
 
 export const isValidPath = (path: string[]) => {

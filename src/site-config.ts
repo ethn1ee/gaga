@@ -48,6 +48,11 @@ const categories = [
     color: "cyan",
     subcategories: [
       {
+        name: "Documents",
+        description: "Academic calendar, exam schedules, and important dates",
+        slug: "new-students",
+      },
+      {
         name: "New Students",
         description:
           "Resources and guides for first-year students and transfers",
