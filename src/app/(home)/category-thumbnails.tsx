@@ -104,7 +104,7 @@ const Thumbnail = ({
         <div className="absolute left-3 bottom-3">
           <span
             className={`${colors.title} text-xl md:text-2xl font-normal flex items-center`}
-          >
+          > 
             {category}
             <motion.span
               variants={chevronVariant}
