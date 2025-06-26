@@ -126,7 +126,7 @@
   }
 
   main {
-    @apply container mx-auto mt-4 box-border w-full overflow-x-hidden px-4;
+    @apply container mx-auto mt-4 box-border w-full overflow-x-hidden px-4 max-md:mt-16;
   }
 
   button,
@@ -150,5 +150,9 @@
 @layer utilities {
   .clear-input-style {
     @apply border-none bg-transparent shadow-none ring-0 focus-visible:ring-0;
+  }
+
+  .animate-underline {
+    @apply relative after:absolute after:right-0 after:bottom-0 after:h-[1px] after:w-0 after:transition-all hover:after:w-full;
   }
 }

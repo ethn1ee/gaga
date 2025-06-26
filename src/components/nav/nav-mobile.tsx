@@ -1,42 +1,58 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { categories } from "@/sitemap";
+import { cn, isValidPath } from "@/lib/utils";
+import { categories } from "@/site-config";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import Title from "../title";
 import UserButton from "./user-button";
 
 const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [path, setPath] = useState<string[]>([]);
+
+  useEffect(() => {
+    const parts = pathname.split("/").slice(1);
+    if (isValidPath(parts)) {
+      setPath(parts);
+    } else {
+      setPath([]);
+    }
+  }, [pathname]);
 
   return (
     <nav
       className={cn(
-        "w-full relative flex justify-between px-4 py-2 items-center border-b",
+        "w-screen fixed top-0 left-0 flex justify-between px-4 py-2 items-center border-b z-50 bg-background",
         className,
       )}
     >
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={() => setOpen((prev) => !prev)}
-        aria-expanded={open}
-        className="relative z-50 size-6"
-      >
-        <motion.div
-          animate={{ rotate: open ? 45 : 0, top: open ? 12 : 6 }}
-          transition={{ duration: 0.3, ease: "anticipate" }}
-          className="h-0.5 w-6 bg-foreground absolute top-1.5"
-        />
-        <motion.div
-          animate={{ rotate: open ? -45 : 0, bottom: open ? 10 : 6 }}
-          transition={{ duration: 0.3, ease: "anticipate" }}
-          className="h-0.5 w-6 bg-foreground absolute bottom-1.5"
-        />
-      </Button>
+      <div className="flex gap-4 items-center">
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => setOpen((prev) => !prev)}
+          aria-expanded={open}
+          className="relative z-50 size-6"
+        >
+          <motion.div
+            animate={{ rotate: open ? 45 : 0, top: open ? 12 : 6 }}
+            transition={{ duration: 0.3, ease: "anticipate" }}
+            className="h-0.5 w-6 bg-foreground absolute top-1.5"
+          />
+          <motion.div
+            animate={{ rotate: open ? -45 : 0, bottom: open ? 10 : 6 }}
+            transition={{ duration: 0.3, ease: "anticipate" }}
+            className="h-0.5 w-6 bg-foreground absolute bottom-1.5"
+          />
+        </Button>
+        <Title size="xs" primary={path[0] ?? ""} secondary={path[1]} />
+      </div>
 
       <UserButton />
 
@@ -47,7 +63,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
             animate={{ opacity: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, filter: "blur(10px)" }}
             transition={{ duration: 0.3, ease: "backOut" }}
-            className="fixed top-0 left-0 bg-background z-40 w-screen h-svh flex flex-col gap-1 pt-16 pb-20 overflow-y-scroll pointer-events-auto"
+            className="fixed top-0 left-0 bg-background z-40 w-screen h-screen flex flex-col gap-1 pt-16 pb-20 overflow-y-scroll pointer-events-auto"
           >
             <li className="w-full px-4 flex flex-col gap-2 mb-2">
               <Link href="/new" onClick={() => setOpen(false)}>
@@ -83,7 +99,10 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
                 <ul className="border-l">
                   {category.subcategories.map((subcategory, j) => (
                     <li key={j}>
-                      <Link href={`/${category.slug}/${subcategory.slug}`} onClick={() => setOpen(false)}>
+                      <Link
+                        href={`/${category.slug}/${subcategory.slug}`}
+                        onClick={() => setOpen(false)}
+                      >
                         <Button
                           variant="ghost"
                           className="py-3 px-4 pl-6 w-full h-fit justify-start text-lg font-normal"

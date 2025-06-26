@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { categories } from "@/sitemap";
+import { categories } from "@/site-config";
 import { IconBrandGithub } from "@tabler/icons-react";
 import Link from "next/link";
 
@@ -22,20 +22,18 @@ const Footer = () => {
                 <div dir="rtl" key={i} className="basis-1/4 pr-4">
                   <Link
                     href={`/${category.slug}`}
-                    className="font-semibold group"
+                    className="font-semibold after:bg-foreground animate-underline"
                   >
                     {category.name}
-                    <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-foreground/20" />
                   </Link>
                   <ul dir="rtl" className="space-y-2 mt-2">
                     {category.subcategories.map((subcategory, j) => (
                       <li key={j} className="text-muted-foreground">
                         <Link
                           href={`/${category.slug}/${subcategory.slug}`}
-                          className="group"
+                          className="after:bg-muted-foreground animate-underline"
                         >
                           {subcategory.name}
-                          <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-foreground/20" />
                         </Link>
                       </li>
                     ))}

@@ -13,7 +13,7 @@ export default async function Page() {
   const categoryStats = await api.category.getStats();
 
   return (
-    <main className="space-y-10">
+    <main className="space-y-6 md:space-y-10">
       <Suspense>
         <Search />
       </Suspense>

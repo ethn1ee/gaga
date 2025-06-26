@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { type PostInput } from "@/lib/schema";
-import { categories } from "@/sitemap";
+import { categories } from "@/site-config";
 import { useFormContext } from "react-hook-form";
 
 const CategoryInput = () => {

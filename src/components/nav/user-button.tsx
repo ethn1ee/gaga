@@ -48,7 +48,7 @@ const UserButton = () => {
           </Avatar>
         ) : (
           <Button
-            variant="outline"
+            variant="secondary"
             disabled={isSessionLoading}
             onClick={handleLogIn}
           >

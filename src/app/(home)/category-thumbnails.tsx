@@ -1,13 +1,7 @@
 "use client";
 
-import {
-  ChevronRightIcon,
-  GlobeIcon,
-  GraduationCapIcon,
-  ImageIcon,
-  ShoppingBasketIcon,
-  type LucideIcon,
-} from "lucide-react";
+import { categories, type Category, colorMap } from "@/site-config";
+import { ChevronRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 
@@ -18,30 +12,9 @@ type CategoryThumbnailsProps = {
 const CategoryThumbnails = ({ stats }: CategoryThumbnailsProps) => {
   return (
     <section className="grid grid-cols-2 lg:grid-cols-4 h-50 gap-2 lg:gap-3">
-      <Thumbnail
-        category="General"
-        stat={stats.general}
-        icon={GlobeIcon}
-        color="cyan"
-      />
-      <Thumbnail
-        category="Academics"
-        stat={stats.academics}
-        icon={GraduationCapIcon}
-        color="lime"
-      />
-      <Thumbnail
-        category="Living"
-        stat={stats.living}
-        icon={ShoppingBasketIcon}
-        color="emerald"
-      />
-      <Thumbnail
-        category="Photos"
-        stat={stats.photos}
-        icon={ImageIcon}
-        color="fuchsia"
-      />
+      {categories.map((category, i) => (
+        <Thumbnail key={i} category={category} stat={stats[category.slug]} />
+      ))}
     </section>
   );
 };
@@ -49,21 +22,17 @@ const CategoryThumbnails = ({ stats }: CategoryThumbnailsProps) => {
 export default CategoryThumbnails;
 
 type ThumbnailProps = {
-  category: string;
+  category: Category;
   stat?: {
     posts: number;
     comments: number;
     // views: number;
   };
-  icon: LucideIcon;
-  color: keyof typeof colorMap;
 };
 
 const Thumbnail = ({
   category,
   stat = { posts: 0, comments: 0 },
-  icon: Icon,
-  color,
 }: ThumbnailProps) => {
   const detailVariant = {
     default: {
@@ -86,7 +55,7 @@ const Thumbnail = ({
     },
   };
 
-  const colors = colorMap[color];
+  const colors = colorMap[category.color];
 
   return (
     <motion.div
@@ -94,18 +63,18 @@ const Thumbnail = ({
       initial="default"
       animate="default"
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className={`${colors.bg} ${colors.shadow} border  transition-all hover:shadow-md rounded-md p-3 relative overflow-hidden cursor-pointer`}
+      className={`${colors.bg} ${colors.shadow} border group transition-all hover:shadow-md rounded-md p-3 relative overflow-hidden cursor-pointer`}
     >
-      <Link href={`/${category}`} className="size-full">
-        <Icon
-          className={`${colors.icon} absolute -right-5 md:-right-10 -top-5 md:-top-10 size-30 md:size-40 lg:size-50`}
+      <Link href={`/${category.slug}`} className="size-full">
+        <category.icon
+          className={`${colors.icon} absolute -right-5 md:-right-10 -top-5 md:-top-10 size-30 md:size-40 lg:size-50 transition-all duration-300 group-hover:opacity-50 group-hover:scale-101`}
         />
 
         <div className="absolute left-3 bottom-3">
           <span
             className={`${colors.title} text-xl md:text-2xl font-normal flex items-center`}
           >
-            {category}
+            {category.name}
             <motion.span
               variants={chevronVariant}
               transition={{ duration: 0.3, ease: "easeOut" }}
@@ -117,7 +86,7 @@ const Thumbnail = ({
           <motion.div
             variants={detailVariant}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="text-muted-foreground text-sm font-light space-x-2"
+            className="text-muted-foreground text-sm font-light space-x-1"
           >
             <span>{stat.posts} posts</span>
             <span className="text-border">|</span>
@@ -129,37 +98,4 @@ const Thumbnail = ({
       </Link>
     </motion.div>
   );
-};
-
-const colorMap = {
-  cyan: {
-    bg: "bg-cyan-50",
-    shadow: "shadow-cyan-100",
-    icon: "text-cyan-200",
-    title: "text-cyan-500",
-  },
-  lime: {
-    bg: "bg-lime-50",
-    shadow: "shadow-lime-100",
-    icon: "text-lime-200",
-    title: "text-lime-500",
-  },
-  emerald: {
-    bg: "bg-emerald-50",
-    shadow: "shadow-emerald-100",
-    icon: "text-emerald-200",
-    title: "text-emerald-500",
-  },
-  fuchsia: {
-    bg: "bg-fuchsia-50",
-    shadow: "shadow-fuchsia-100",
-    icon: "text-fuchsia-200",
-    title: "text-fuchsia-500",
-  },
-  slate: {
-    bg: "bg-slate-50",
-    shadow: "shadow-slate-100",
-    icon: "text-slate-200",
-    title: "text-slate-500",
-  },
 };

@@ -3,7 +3,7 @@
 import { PostTable } from "@/components/post";
 import Title from "@/components/title";
 import { isValidPath, slugToTitle } from "@/lib/utils";
-import { categories } from "@/sitemap";
+import { categories } from "@/site-config";
 import { api } from "@/trpc/react";
 import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";

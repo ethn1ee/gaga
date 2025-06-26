@@ -9,7 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { categories } from "@/sitemap";
+import { categories, colorMap, type Category } from "@/site-config";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import UserButton from "./user-button";
@@ -27,44 +27,7 @@ const NavDesktop = ({
             </NavigationMenuLink>
           </NavigationMenuItem>
           {categories.map((category, i) => (
-            <NavigationMenuItem key={i}>
-              <NavigationMenuTrigger>
-                <category.icon
-                  size={20}
-                  className="text-muted-foreground mr-2"
-                />
-                <span>{category.name}</span>
-              </NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <Link
-                        className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
-                        href={`/${category.slug}`}
-                      >
-                        <div className="mt-4 mb-2 text-lg font-medium flex items-center gap-2">
-                          {category.name}
-                          <ChevronRightIcon size={20} />
-                        </div>
-                        <p className="text-muted-foreground text-sm leading-tight">
-                          {category.description}
-                        </p>
-                      </Link>
-                    </NavigationMenuLink>
-                  </li>
-                  {category.subcategories.map((subcategory, j) => (
-                    <ListItem
-                      key={j}
-                      href={`/${category.slug}/${subcategory.slug}`}
-                      title={subcategory.name}
-                    >
-                      {subcategory.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+            <CategoryItem key={i} category={category} />
           ))}
         </div>
 
@@ -96,7 +59,53 @@ const NavDesktop = ({
 
 export default NavDesktop;
 
-const ListItem = ({
+type CategoryItemProps = {
+  category: Category;
+};
+
+const CategoryItem = ({ category }: CategoryItemProps) => {
+  const colors = colorMap[category.color];
+
+  return (
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>
+        <category.icon size={20} className="text-muted-foreground mr-2" />
+        <span>{category.name}</span>
+      </NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] lg:grid-rows-5">
+          <li className={`${colors.bg} !hover:${colors.bg} row-span-5`}>
+            <Link
+              className="flex h-full w-full flex-col justify-end rounded-md p-6"
+              href={`/${category.slug}`}
+            >
+              <div
+                className={`${colors.title} mt-4 mb-2 text-lg font-medium flex items-center gap-2`}
+              >
+                {category.name}
+                <ChevronRightIcon size={20} className={colors.title} />
+              </div>
+              <p className="text-muted-foreground text-sm leading-tight">
+                {category.description}
+              </p>
+            </Link>
+          </li>
+          {category.subcategories.map((subcategory, j) => (
+            <SubcategoryItem
+              key={j}
+              href={`/${category.slug}/${subcategory.slug}`}
+              title={subcategory.name}
+            >
+              {subcategory.description}
+            </SubcategoryItem>
+          ))}
+        </ul>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  );
+};
+
+const SubcategoryItem = ({
   title,
   children,
   href,
