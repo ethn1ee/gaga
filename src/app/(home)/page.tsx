@@ -46,7 +46,7 @@ export default async function Page() {
           </span>
           <div className="border p-3 rounded-md grow h-[506px] xl:h-[609px] 2xl:h-[711px] overflow-hidden">
             <div className="h-full mask-b-from-80% mask-b-to-100%">
-              <PostTable data={recents} isLoading={false} />
+              <PostTable data={recents} isLoading={false} size="sm" />
             </div>
           </div>
         </div>

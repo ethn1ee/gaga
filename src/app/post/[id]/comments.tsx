@@ -16,9 +16,8 @@ import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "sonner";
 
-type CommentWithAuthor = Comment & { author: User };
-type CommentWithAuthorAndChild = CommentWithAuthor & {
-  childs?: CommentWithAuthor[];
+type CommentWithAuthorAndChild = Comment & { author: User } & {
+  childs?: CommentWithAuthorAndChild[];
 };
 
 type CommentsProps = {

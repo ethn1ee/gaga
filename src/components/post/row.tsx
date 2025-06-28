@@ -30,9 +30,9 @@ const PostRow = ({ post }: PostRowProps) => {
       </TableCell>
 
       <TableCell className="group-data-[size=sm]:hidden max-md:hidden">
-        <div className="h-7 py-0.5 flex -gap-2 w-fit">
+        <div className="h-7 py-0.5 flex w-fit">
           {post.comments?.slice(0, 3).map((comment, i) => (
-            <Avatar key={i} className="size-6 ring-background ring-2">
+            <Avatar key={i} className="size-6 -ml-1 ring-background ring-2">
               <AvatarImage src={comment.author?.image ?? ""} />
               <AvatarFallback>
                 {getInitials(comment.author?.name || "")}
