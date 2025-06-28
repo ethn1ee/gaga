@@ -48,6 +48,7 @@ const Post = ({ params }: PostProps) => {
       <UserAvatarWithDetail
         user={data.author}
         time={getRelativeTime(data.createdAt)}
+        size="default"
       />
 
       <Comments postId={data.id} comments={data.comments} />
