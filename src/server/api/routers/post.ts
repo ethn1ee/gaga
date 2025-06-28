@@ -3,6 +3,15 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
 import { z } from "zod";
 
+const resultSchema = {
+  include: {
+    comments: {
+      include: { author: true },
+    },
+    author: true,
+  },
+};
+
 export const postRouter = createTRPCRouter({
   create: publicProcedure.input(postInput).mutation(async ({ ctx, input }) => {
     const result = await ctx.db.post.create({
@@ -32,12 +41,7 @@ export const postRouter = createTRPCRouter({
   getRecent: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
     const result = await ctx.db.post.findMany({
       orderBy: { createdAt: "desc" },
-      include: {
-        comments: {
-          include: { author: true },
-        },
-        author: true,
-      },
+      ...resultSchema,
       take: input,
     });
 
@@ -54,12 +58,7 @@ export const postRouter = createTRPCRouter({
             mode: "insensitive",
           },
         },
-        include: {
-          comments: {
-            include: { author: true },
-          },
-          author: true,
-        },
+        ...resultSchema,
         orderBy: { createdAt: "desc" },
       });
 
@@ -87,12 +86,7 @@ export const postRouter = createTRPCRouter({
             },
           },
         },
-        include: {
-          comments: {
-            include: { author: true },
-          },
-          author: true,
-        },
+        ...resultSchema,
         orderBy: { createdAt: "desc" },
       });
 
@@ -171,10 +165,7 @@ export const postRouter = createTRPCRouter({
             },
           ],
         },
-        include: {
-          comments: { include: { author: true } },
-          author: true,
-        },
+        ...resultSchema,
         orderBy: {
           _relevance: {
             fields: ["title", "content"],

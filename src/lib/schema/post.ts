@@ -15,6 +15,7 @@ type PostInput = z.infer<typeof postInput>;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const postWithComments = Prisma.validator<Prisma.PostDefaultArgs>()({
   include: {
+    author: true,
     comments: {
       include: {
         author: true,

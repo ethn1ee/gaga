@@ -18,7 +18,7 @@ const commentOnPostInput = z.object({
 const commentOnParentInput = z.object({
   content: z.string().min(1, "Comment cannot be empty"),
   authorId: z.string().min(1, "AuthorId cannot be empty"),
-  parentId: z.string().min(1, "PostId cannot be empty"),
+  parentId: z.string().min(1, "ParentId cannot be empty"),
 });
 
 export {

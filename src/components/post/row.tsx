@@ -1,9 +1,10 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { PostWithComments } from "@/lib/schema";
-import { formatNumber, getInitials, getRelativeTime } from "@/lib/utils";
+import { formatNumber, getRelativeTime } from "@/lib/utils";
+import { type User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
+import { UserAvatar } from "../user";
 
 type PostRowProps = {
   post: PostWithComments;
@@ -11,10 +12,16 @@ type PostRowProps = {
 
 const PostRow = ({ post }: PostRowProps) => {
   const router = useRouter();
+  const uniqueCommenters = post.comments.reduce((acc, comment) => {
+    if (!acc.some((user) => user.username === comment.authorId)) {
+      acc.push(comment.author);
+    }
+    return acc;
+  }, [] as User[]);
 
-  function handleClick() {
+  const handleClick = () => {
     router.push(`/post/${post.id}`);
-  }
+  };
 
   return (
     <TableRow onClick={handleClick} className="cursor-pointer">
@@ -31,14 +38,15 @@ const PostRow = ({ post }: PostRowProps) => {
 
       <TableCell className="group-data-[size=sm]:hidden max-md:hidden">
         <div className="h-7 py-0.5 flex w-fit">
-          {post.comments?.slice(0, 3).map((comment, i) => (
-            <Avatar key={i} className="size-6 -ml-1 ring-background ring-2">
-              <AvatarImage src={comment.author?.image ?? ""} />
-              <AvatarFallback>
-                {getInitials(comment.author?.name || "")}
-              </AvatarFallback>
-            </Avatar>
-          ))}
+          {uniqueCommenters
+            ?.slice(0, 3)
+            .map((user) => (
+              <UserAvatar
+                key={user.username}
+                user={user}
+                className="size-6 ring-2 ring-background not-first:-ml-1"
+              />
+            ))}
         </div>
       </TableCell>
       <TableCell className="text-center">
@@ -60,9 +68,12 @@ export const PostRowSkeleton = () => {
       </TableCell>
 
       <TableCell className="group-data-[size=sm]:hidden max-md:hidden">
-        <div className="h-7 py-0.5 flex -gap-2 w-fit">
+        <div className="h-7 py-0.5 flex w-fit">
           {[...Array<0>(3)].map((_, i) => (
-            <Skeleton key={i} className="size-6 ring-background ring-2" />
+            <Skeleton
+              key={i}
+              className="size-6 ring-2 ring-background not-first:-ml-1 rounded-full"
+            />
           ))}
         </div>
       </TableCell>

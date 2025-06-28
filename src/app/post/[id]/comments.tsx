@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
-import { UserAvatarWithTime } from "@/components/user";
+import { UserAvatarWithDetail } from "@/components/user";
 import { useAuth, useRequireAuth } from "@/hooks";
 import { commentInput, type CommentInput } from "@/lib/schema";
 import { cn, getRelativeTime } from "@/lib/utils";
@@ -65,9 +65,9 @@ const Comments = ({ postId, comments }: CommentsProps) => {
       />
 
       <div className="space-y-3 mt-6">
-        {comments.map((comment, i) => (
+        {comments.map((comment) => (
           <CommentItem
-            key={i}
+            key={comment.id}
             comment={comment}
             replyTo={replyTo}
             setReplyTo={setReplyTo}
@@ -114,7 +114,7 @@ const CommentItem = ({ comment, replyTo, setReplyTo }: CommentItemProps) => {
         </>
       )}
 
-      <UserAvatarWithTime
+      <UserAvatarWithDetail
         size="sm"
         user={comment.author}
         time={getRelativeTime(comment.createdAt)}
@@ -134,9 +134,9 @@ const CommentItem = ({ comment, replyTo, setReplyTo }: CommentItemProps) => {
       )}
 
       <div className="ml-8 mt-3 mb-0 space-y-2 empty:hidden">
-        {comment.childs?.map((child, i) => (
+        {comment.childs?.map((child) => (
           <CommentItem
-            key={i}
+            key={child.id}
             comment={child}
             replyTo={replyTo}
             setReplyTo={setReplyTo}

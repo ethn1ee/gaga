@@ -1,6 +1,6 @@
 "use client";
 
-import { UserAvatarWithTime } from "@/components/user";
+import { UserAvatarWithDetail } from "@/components/user";
 import { getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { notFound } from "next/navigation";
@@ -45,7 +45,7 @@ const Post = ({ params }: PostProps) => {
         <Attachments attachments={data.attachments} />
       </section>
 
-      <UserAvatarWithTime
+      <UserAvatarWithDetail
         user={data.author}
         time={getRelativeTime(data.createdAt)}
       />
