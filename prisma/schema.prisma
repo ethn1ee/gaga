@@ -66,15 +66,13 @@ model Like {
 }
 
 model User {
-  id              String   @id @default(cuid(2))
-  username        String
-  name            String
-  displayUsername String?
-  email           String
-  emailVerified   Boolean
-  image           String?
-  createdAt       DateTime
-  updatedAt       DateTime
+  username      String
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
 
   sessions Session[]
   accounts Account[]
@@ -82,6 +80,10 @@ model User {
   posts    Post[]    @relation("PostCreatedBy")
   comments Comment[] @relation("CommentCreatedBy")
   likes    Like[]    @relation("LikeCreatedBy")
+
+  // unused
+  id              String  @id @default(cuid(2))
+  displayUsername String?
 
   @@unique([id])
   @@unique([username])

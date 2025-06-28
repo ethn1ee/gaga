@@ -8,7 +8,7 @@ type UserAvatarProps = {
 };
 
 const UserAvatar = ({ user, className }: UserAvatarProps) => {
-  const initials = getInitials(user.name);
+  const initials = getInitials(user.name ?? "");
   const avatar = user.image ?? "";
 
   return (
