@@ -38,7 +38,7 @@ const Post = ({ params }: PostProps) => {
       </section>
 
       <UserAvatarWithTime
-        id={data.authorId}
+        user={data.author}
         time={getRelativeTime(data.createdAt)}
       />
 

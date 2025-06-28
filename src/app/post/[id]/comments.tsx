@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { UserAvatarWithTime } from "@/components/user";
@@ -6,17 +8,22 @@ import { commentInput, type CommentInput } from "@/lib/schema";
 import { cn, getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type Comment, type Post } from "@prisma/client";
+import { type Comment, type Post, type User } from "@prisma/client";
 import { Loader2Icon, SendIcon, XIcon } from "lucide-react";
 import Link from "next/link";
-import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "sonner";
 
+type CommentWithAuthor = Comment & { author: User };
+type CommentWithAuthorAndChild = CommentWithAuthor & {
+  childs?: CommentWithAuthor[];
+};
+
 type CommentsProps = {
   postId: Post["id"];
-  comments: (Comment & { childs: Comment[] })[];
+  comments: CommentWithAuthorAndChild[];
 };
 
 const Comments = ({ postId, comments }: CommentsProps) => {
@@ -60,7 +67,7 @@ const Comments = ({ postId, comments }: CommentsProps) => {
 export default Comments;
 
 type CommentItemProps = {
-  comment: Comment & { childs?: Comment[] };
+  comment: CommentWithAuthorAndChild;
   replyTo: string;
   setReplyTo: Dispatch<SetStateAction<string>>;
 };
@@ -81,7 +88,7 @@ const CommentItem = ({ comment, replyTo, setReplyTo }: CommentItemProps) => {
             width="24"
             height="24"
             xmlns="http://www.w3.org/2000/svg"
-            className="absolute bottom-10"
+            className="absolute bottom-11"
           >
             <path
               d="M12.5 0 V10 Q12 20 22 20"
@@ -95,7 +102,7 @@ const CommentItem = ({ comment, replyTo, setReplyTo }: CommentItemProps) => {
 
       <UserAvatarWithTime
         size="sm"
-        id={comment.authorId}
+        user={comment.author}
         time={getRelativeTime(comment.createdAt)}
       />
 

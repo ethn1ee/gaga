@@ -87,7 +87,14 @@ export const postRouter = createTRPCRouter({
         where: { id: input },
         include: {
           comments: {
-            include: { author: true, childs: true },
+            include: {
+              author: true,
+              childs: {
+                include: {
+                  author: true,
+                },
+              },
+            },
             orderBy: { createdAt: "desc" },
           },
           author: true,
