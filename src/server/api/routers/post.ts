@@ -5,10 +5,29 @@ import { z } from "zod";
 
 export const postRouter = createTRPCRouter({
   create: publicProcedure.input(postInput).mutation(async ({ ctx, input }) => {
-    return ctx.db.post.create({
+    const result = await ctx.db.post.create({
       data: { ...input },
     });
+
+    return result;
   }),
+
+  incrementView: publicProcedure
+    .input(z.string().cuid2())
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.db.post.update({
+        where: {
+          id: input,
+        },
+        data: {
+          views: {
+            increment: 1,
+          },
+        },
+      });
+
+      return result;
+    }),
 
   getRecent: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
     const result = await ctx.db.post.findMany({

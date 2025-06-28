@@ -18,6 +18,7 @@ model Post {
   category    String
   subcategory String
   attachments String[]
+  views       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

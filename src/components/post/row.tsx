@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { PostWithComments } from "@/lib/schema";
-import { getInitials, getRelativeTime } from "@/lib/utils";
+import { formatNumber, getInitials, getRelativeTime } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "../ui/skeleton";
 
@@ -41,8 +41,10 @@ const PostRow = ({ post }: PostRowProps) => {
           ))}
         </div>
       </TableCell>
-      <TableCell className="text-center">{post.comments.length}</TableCell>
-      <TableCell className="text-center">152</TableCell>
+      <TableCell className="text-center">
+        {formatNumber(post.comments.length)}
+      </TableCell>
+      <TableCell className="text-center">{formatNumber(post.views)}</TableCell>
     </TableRow>
   );
 };

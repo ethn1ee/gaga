@@ -10,8 +10,13 @@ import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type Comment, type Post, type User } from "@prisma/client";
 import { Loader2Icon, SendIcon, XIcon } from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "sonner";
@@ -28,13 +33,23 @@ type CommentsProps = {
 const Comments = ({ postId, comments }: CommentsProps) => {
   const { isSessionLoading } = useAuth();
   const [replyTo, setReplyTo] = useState("");
+  const commentsRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (replyTo !== "" && commentsRef.current) {
+      commentsRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  });
 
   if (isSessionLoading) {
     return <p>Loading...</p>;
   }
 
   return (
-    <section id="comments" className="border-t pt-4 min-h-80">
+    <section ref={commentsRef} className="border-t pt-4 min-h-80">
       <h3 className="flex items-center gap-2 mb-4">
         <span>Comments</span>
         <span className="text-muted-foreground text-base">
@@ -108,15 +123,14 @@ const CommentItem = ({ comment, replyTo, setReplyTo }: CommentItemProps) => {
       <p className="ml-8">{comment.content}</p>
 
       {comment.childs && (
-        <Link
+        <button
           onClick={() =>
             setReplyTo((prev) => (prev === comment.id ? "" : comment.id))
           }
-          href="#comment-form"
           className="text-muted-foreground text-sm font-base ml-8"
         >
           {comment.id === replyTo ? "Cancel" : "Reply"}
-        </Link>
+        </button>
       )}
 
       <div className="ml-8 mt-3 mb-0 space-y-2 empty:hidden">

@@ -7,7 +7,7 @@ const postInput = z.object({
   category: z.string().min(1, "Category is required"),
   subcategory: z.string().min(1, "Subcategory is required"),
   attachments: z.array(z.string()).max(5, "Maximum 5 attachments are allowed"),
-  authorId: z.string().min(1, "Author ID cannot be empty").optional(),
+  authorId: z.string().min(1, "Author ID cannot be empty"),
 });
 
 type PostInput = z.infer<typeof postInput>;
