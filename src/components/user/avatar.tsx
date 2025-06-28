@@ -19,8 +19,8 @@ const UserAvatar = ({ user, className }: UserAvatarProps) => {
   );
 };
 
-type UserAvatarWithTimeProps = UserAvatarProps & {
-  size?: "default" | "sm";
+type UserAvatarWithDetailProps = UserAvatarProps & {
+  size: "default" | "sm";
   time: string;
 };
 
@@ -28,7 +28,7 @@ const UserAvatarWithDetail = ({
   user,
   time: detail,
   size,
-}: UserAvatarWithTimeProps) => {
+}: UserAvatarWithDetailProps) => {
   return (
     <div className="flex flex-row items-center gap-2">
       <UserAvatar

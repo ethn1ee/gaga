@@ -25,7 +25,7 @@ const PostRow = ({ post }: PostRowProps) => {
 
   return (
     <TableRow onClick={handleClick} className="cursor-pointer">
-      <TableCell className="truncate ">
+      <TableCell className="truncate">
         <span className="text-lg group-data-[size=sm]:text-base font-normal">
           {post.title}
         </span>
@@ -62,9 +62,9 @@ export default PostRow;
 export const PostRowSkeleton = () => {
   return (
     <TableRow>
-      <TableCell className="truncate">
-        <Skeleton className="h-5 mb-1.5 group-data-[size=sm]:h-6 w-60" />
-        <Skeleton className="h-4.5 w-40" />
+      <TableCell>
+        <Skeleton className="h-5 mt-[4.5px] mb-2 group-data-[size=sm]:h-6 w-60" />
+        <Skeleton className="h-4 w-40" />
       </TableCell>
 
       <TableCell className="group-data-[size=sm]:hidden max-md:hidden">
