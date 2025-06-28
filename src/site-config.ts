@@ -50,7 +50,7 @@ const categories = [
       {
         name: "Documents",
         description: "Academic calendar, exam schedules, and important dates",
-        slug: "new-students",
+        slug: "documents",
       },
       {
         name: "New Students",

@@ -43,7 +43,7 @@ const UserButton = () => {
       <DropdownMenuTrigger asChild>
         {session ? (
           <Avatar className="size-9">
-            <AvatarImage>{session.user.image}</AvatarImage>
+            <AvatarImage src={session.user.image ?? ""} />
             <AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
           </Avatar>
         ) : (

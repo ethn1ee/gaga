@@ -1,10 +1,10 @@
 "use client";
 
-import { UserAvatarWithTime } from "@/components/user";
+import { UserAvatarWithDetail } from "@/components/user";
 import { getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { notFound } from "next/navigation";
-import { use } from "react";
+import { use, useEffect, useRef } from "react";
 import Attachments from "./attachments";
 import Carousel from "./carousel";
 import Category from "./category";
@@ -16,8 +16,16 @@ type PostProps = {
 
 const Post = ({ params }: PostProps) => {
   const { id } = use(params);
-
+  const viewIncrementedRef = useRef(false);
   const [data, query] = api.post.getById.useSuspenseQuery(id);
+  const incrementViewMutation = api.post.incrementView.useMutation();
+
+  useEffect(() => {
+    if (query.isSuccess && viewIncrementedRef.current === false) {
+      incrementViewMutation.mutate(id);
+      viewIncrementedRef.current = true;
+    }
+  }, [id, incrementViewMutation, viewIncrementedRef, query.isSuccess]);
 
   if (!data) {
     notFound();
@@ -37,8 +45,8 @@ const Post = ({ params }: PostProps) => {
         <Attachments attachments={data.attachments} />
       </section>
 
-      <UserAvatarWithTime
-        id={data.authorId}
+      <UserAvatarWithDetail
+        user={data.author}
         time={getRelativeTime(data.createdAt)}
       />
 

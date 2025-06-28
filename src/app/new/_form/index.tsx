@@ -67,7 +67,6 @@ const Form = () => {
   }, [createPost.isPending]);
 
   const handleSubmit = async (values: PostInput) => {
-    console.log(values);
     if (values.category === "photos" && attachments.length === 0) {
       toast.warning("Please attach at least one photo", {
         position: "top-center",

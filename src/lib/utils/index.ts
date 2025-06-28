@@ -1,5 +1,6 @@
 import { cn } from "./cn";
 import { extractOriginalFilename, replaceFileExtension } from "./filename";
+import { formatNumber } from "./format-number";
 import { getFileType } from "./get-file-type";
 import { getInitials } from "./get-initials";
 import { getNow, getRelativeTime } from "./get-time";
@@ -10,6 +11,7 @@ import { toSlug } from "./to-slug";
 export {
   cn,
   extractOriginalFilename,
+  formatNumber,
   getFileType,
   getInitials,
   getNow,

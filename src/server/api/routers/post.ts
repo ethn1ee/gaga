@@ -3,22 +3,45 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
 import { z } from "zod";
 
+const resultSchema = {
+  include: {
+    comments: {
+      include: { author: true },
+    },
+    author: true,
+  },
+};
+
 export const postRouter = createTRPCRouter({
   create: publicProcedure.input(postInput).mutation(async ({ ctx, input }) => {
-    return ctx.db.post.create({
+    const result = await ctx.db.post.create({
       data: { ...input },
     });
+
+    return result;
   }),
+
+  incrementView: publicProcedure
+    .input(z.string().cuid2())
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.db.post.update({
+        where: {
+          id: input,
+        },
+        data: {
+          views: {
+            increment: 1,
+          },
+        },
+      });
+
+      return result;
+    }),
 
   getRecent: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
     const result = await ctx.db.post.findMany({
       orderBy: { createdAt: "desc" },
-      include: {
-        comments: {
-          include: { author: true },
-        },
-        author: true,
-      },
+      ...resultSchema,
       take: input,
     });
 
@@ -35,12 +58,7 @@ export const postRouter = createTRPCRouter({
             mode: "insensitive",
           },
         },
-        include: {
-          comments: {
-            include: { author: true },
-          },
-          author: true,
-        },
+        ...resultSchema,
         orderBy: { createdAt: "desc" },
       });
 
@@ -68,12 +86,7 @@ export const postRouter = createTRPCRouter({
             },
           },
         },
-        include: {
-          comments: {
-            include: { author: true },
-          },
-          author: true,
-        },
+        ...resultSchema,
         orderBy: { createdAt: "desc" },
       });
 
@@ -87,7 +100,14 @@ export const postRouter = createTRPCRouter({
         where: { id: input },
         include: {
           comments: {
-            include: { author: true },
+            include: {
+              author: true,
+              childs: {
+                include: {
+                  author: true,
+                },
+              },
+            },
             orderBy: { createdAt: "desc" },
           },
           author: true,
@@ -145,10 +165,7 @@ export const postRouter = createTRPCRouter({
             },
           ],
         },
-        include: {
-          comments: { include: { author: true } },
-          author: true,
-        },
+        ...resultSchema,
         orderBy: {
           _relevance: {
             fields: ["title", "content"],

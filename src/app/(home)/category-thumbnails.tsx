@@ -1,12 +1,13 @@
 "use client";
 
+import { formatNumber } from "@/lib/utils";
 import { categories, type Category, colorMap } from "@/site-config";
 import { ChevronRightIcon } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 
 type CategoryThumbnailsProps = {
-  stats: Record<string, { posts: number; comments: number }>;
+  stats: Record<string, { posts: number; comments: number; views: number }>;
 };
 
 const CategoryThumbnails = ({ stats }: CategoryThumbnailsProps) => {
@@ -26,14 +27,11 @@ type ThumbnailProps = {
   stat?: {
     posts: number;
     comments: number;
-    // views: number;
+    views: number;
   };
 };
 
-const Thumbnail = ({
-  category,
-  stat = { posts: 0, comments: 0 },
-}: ThumbnailProps) => {
+const Thumbnail = ({ category, stat }: ThumbnailProps) => {
   const detailVariant = {
     default: {
       opacity: 0,
@@ -67,7 +65,7 @@ const Thumbnail = ({
     >
       <Link href={`/${category.slug}`} className="size-full">
         <category.icon
-          className={`${colors.icon} absolute -right-5 md:-right-10 -top-5 md:-top-10 size-30 md:size-40 lg:size-50 transition-all duration-300 group-hover:opacity-50 group-hover:scale-101`}
+          className={`${colors.icon} absolute -right-5 md:-right-10 -top-5 md:-top-10 size-30 md:size-40 lg:size-50 transition-all duration-300 group-hover:opacity-50 group-hover:scale-103`}
         />
 
         <div className="absolute left-3 bottom-3">
@@ -88,11 +86,11 @@ const Thumbnail = ({
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="text-muted-foreground text-sm font-light space-x-1"
           >
-            <span>{stat.posts} posts</span>
+            <span>{formatNumber(stat?.posts ?? 0)} posts</span>
             <span className="text-border">|</span>
-            <span>{stat.comments} comments</span>
+            <span>{formatNumber(stat?.comments ?? 0)} comments</span>
             <span className="text-border">|</span>
-            <span>{0} views</span>
+            <span>{formatNumber(stat?.views ?? 0)} views</span>
           </motion.div>
         </div>
       </Link>

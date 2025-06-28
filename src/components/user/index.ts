@@ -1,3 +1,3 @@
-import { UserAvatarWithTime } from "./avatar";
+import { UserAvatar, UserAvatarWithDetail } from "./avatar";
 
-export { UserAvatarWithTime };
+export { UserAvatar, UserAvatarWithDetail };

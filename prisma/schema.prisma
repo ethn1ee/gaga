@@ -12,49 +12,76 @@ datasource db {
 }
 
 model Post {
-  id          String    @id @default(cuid(2))
-  author      User      @relation(fields: [authorId], references: [username], onDelete: SetDefault, onUpdate: Cascade)
-  authorId    String    @default("anonymous")
+  id          String   @id @default(cuid(2))
   title       String
   content     String
   category    String
   subcategory String
-  comments    Comment[]
   attachments String[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  views       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  @@index([title])
+  author   User   @relation("PostCreatedBy", fields: [authorId], references: [username], onDelete: SetDefault, onUpdate: Cascade)
+  authorId String @default("anonymous")
+
+  comments Comment[] @relation("CommentBelongsTo")
+  likes    Like[]    @relation("LikeBelongsTo")
+
+  @@index([authorId, category, subcategory])
+  @@map("post")
 }
 
 model Comment {
   id        String   @id @default(cuid(2))
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    String
   content   String
-  author    User     @relation(fields: [authorId], references: [username], onDelete: SetDefault, onUpdate: Cascade)
-  authorId  String   @default("anonymous")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([postId])
+  post     Post?    @relation("CommentBelongsTo", fields: [postId], references: [id], onDelete: Cascade)
+  postId   String?
+  parent   Comment? @relation("CommentBelongsTo", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId String?
+
+  childs Comment[] @relation("CommentBelongsTo")
+
+  author   User   @relation("CommentCreatedBy", fields: [authorId], references: [username], onDelete: SetDefault, onUpdate: Cascade)
+  authorId String @default("anonymous")
+
+  @@index([postId, parentId, authorId])
+  @@map("comment")
+}
+
+model Like {
+  id        String   @id @default(cuid(2))
+  createdAt DateTime @default(now())
+
+  post     Post   @relation("LikeBelongsTo", fields: [postId], references: [id], onDelete: Cascade)
+  postId   String
+  author   User   @relation("LikeCreatedBy", fields: [authorId], references: [username], onDelete: Cascade, onUpdate: Cascade)
+  authorId String
+
+  @@index([postId, authorId])
+  @@map("like")
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
-  Post          Post[]
-  Comment       Comment[]
-
+  id              String   @id @default(cuid(2))
   username        String
+  name            String
   displayUsername String?
+  email           String
+  emailVerified   Boolean
+  image           String?
+  createdAt       DateTime
+  updatedAt       DateTime
+
+  sessions Session[]
+  accounts Account[]
+
+  posts    Post[]    @relation("PostCreatedBy")
+  comments Comment[] @relation("CommentCreatedBy")
+  likes    Like[]    @relation("LikeCreatedBy")
 
   @@unique([id])
   @@unique([username])

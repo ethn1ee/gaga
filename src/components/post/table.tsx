@@ -50,7 +50,7 @@ const PostTable = ({ data, isLoading, size = "default" }: PostTableProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {false
+        {isLoading
           ? [...Array<0>(5)].map((_, i) => <PostRowSkeleton key={i} />)
           : data.map((post, i) => <PostRow key={i} post={post} />)}
       </TableBody>
