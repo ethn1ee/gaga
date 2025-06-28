@@ -30,7 +30,7 @@ const PostRow = ({ post }: PostRowProps) => {
           {post.title}
         </span>
         <div className="space-x-1 text-muted-foreground text-sm">
-          <span>{post.authorId}</span>
+          <span>{post.author.name}</span>
           <span>·</span>
           <span>{getRelativeTime(post.createdAt)}</span>
         </div>

@@ -40,7 +40,7 @@ const UserAvatarWithDetail = ({
 
       <div>
         <span className={cn("font-medium mr-2", size === "default" && "block")}>
-          {user.username}
+          {user.name}
         </span>
         <span
           className={cn(
