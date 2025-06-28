@@ -2,87 +2,26 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import { UserAvatarWithTime } from "@/components/user";
 import { useAuth, useRequireAuth } from "@/hooks";
-import { type CommentInput, commentInput } from "@/lib/schema";
-import { getRelativeTime } from "@/lib/utils";
+import { commentInput, type CommentInput } from "@/lib/schema";
+import { cn, getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type Comment, type Post } from "@prisma/client";
-import { Loader2Icon, SendIcon } from "lucide-react";
+import { Loader2Icon, SendIcon, XIcon } from "lucide-react";
+import Link from "next/link";
+import { type Dispatch, type SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { toast } from "sonner";
 
 type CommentsProps = {
-  postId?: Post["id"];
-  parentId?: Comment["id"];
+  postId: Post["id"];
   comments: (Comment & { childs: Comment[] })[];
 };
 
-const Comments = ({ postId, parentId, comments }: CommentsProps) => {
-  const { session, isSessionLoading } = useAuth();
-  const requireAuth = useRequireAuth();
-  const utils = api.useUtils();
-
-  const form = useForm<CommentInput>({
-    resolver: zodResolver(commentInput),
-    defaultValues: {
-      content: "",
-      authorId: "anonymous",
-      postId,
-      parentId,
-    },
-  });
-
-  const createCommentOnPost = api.comment.createOnPost.useMutation({
-    onSuccess: async () => {
-      await utils.comment.invalidate();
-      await utils.post.invalidate();
-      form.reset();
-    },
-    onError: async (error) => {
-      toast.error("Failed to create comment!", {
-        position: "top-center",
-        description: "Please try again later.",
-      });
-      console.error(error);
-    },
-  });
-
-  const createCommentOnParent = api.comment.createOnParent.useMutation({
-    onSuccess: async () => {
-      await utils.comment.invalidate();
-      await utils.post.invalidate();
-      form.reset();
-    },
-    onError: async (error) => {
-      toast.error("Failed to create comment!", {
-        position: "top-center",
-        description: "Please try again later.",
-      });
-      console.error(error);
-    },
-  });
-
-  const handleSubmit = async (values: CommentInput) => {
-    requireAuth(() => {
-      if (values.postId) {
-        return createCommentOnPost.mutate({
-          content: values.content,
-          postId: values.postId,
-          authorId: session?.user.username ?? "anonymous",
-        });
-      }
-      if (values.parentId) {
-        return createCommentOnParent.mutate({
-          content: values.content,
-          parentId: values.parentId,
-          authorId: session?.user.username ?? "anonymous",
-        });
-      }
-
-      return console.error("Either postId or parentId is required");
-    });
-  };
+const Comments = ({ postId, comments }: CommentsProps) => {
+  const { isSessionLoading } = useAuth();
+  const [replyTo, setReplyTo] = useState("");
 
   if (isSessionLoading) {
     return <p>Loading...</p>;
@@ -97,40 +36,21 @@ const Comments = ({ postId, parentId, comments }: CommentsProps) => {
         </span>
       </h3>
 
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="flex gap-2">
-          <FormField
-            name="content"
-            control={form.control}
-            render={({ field }) => (
-              <TextareaAutosize
-                {...field}
-                placeholder="Add comment ..."
-                className="focus-visible:outline-none bg-muted rounded-md px-3 py-2 flex-1 resize-none"
-              />
-            )}
-          />
-          <Button
-            size="icon"
-            type="submit"
-            disabled={
-              createCommentOnPost.isPending ||
-              !!commentInput.safeParse(form.watch()).error
-            }
-            className="size-10"
-          >
-            {createCommentOnPost.isPending ? (
-              <Loader2Icon className="animate-spin" />
-            ) : (
-              <SendIcon />
-            )}
-          </Button>
-        </form>
-      </Form>
+      <CommentForm
+        postId={postId}
+        isReply={replyTo !== ""}
+        setReplyTo={setReplyTo}
+        replyComment={comments.find((comment) => comment.id === replyTo)}
+      />
 
-      <div className="space-y-4 mt-6">
+      <div className="space-y-3 mt-6">
         {comments.map((comment, i) => (
-          <CommentItem key={i} comment={comment} />
+          <CommentItem
+            key={i}
+            comment={comment}
+            replyTo={replyTo}
+            setReplyTo={setReplyTo}
+          />
         ))}
       </div>
     </section>
@@ -140,23 +60,187 @@ const Comments = ({ postId, parentId, comments }: CommentsProps) => {
 export default Comments;
 
 type CommentItemProps = {
-  comment: Comment & { childs: Comment[] };
+  comment: Comment & { childs?: Comment[] };
+  replyTo: string;
+  setReplyTo: Dispatch<SetStateAction<string>>;
 };
-const CommentItem = ({ comment }: CommentItemProps) => {
+
+const CommentItem = ({ comment, replyTo, setReplyTo }: CommentItemProps) => {
   return (
-    <div className="space-y-1">
+    <div
+      className={cn(
+        "space-y-1 relative",
+        comment.childs && "p-2",
+        replyTo === comment.id && "bg-cyan-50 rounded-lg",
+      )}
+    >
+      {comment.childs && (
+        <>
+          <div className="absolute w-[1px] h-[calc(100%-110px)] top-10 left-5 bg-border" />
+          <svg
+            width="24"
+            height="24"
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute bottom-10"
+          >
+            <path
+              d="M12.5 0 V10 Q12 20 22 20"
+              strokeWidth="1"
+              fill="none"
+              className="stroke-border"
+            />
+          </svg>
+        </>
+      )}
+
       <UserAvatarWithTime
         size="sm"
         id={comment.authorId}
         time={getRelativeTime(comment.createdAt)}
       />
+
       <p className="ml-8">{comment.content}</p>
-      <div className="ml-8">
-        {comment.childs.map((child, i) => (
-          <div key={i}>{child.content}</div>
+
+      {comment.childs && (
+        <Link
+          onClick={() =>
+            setReplyTo((prev) => (prev === comment.id ? "" : comment.id))
+          }
+          href="#comment-form"
+          className="text-muted-foreground text-sm font-base ml-8"
+        >
+          {comment.id === replyTo ? "Cancel" : "Reply"}
+        </Link>
+      )}
+
+      <div className="ml-8 mt-3 mb-0 space-y-2 empty:hidden">
+        {comment.childs?.map((child, i) => (
+          <CommentItem
+            key={i}
+            comment={child}
+            replyTo={replyTo}
+            setReplyTo={setReplyTo}
+          />
         ))}
-        <span className="text-muted-foreground text-sm">Reply</span>
       </div>
     </div>
+  );
+};
+
+type CommentFormProps = {
+  postId: string;
+  isReply: boolean;
+  setReplyTo: Dispatch<SetStateAction<string>>;
+  replyComment?: Comment;
+};
+
+const CommentForm = ({
+  postId,
+  isReply,
+  setReplyTo,
+  replyComment,
+}: CommentFormProps) => {
+  const { session } = useAuth();
+  const requireAuth = useRequireAuth();
+  const [isPending, setIsPending] = useState(false);
+  const utils = api.useUtils();
+
+  const form = useForm({
+    resolver: zodResolver(commentInput),
+    defaultValues: {
+      content: "",
+      authorId: "anonymous",
+    },
+  });
+
+  const mutationAction = {
+    onSuccess: async () => {
+      await utils.post.invalidate();
+      form.reset();
+    },
+    onError: async (error: unknown) => {
+      toast.error("Failed to create comment!", {
+        position: "top-center",
+        description: "Please try again later.",
+      });
+      console.error(error);
+    },
+  };
+
+  const createCommentOnPost =
+    api.comment.createOnPost.useMutation(mutationAction);
+  const createCommentOnParent =
+    api.comment.createOnParent.useMutation(mutationAction);
+
+  const handleSubmit = (values: CommentInput) => {
+    if (isReply) {
+      requireAuth(() => {
+        return createCommentOnParent.mutate({
+          content: values.content,
+          authorId: session?.user.username ?? "anonymous",
+          parentId: replyComment!.id,
+        });
+      });
+    } else {
+      requireAuth(() => {
+        return createCommentOnPost.mutate({
+          content: values.content,
+          authorId: session?.user.username ?? "anonymous",
+          postId: postId,
+        });
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isReply) {
+      setIsPending(createCommentOnParent.isPending);
+    } else {
+      setIsPending(createCommentOnPost.isPending);
+    }
+  }, [isReply, createCommentOnPost.isPending, createCommentOnParent.isPending]);
+
+  return (
+    <Form {...form}>
+      <form
+        id="comment-form"
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="flex gap-2 scroll-m-20"
+      >
+        <FormField
+          name="content"
+          control={form.control}
+          render={({ field }) => (
+            <div className="bg-muted rounded-md px-2 py-2 flex-1 h-fit space-x-1">
+              {isReply && (
+                <Button
+                  variant="ghost"
+                  onClick={() => setReplyTo("")}
+                  className="cursor-pointer h-6 !px-1 !py-0 gap-1 rounded-md bg-cyan-50 inset-ring inset-ring-border"
+                >
+                  <XIcon size={16} />
+                  <span className="mr-1 text-xs font-medium">
+                    Reply to {replyComment?.authorId}
+                  </span>
+                </Button>
+              )}
+              <TextareaAutosize
+                {...field}
+                placeholder="Add comment ..."
+                className="focus-visible:outline-none resize-none ml-1 w-full"
+              />
+            </div>
+          )}
+        />
+        <Button
+          size="icon"
+          type="submit"
+          disabled={isPending || !commentInput.safeParse(form.watch()).success}
+          className="size-10"
+        >
+          {isPending ? <Loader2Icon className="animate-spin" /> : <SendIcon />}
+        </Button>
+      </form>
+    </Form>
   );
 };
