@@ -1,10 +1,9 @@
 import { PostTable } from "@/components/post";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { auth } from "@/lib/auth";
-import { getInitials } from "@/lib/utils";
 import { api } from "@/trpc/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import Avatar from "./avatar";
 
 const Profile = async () => {
   const session = await auth.api.getSession({
@@ -15,22 +14,26 @@ const Profile = async () => {
     redirect("/signin");
   }
 
-  const user = await api.user.getByUsername(session.user.username!);
+  const user = session.user;
+  const posts = await api.post.getByUsername(session.user.username ?? "");
 
   return (
     <main className="space-y-10">
       <section className="flex gap-6 items-center">
-        <Avatar className="size-32">
-          <AvatarImage src={session.user.image ?? ""} />
-          <AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
-        </Avatar>
+        <Avatar />
         <div>
-          <h1>{session?.user.name}</h1>
+          <h1 className="text-2xl font-medium">{user.name}</h1>
+          <span className="text-muted-foreground">@{user.username}</span>
         </div>
       </section>
       <section>
-        <h2 className="text-lg">My Posts</h2>
-        <PostTable data={user?.posts ?? null} isLoading={false} />
+        <h2 className="text-lg font-medium">
+          My Posts{" "}
+          <span className="ml-1 text-sm text-muted-foreground font-normal">
+            {posts.length}
+          </span>
+        </h2>
+        <PostTable data={posts ?? null} isLoading={false} />
       </section>
     </main>
   );

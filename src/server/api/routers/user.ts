@@ -2,26 +2,23 @@ import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { z } from "zod";
 
 export const userRouter = createTRPCRouter({
-  getByUsername: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    const result = ctx.db.user.findUnique({
-      where: {
-        username: input,
-      },
-      include: {
-        posts: {
-          include: {
-            comments: {
-              include: {
-                author: true,
-              },
-            },
-            author: true,
-          },
+  updateAvatar: publicProcedure
+    .input(
+      z.object({
+        username: z.string(),
+        image: z.string().url(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.db.user.update({
+        where: {
+          username: input.username,
         },
-        comments: true,
-      },
-    });
+        data: {
+          image: input.image,
+        },
+      });
 
-    return result;
-  }),
+      return result;
+    }),
 });

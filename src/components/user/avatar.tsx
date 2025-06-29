@@ -1,21 +1,36 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn, getInitials } from "@/lib/utils";
-import { type User } from "@prisma/client";
+import { Loader2Icon } from "lucide-react";
 
 type UserAvatarProps = {
-  user: User;
+  user?: {
+    name?: string | null;
+    image?: string | null;
+  };
+  isLoading?: boolean;
   className?: React.ComponentProps<typeof Avatar>["className"];
 };
 
-const UserAvatar = ({ user, className }: UserAvatarProps) => {
-  const initials = getInitials(user.name ?? "");
-  const avatar = user.image ?? "";
+const UserAvatar = ({ user, className, isLoading }: UserAvatarProps) => {
+  const initials = getInitials(user?.name ?? "");
+  const avatar = user?.image ?? "";
 
   return (
-    <Avatar className={className}>
-      <AvatarImage src={avatar} />
-      <AvatarFallback>{initials}</AvatarFallback>
-    </Avatar>
+    <div
+      className={cn(
+        "bg-muted flex items-center justify-center rounded-full overflow-hidden size-9",
+        className,
+      )}
+    >
+      {isLoading ? (
+        <Loader2Icon className="text-muted-foreground animate-spin" />
+      ) : (
+        <Avatar className="size-full">
+          <AvatarImage src={avatar} className="object-cover" />
+          <AvatarFallback>{initials}</AvatarFallback>
+        </Avatar>
+      )}
+    </div>
   );
 };
 
@@ -40,7 +55,7 @@ const UserAvatarWithDetail = ({
 
       <div>
         <span className={cn("font-medium mr-2", size === "default" && "block")}>
-          {user.name}
+          {user?.name}
         </span>
         <span
           className={cn(

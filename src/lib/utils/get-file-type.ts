@@ -17,6 +17,8 @@ export const getFileType = (file: string): "image" | "document" | "etc" => {
     case "gif":
     case "webp":
     case "svg":
+    case "heic":
+    case "heif":
       return "image";
     case "pdf":
     case "docx":
