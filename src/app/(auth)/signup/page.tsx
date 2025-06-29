@@ -13,7 +13,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Email, Name, Password, Username } from "../_form";
 
@@ -27,9 +27,6 @@ const SignUp = () => {
   // redirect if already signed in
   useEffect(() => {
     if (session) {
-      // toast.info("Already signed in!", {
-      //   position: "top-center",
-      // });
       router.push(REDIRECT_PATH);
     }
   }, [session, router]);
@@ -42,6 +39,7 @@ const SignUp = () => {
       name: "",
       username: "",
     },
+    mode: "onChange",
   });
 
   const handleSubmit = async (values: SignUpInput) => {
@@ -75,52 +73,50 @@ const SignUp = () => {
       <div className="flex flex-col gap-6 w-4xl">
         <Card className="overflow-hidden p-0">
           <CardContent className="grid p-0 md:grid-cols-2">
-            <FormProvider {...form}>
-              <FormComponent {...form}>
-                <form
-                  onSubmit={form.handleSubmit(handleSubmit)}
-                  className="p-6 md:p-8"
-                >
-                  <div className="flex flex-col gap-6">
-                    <div className="flex flex-col items-center text-center">
-                      <h1 className="text-2xl font-bold">Welcome</h1>
-                      <p className="text-muted-foreground text-balance">
-                        Create your EmoryLife account
-                      </p>
-                    </div>
-
-                    <Name />
-                    <Email />
-                    <Username />
-                    <Password isSignUp />
-
-                    <Button
-                      type="submit"
-                      disabled={
-                        isLoading || !!signUpInput.safeParse(form.watch()).error
-                      }
-                      className="w-full"
-                    >
-                      {isLoading ? (
-                        <Loader2Icon className="animate-spin" />
-                      ) : (
-                        "Sign Up"
-                      )}
-                    </Button>
-
-                    <div className="text-center text-sm">
-                      Already have an account?{" "}
-                      <Link
-                        href="/signin"
-                        className="underline underline-offset-4"
-                      >
-                        Sign in
-                      </Link>
-                    </div>
+            <FormComponent {...form}>
+              <form
+                onSubmit={form.handleSubmit(handleSubmit)}
+                className="p-6 md:p-8"
+              >
+                <div className="flex flex-col gap-6">
+                  <div className="flex flex-col items-center text-center">
+                    <h1 className="text-2xl font-bold">Welcome</h1>
+                    <p className="text-muted-foreground text-balance">
+                      Create your EmoryLife account
+                    </p>
                   </div>
-                </form>
-              </FormComponent>
-            </FormProvider>
+
+                  <Name />
+                  <Email />
+                  <Username />
+                  <Password isSignUp />
+
+                  <Button
+                    type="submit"
+                    disabled={
+                      isLoading || !!signUpInput.safeParse(form.watch()).error
+                    }
+                    className="w-full"
+                  >
+                    {isLoading ? (
+                      <Loader2Icon className="animate-spin" />
+                    ) : (
+                      "Sign Up"
+                    )}
+                  </Button>
+
+                  <div className="text-center text-sm">
+                    Already have an account?{" "}
+                    <Link
+                      href="/signin"
+                      className="underline underline-offset-4"
+                    >
+                      Sign in
+                    </Link>
+                  </div>
+                </div>
+              </form>
+            </FormComponent>
 
             <div className="bg-muted relative">
               <Image

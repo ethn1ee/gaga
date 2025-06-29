@@ -8,11 +8,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { type SignInInput, type SignUpInput } from "@/lib/schema";
+import { type SignUpInput } from "@/lib/schema";
 import { useFormContext } from "react-hook-form";
 
 const Email = () => {
-  const form = useFormContext<SignInInput | SignUpInput>();
+  const form = useFormContext<SignUpInput>();
+  console.log(form.getValues("password"));
 
   return (
     <FormField
