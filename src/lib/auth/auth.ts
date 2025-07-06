@@ -32,6 +32,12 @@ export const auth = betterAuth({
         throw new Error(error.message);
       }
     },
+    onEmailVerification: async ({ id }) => {
+      await prisma.user.update({
+        where: { id: id },
+        data: { emailVerified: true },
+      });
+    },
   },
   plugins: [username(), nextCookies()],
 });
