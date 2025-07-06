@@ -27,9 +27,6 @@ const SignIn = () => {
   // redirect if already signed in
   useEffect(() => {
     if (session) {
-      // toast.info("Already signed in!", {
-      //   position: "top-center",
-      // });
       router.push(REDIRECT_PATH);
     }
   }, [session, router]);
@@ -40,6 +37,7 @@ const SignIn = () => {
       username: "",
       password: "",
     },
+    mode: "onChange",
   });
 
   const handleSubmit = async (values: SignInInput) => {

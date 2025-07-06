@@ -117,7 +117,7 @@ export const postRouter = createTRPCRouter({
       return result;
     }),
 
-  getByAuthorId: publicProcedure
+  getByUsername: publicProcedure
     .input(z.string())
     .query(async ({ ctx, input }) => {
       const result = await ctx.db.post.findMany({
@@ -129,6 +129,7 @@ export const postRouter = createTRPCRouter({
           },
           author: true,
         },
+        orderBy: { createdAt: "desc" },
       });
 
       return result;

@@ -1,6 +1,5 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,11 +11,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
-import { getInitials } from "@/lib/utils";
 import { CircleUserIcon, Loader2Icon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { UserAvatar } from "../user";
 
 const UserButton = () => {
   const router = useRouter();
@@ -40,12 +39,9 @@ const UserButton = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild={!session} className="focus:outline-none">
         {session ? (
-          <Avatar className="size-9">
-            <AvatarImage src={session.user.image ?? ""} />
-            <AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
-          </Avatar>
+          <UserAvatar user={session.user} className="size-9" />
         ) : (
           <Button
             variant="secondary"
@@ -63,22 +59,22 @@ const UserButton = () => {
           </Button>
         )}
       </DropdownMenuTrigger>
+
       {session && (
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">
-            <Link href="/profile">Profile</Link>
+            <Link href="/profile" className="size-full">
+              Profile
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">
             My posts
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            Settings
-          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
-            Log out
+            Sign out
           </DropdownMenuItem>
         </DropdownMenuContent>
       )}

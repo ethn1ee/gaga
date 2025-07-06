@@ -21,7 +21,7 @@ type PostTableProps = {
 };
 
 const PostTable = ({ data, isLoading, size = "default" }: PostTableProps) => {
-  if (!isLoading && data.length === 0) {
+  if (!isLoading && data?.length === 0) {
     return (
       <div className="text-muted-foreground/50 size-full flex flex-col gap-2 items-center justify-center">
         <BadgeAlertIcon />
@@ -52,7 +52,7 @@ const PostTable = ({ data, isLoading, size = "default" }: PostTableProps) => {
       <TableBody>
         {isLoading
           ? [...Array<0>(5)].map((_, i) => <PostRowSkeleton key={i} />)
-          : data.map((post, i) => <PostRow key={i} post={post} />)}
+          : data?.map((post, i) => <PostRow key={i} post={post} />)}
       </TableBody>
     </Table>
   );

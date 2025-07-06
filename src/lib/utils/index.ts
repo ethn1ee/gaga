@@ -7,6 +7,7 @@ import { getNow, getRelativeTime } from "./get-time";
 import { isValidPath } from "./is-valid-path";
 import { slugToTitle } from "./slug-to-title";
 import { toSlug } from "./to-slug";
+import { uploadFile } from "./upload-file";
 
 export {
   cn,
@@ -20,4 +21,5 @@ export {
   replaceFileExtension,
   slugToTitle,
   toSlug,
+  uploadFile,
 };

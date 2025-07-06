@@ -1,22 +1,29 @@
 "use client";
 
-import { PostTable } from "@/components/post";
-import useAuth from "@/hooks/use-auth";
-import { api } from "@/trpc/react";
+import { useAuth } from "@/hooks";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import Actions from "./actions";
+import MyInformation from "./my-information";
+import MyPosts from "./my-posts";
+import Summary from "./summary";
 
 const Profile = () => {
   const { session, isSessionLoading } = useAuth();
+  const router = useRouter();
 
-  const postsQuery = api.post.getByAuthorId.useQuery(session?.user?.id ?? "", {
-    enabled: !!session?.user?.id,
-  });
+  useEffect(() => {
+    if (!isSessionLoading && !session) {
+      router.push("/signin");
+    }
+  }, [isSessionLoading, session, router]);
 
   return (
-    <main>
-      <PostTable
-        data={postsQuery.data ?? []}
-        isLoading={isSessionLoading || postsQuery.isLoading}
-      />
+    <main className="space-y-10">
+      <Summary />
+      <MyInformation />
+      <MyPosts />
+      <Actions />
     </main>
   );
 };

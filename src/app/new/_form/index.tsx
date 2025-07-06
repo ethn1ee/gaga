@@ -4,11 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Form as FormComponent } from "@/components/ui/form";
 import useAuth from "@/hooks/use-auth";
 import { postInput, type PostInput } from "@/lib/schema";
-import { getNow, replaceFileExtension } from "@/lib/utils";
+import { getNow, uploadFile } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type Post } from "@prisma/client";
-import { upload } from "@vercel/blob/client";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -77,36 +76,7 @@ const Form = () => {
     setIsSubmitLoading(true);
 
     const urls = await Promise.all(
-      attachments.map(async (file) => {
-        let converted = file;
-
-        // convert heic/heif to jpeg
-        if (file.type === "image/heic" || file.type === "image/heif") {
-          if (typeof window !== "undefined") {
-            const heic2any = (await import("heic2any")).default;
-            const blob = new Blob([file], { type: file.type });
-            const convertedBlob = await heic2any({
-              blob,
-              toType: "image/jpeg",
-              quality: 0.8,
-            });
-            converted = new File(
-              [convertedBlob as Blob],
-              replaceFileExtension(file.name, "jpeg"),
-              {
-                type: "image/jpeg",
-              },
-            );
-          }
-        }
-
-        const blob = await upload(converted.name, converted, {
-          access: "public",
-          handleUploadUrl: "/api/blob/upload",
-        });
-
-        return blob.url;
-      }),
+      attachments.map(async (file) => uploadFile(file)),
     ).finally(() => setIsSubmitLoading(false));
     createPost.mutate({
       ...values,
