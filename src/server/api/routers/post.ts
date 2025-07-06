@@ -120,8 +120,6 @@ export const postRouter = createTRPCRouter({
   getByUsername: publicProcedure
     .input(z.string().optional())
     .query(async ({ ctx, input }) => {
-      if (!input) return [];
-
       const result = await ctx.db.post.findMany({
         where: { authorId: input },
         include: {
