@@ -13,7 +13,7 @@ import { BadgeAlertIcon, EyeIcon, MessageCircleIcon } from "lucide-react";
 import PostRow, { PostRowSkeleton } from "./row";
 
 type PostTableProps = {
-  data: PostWithComments[] | null;
+  data: PostWithComments[];
   showCategory?: boolean;
   showSubcategory?: boolean;
   isLoading: boolean;

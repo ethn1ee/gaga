@@ -7,16 +7,12 @@ import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
 import { getFileType, uploadFile } from "@/lib/utils";
 import { PencilIcon } from "lucide-react";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import { toast } from "sonner";
 
-const Avatar = () => {
+const Summary = () => {
   const { session, isSessionLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    setIsLoading(isSessionLoading);
-  }, [isSessionLoading]);
 
   const handleAvatarChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
@@ -45,28 +41,38 @@ const Avatar = () => {
   };
 
   return (
-    <div className="relative">
-      <div className="size-32 bg-muted rounded-full flex items-center justify-center">
-        <UserAvatar user={session?.user} isLoading={isLoading} className="size-full" />
-      </div>
-
-      <Label
-        htmlFor="avatar"
-        className="cursor-pointer absolute right-0 bottom-0"
-      >
-        <div className="rounded-full size-8 flex items-center justify-center bg-background border hover:shadow transition-all">
-          <PencilIcon size={12} />
+    <section className="flex gap-6 items-center">
+      <div className="relative">
+        <div className="size-32 bg-muted rounded-full flex items-center justify-center">
+          <UserAvatar
+            user={session?.user}
+            isLoading={isLoading || isSessionLoading}
+            className="size-full"
+          />
         </div>
-      </Label>
 
-      <Input
-        id="avatar"
-        type="file"
-        onChange={handleAvatarChange}
-        className="hidden"
-      />
-    </div>
+        <Label
+          htmlFor="avatar"
+          className="cursor-pointer absolute right-0 bottom-0"
+        >
+          <div className="rounded-full size-8 flex items-center justify-center bg-background border hover:shadow transition-all">
+            <PencilIcon size={12} />
+          </div>
+        </Label>
+
+        <Input
+          id="avatar"
+          type="file"
+          onChange={handleAvatarChange}
+          className="hidden"
+        />
+      </div>
+      <div>
+        <h1 className="text-2xl font-medium">{session?.user.name}</h1>
+        <span className="text-muted-foreground">@{session?.user.username}</span>
+      </div>
+    </section>
   );
 };
 
-export default Avatar;
+export default Summary;

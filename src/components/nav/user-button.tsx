@@ -72,9 +72,6 @@ const UserButton = () => {
           <DropdownMenuItem className="cursor-pointer">
             My posts
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            Settings
-          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
             Sign out
