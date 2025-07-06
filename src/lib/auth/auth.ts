@@ -15,17 +15,17 @@ export const auth = betterAuth({
   }),
   secret: env.NEXT_PUBLIC_BETTER_AUTH_SECRET,
   emailAndPassword: {
-    enabled: false,
+    enabled: true,
   },
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    sendVerificationEmail: async ({ user, url, token }) => {
+    sendVerificationEmail: async ({ user, url }) => {
       const { error } = await sendEmail({
         from: "EmoryLife <hello@emorylife.net>",
         to: user.email,
         subject: "Verify your email for EmoryLife",
-        text: `Click the link to verify your email: ${url} ${token}`,
+        text: `Click the link to verify your email: ${url}`,
       });
 
       if (error) {
