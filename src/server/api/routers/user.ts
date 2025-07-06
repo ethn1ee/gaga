@@ -1,5 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const userRouter = createTRPCRouter({
   getByUsername: publicProcedure
@@ -18,7 +18,7 @@ export const userRouter = createTRPCRouter({
     .input(
       z.object({
         username: z.string(),
-        image: z.string().url(),
+        image: z.url(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
