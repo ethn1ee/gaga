@@ -34,7 +34,7 @@ const UserButton = () => {
   };
 
   const handleLogIn = () => {
-    if (!session) router.push("/signin");
+    if (!session) router.push("/sign-in");
   };
 
   return (

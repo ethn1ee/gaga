@@ -1,14 +1,29 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
+import { env } from "./env";
+
+const protectedRoutes = ["/profile", "/new"];
+const publicOnlyRoutes = ["/sign-in", "/sign-up"];
 
 export async function middleware(request: NextRequest) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+  const { pathname } = request.nextUrl;
 
-  if (!session) {
-    return NextResponse.redirect(new URL("/signin", request.url));
+  if (protectedRoutes.some((route) => pathname.startsWith(route))) {
+    if (!session) {
+      const signInUrl = new URL("/sign-in", env.NEXT_PUBLIC_BASE_URL);
+      signInUrl.searchParams.set("next", pathname);
+      return NextResponse.redirect(signInUrl);
+    }
+  }
+
+  if (publicOnlyRoutes.some((route) => pathname.startsWith(route))) {
+    if (session) {
+      return NextResponse.redirect(new URL("/", env.NEXT_PUBLIC_BASE_URL));
+    }
   }
 
   return NextResponse.next();
@@ -16,5 +31,5 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   runtime: "nodejs",
-  matcher: ["/profile"],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };

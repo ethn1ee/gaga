@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form as FormComponent } from "@/components/ui/form";
-import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
 import { signUpInput, type SignUpInput } from "@/lib/schema";
 import { getNow } from "@/lib/utils";
@@ -11,50 +10,40 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Email, Name, Password, Username } from "../_form";
 
-const REDIRECT_PATH = "/";
-
 const SignUp = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const { session } = useAuth();
+  const searchParams = useSearchParams();
 
-  // redirect if already signed in
-  useEffect(() => {
-    if (session) {
-      router.push(REDIRECT_PATH);
-    }
-  }, [session, router]);
+  const redirectUrl = searchParams.get("next") ?? "/";
 
-  const form = useForm<SignUpInput>({
+  const form = useForm({
     resolver: zodResolver(signUpInput),
     defaultValues: {
       email: "",
       password: "",
+      password2: "",
       name: "",
       username: "",
+      affiliation: "None" as SignUpInput["affiliation"],
     },
     mode: "onChange",
   });
 
   const handleSubmit = async (values: SignUpInput) => {
-    setIsLoading(true);
     const { data, error } = await authClient.signUp.email({ ...values });
 
     if (!error) {
-      setIsLoading(false);
       toast.success(`Welcome, ${data.user.name.split(" ")[0]}`, {
         position: "top-center",
         description: getNow(),
       });
-      router.push(REDIRECT_PATH);
+      router.push(redirectUrl);
     } else {
-      setIsLoading(false);
       let message = "Please try again later";
       if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
         message = "Invalid username or password";
@@ -94,11 +83,12 @@ const SignUp = () => {
                   <Button
                     type="submit"
                     disabled={
-                      isLoading || !!signUpInput.safeParse(form.watch()).error
+                      form.formState.isSubmitting ||
+                      !!signUpInput.safeParse(form.watch()).error
                     }
                     className="w-full"
                   >
-                    {isLoading ? (
+                    {form.formState.isSubmitting ? (
                       <Loader2Icon className="animate-spin" />
                     ) : (
                       "Sign Up"
@@ -108,7 +98,7 @@ const SignUp = () => {
                   <div className="text-center text-sm">
                     Already have an account?{" "}
                     <Link
-                      href="/signin"
+                      href="/sign-in"
                       className="underline underline-offset-4"
                     >
                       Sign in

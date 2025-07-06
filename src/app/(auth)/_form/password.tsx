@@ -20,34 +20,67 @@ const Password = ({ isSignUp = false }: PasswordProps) => {
   const form = useFormContext<SignInInput | SignUpInput>();
 
   return (
-    <FormField
-      control={form.control}
-      name="password"
-      render={({ field }) => (
-        <FormItem className="grid gap-3">
-          <div className="flex items-center">
-            <FormLabel htmlFor="password">Password</FormLabel>
-            {!isSignUp && (
-              <Link
-                href="#"
-                className="ml-auto text-sm underline-offset-2 hover:underline"
-              >
-                Forgot your password?
-              </Link>
-            )}
-          </div>
-          <FormControl>
-            <Input
-              {...field}
-              placeholder="Enter your password"
-              type="password"
-              required
-            />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
+    <>
+      <FormField
+        control={form.control}
+        name="password"
+        render={({ field }) => (
+          <FormItem className="grid gap-3">
+            <div className="flex items-center">
+              <FormLabel htmlFor="password">Password</FormLabel>
+              {!isSignUp && (
+                <Link
+                  href="#"
+                  className="ml-auto text-sm underline-offset-2 hover:underline"
+                >
+                  Forgot your password?
+                </Link>
+              )}
+            </div>
+            <FormControl>
+              <Input
+                {...field}
+                placeholder="Enter your password"
+                type="password"
+                required
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      {isSignUp && (
+        <FormField
+          control={form.control}
+          name="password2"
+          render={({ field }) => (
+            <FormItem className="grid gap-3">
+              <div className="flex items-center">
+                <FormLabel htmlFor="password">Confirm Password</FormLabel>
+                {!isSignUp && (
+                  <Link
+                    href="#"
+                    className="ml-auto text-sm underline-offset-2 hover:underline"
+                  >
+                    Forgot your password?
+                  </Link>
+                )}
+              </div>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder="Confirm your password"
+                  type="password"
+                  required
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       )}
-    />
+    </>
   );
 };
 

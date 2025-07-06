@@ -4,7 +4,7 @@ import { PostTable } from "@/components/post";
 import { useAuth } from "@/hooks";
 import { api } from "@/trpc/react";
 
-const MyPosts = () => {
+const Posts = () => {
   const { session, isSessionLoading } = useAuth();
 
   const { data: posts = [], isLoading } = api.post.getByUsername.useQuery(
@@ -29,4 +29,4 @@ const MyPosts = () => {
   );
 };
 
-export default MyPosts;
+export default Posts;

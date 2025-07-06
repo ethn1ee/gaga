@@ -3,6 +3,7 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -13,10 +14,10 @@ import {
 } from "@/components/ui/table";
 import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
-import { AlertCircleIcon } from "lucide-react";
+import { AlertCircleIcon, CheckIcon } from "lucide-react";
 import { toast } from "sonner";
 
-const MyInformation = () => {
+const Information = () => {
   const { session, isSessionLoading } = useAuth();
 
   const handleEmailVerification = async () => {
@@ -71,19 +72,33 @@ const MyInformation = () => {
           <TableBody className="*:h-12">
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>{session?.user.name}</TableCell>
+              <TableCell>
+                {session?.user.name ?? <Skeleton className="w-20 h-5" />}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Username</TableCell>
-              <TableCell>{session?.user.username}</TableCell>
+              <TableCell>
+                {session?.user.username ?? <Skeleton className="w-20 h-5" />}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell>Email</TableCell>
               <TableCell>
-                {session?.user.email}
-                <Badge variant="destructive" className="ml-2 text-xs py-0.5">
-                  {session?.user.emailVerified ? "Verified" : "Unverified"}
-                </Badge>
+                {session?.user.email ?? <Skeleton className="w-20 h-5" />}
+                {!isSessionLoading &&
+                  (session?.user.emailVerified ? (
+                    <Badge className="ml-2 p-0.5 rounded-full relative top-0.5 bg-cyan-600">
+                      <CheckIcon />
+                    </Badge>
+                  ) : (
+                    <Badge
+                      variant="destructive"
+                      className="ml-2 text-xs py-0.5"
+                    >
+                      Unverified
+                    </Badge>
+                  ))}
               </TableCell>
             </TableRow>
           </TableBody>
@@ -93,4 +108,4 @@ const MyInformation = () => {
   );
 };
 
-export default MyInformation;
+export default Information;

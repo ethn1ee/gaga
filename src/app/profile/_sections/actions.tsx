@@ -2,10 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const Actions = () => {
+  const router = useRouter();
+
   const handleSignOut = async () => {
+    router.push("/");
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {

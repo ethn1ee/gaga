@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const commentInput = z.object({
   content: z.string().min(1, "Comment cannot be empty"),

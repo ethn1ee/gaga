@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form as FormComponent } from "@/components/ui/form";
-import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
 import { signInInput, type SignInInput } from "@/lib/schema";
 import { getNow } from "@/lib/utils";
@@ -11,25 +10,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Password, Username } from "../_form";
 
-const REDIRECT_PATH = "/";
-
 const SignIn = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const { session } = useAuth();
+  const searchParams = useSearchParams();
 
-  // redirect if already signed in
-  useEffect(() => {
-    if (session) {
-      router.push(REDIRECT_PATH);
-    }
-  }, [session, router]);
+  const redirectUrl = searchParams.get("next") ?? "/";
 
   const form = useForm<SignInInput>({
     resolver: zodResolver(signInInput),
@@ -41,18 +31,15 @@ const SignIn = () => {
   });
 
   const handleSubmit = async (values: SignInInput) => {
-    setIsLoading(true);
     const { data, error } = await authClient.signIn.username({ ...values });
 
     if (!error) {
-      setIsLoading(false);
+      router.push(redirectUrl);
       toast.success(`Welcome, ${data.user.name.split(" ")[0]}`, {
         position: "top-center",
         description: getNow(),
       });
-      router.push(REDIRECT_PATH);
     } else {
-      setIsLoading(false);
       let message = "Please try again later";
       if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
         message = "Invalid username or password";
@@ -91,11 +78,12 @@ const SignIn = () => {
                     <Button
                       type="submit"
                       disabled={
-                        isLoading || !!signInInput.safeParse(form.watch()).error
+                        form.formState.isSubmitting ||
+                        !!signInInput.safeParse(form.watch()).error
                       }
                       className="w-full"
                     >
-                      {isLoading ? (
+                      {form.formState.isSubmitting ? (
                         <Loader2Icon className="animate-spin" />
                       ) : (
                         "Sign in"
@@ -105,7 +93,7 @@ const SignIn = () => {
                     <div className="text-center text-sm">
                       Don&apos;t have an account?{" "}
                       <Link
-                        href="/signup"
+                        href="/sign-up"
                         className="underline underline-offset-4"
                       >
                         Sign up
