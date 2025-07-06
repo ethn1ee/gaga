@@ -7,8 +7,11 @@ import { api } from "@/trpc/react";
 const MyPosts = () => {
   const { session, isSessionLoading } = useAuth();
 
-  const [posts, query] = api.post.getByUsername.useSuspenseQuery(
-    session?.user.username ?? undefined,
+  const { data: posts = [], isLoading } = api.post.getByUsername.useQuery(
+    session?.user.username ?? "",
+    {
+      enabled: !!session?.user.username,
+    },
   );
 
   return (
@@ -20,10 +23,7 @@ const MyPosts = () => {
         </span>
       </h2>
       <div className="border p-3 rounded-md">
-        <PostTable
-          data={posts}
-          isLoading={query.isLoading || isSessionLoading}
-        />
+        <PostTable data={posts} isLoading={isLoading || isSessionLoading} />
       </div>
     </section>
   );
