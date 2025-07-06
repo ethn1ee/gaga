@@ -6,8 +6,13 @@ import { api } from "@/trpc/react";
 
 const MyPosts = () => {
   const { session, isSessionLoading } = useAuth();
+
+  if (!session) {
+    return;
+  }
+
   const [posts, query] = api.post.getByUsername.useSuspenseQuery(
-    session?.user.username ?? "",
+    session.user.username ?? "",
   );
 
   return (

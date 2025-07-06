@@ -13,7 +13,7 @@ type UserAvatarProps = {
 
 const UserAvatar = ({ user, className, isLoading }: UserAvatarProps) => {
   const initials = getInitials(user?.name ?? "");
-  const avatar = user?.image ?? null;
+  const avatar = user?.image ?? undefined;
 
   return (
     <div
