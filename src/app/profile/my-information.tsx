@@ -32,6 +32,7 @@ const MyInformation = () => {
       })
       .finally(() => {
         toast.success("Verification email sent!", {
+          description: session.user.email,
           position: "top-center",
         });
       });
@@ -46,7 +47,12 @@ const MyInformation = () => {
           <AlertDescription>
             You won&apos;t be able to post or comment until you verify your
             associated Emory email.
-            <Button onClick={handleEmailVerification} className="mt-2">
+            <Button
+              onClick={handleEmailVerification}
+              size="sm"
+              variant="secondary"
+              className="mt-2"
+            >
               Send Verification Email
             </Button>
           </AlertDescription>

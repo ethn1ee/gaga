@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         description: "Please try again later",
         position: "top-center",
       });
-      console.error(error);
+      console.error("Error fetching session:", error);
     }
   }, [error, isMounted]);
 
