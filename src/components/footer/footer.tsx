@@ -3,16 +3,28 @@
 import { Button } from "@/components/ui/button";
 import { categories } from "@/site-config";
 import { IconBrandGithub } from "@tabler/icons-react";
+import { motion, useMotionValueEvent, useScroll } from "motion/react";
 import Link from "next/link";
+import { useState } from "react";
 
 const Footer = () => {
+  const { scrollYProgress } = useScroll();
+  const [opacity, setOpacity] = useState(0);
+
+  useMotionValueEvent(scrollYProgress, "change", (val) => {
+    setOpacity(val / 2 + 0.5);
+  });
+
   return (
     <footer
       style={{ clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)" }}
       className="max-md:hidden h-[400px] relative"
     >
-      <div className="relative h-[calc(100vh+400px)] -top-[100vh]">
-        <div className="sticky h-[400px] top-[calc(100vh-400px)] bg-accent">
+      <div className="relative h-[calc(100vh+400px)] -top-[100vh] bg-foreground">
+        <motion.div
+          animate={{ opacity }}
+          className="sticky h-[400px] top-[calc(100vh-400px)] bg-accent"
+        >
           <div className="relative h-full container mx-auto flex flex-wrap gap-10 justify-between p-4 overflow-hidden">
             <span className="grow-0 shrink-0 text-9xl font-thin tracking-tighter text-muted-foreground">
               EmoryLife
@@ -59,7 +71,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
