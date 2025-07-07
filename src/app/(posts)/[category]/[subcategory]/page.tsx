@@ -1,33 +1,22 @@
-"use client";
-
-import { PostTable } from "@/components/post";
-import Title from "@/components/title";
-import { api } from "@/trpc/react";
-import { use } from "react";
+import { PaginatedPostTable } from "@/components/post";
 
 type SubcategoryProps = {
   params: Promise<{ category: string; subcategory: string }>;
 };
 
-const Subcategory = ({ params }: SubcategoryProps) => {
-  const { category, subcategory } = use(params);
-
-  const [data, query] = api.post.getByCategoryAndSubcategory.useSuspenseQuery({
-    category,
-    subcategory,
-  });
+const Subcategory = async ({ params }: SubcategoryProps) => {
+  const { category, subcategory } = await params;
 
   return (
-    <div className="mt-4">
-      <Title
-        primary={category}
-        secondary={subcategory}
-        size="xs"
-        withLink
-        className="md:hidden absolute top-3.5 left-14 z-30"
+    <div className="flex-1 flex flex-col justify-between">
+      <PaginatedPostTable
+        isLoading={!category || !subcategory}
+        query={{
+          category,
+          subcategory,
+        }}
+        numRows={20}
       />
-
-      <PostTable data={data} isLoading={query.isLoading} />
     </div>
   );
 };

@@ -1,7 +1,6 @@
 "use client";
 
-import { PostTable } from "@/components/post";
-import { api } from "@/trpc/react";
+import { PaginatedPostTable } from "@/components/post";
 import { notFound, useSearchParams } from "next/navigation";
 
 const Results = () => {
@@ -12,11 +11,15 @@ const Results = () => {
     notFound();
   }
 
-  const [data, query] = api.post.search.useSuspenseQuery(q);
-
   return (
-    <div className="min-h-[50svh] flex flex-col mt-4">
-      <PostTable data={data} isLoading={query.isLoading} />
+    <div className="flex-1 flex flex-col justify-between">
+      <PaginatedPostTable
+        isLoading={!q}
+        query={{
+          q,
+        }}
+        numRows={20}
+      />
     </div>
   );
 };

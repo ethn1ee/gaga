@@ -21,7 +21,7 @@ type PaginatedPostTableProps = {
   isLoading: boolean;
   mode?: TableMode;
   size?: TableSize;
-  query: Partial<PostInput>;
+  query: Partial<PostInput> & { q?: string };
 };
 
 const PaginatedPostTable = ({
@@ -35,7 +35,7 @@ const PaginatedPostTable = ({
   const [page, setPage] = useState(0);
 
   const numPages = Math.ceil((data?.length ?? 0) / numRows);
-  const isLastPage = page === numPages - 1;
+  const isLastPage = numPages === 0 || page === numPages - 1;
 
   const {
     data: pages,
@@ -76,7 +76,12 @@ const PaginatedPostTable = ({
 
   return (
     <>
-      <PostTable data={toShow} isLoading={isLoading || isQueryLoading} mode={mode} size={size} />
+      <PostTable
+        data={toShow}
+        isLoading={isLoading || isQueryLoading}
+        mode={mode}
+        size={size}
+      />
 
       <Pagination>
         <PaginationContent>

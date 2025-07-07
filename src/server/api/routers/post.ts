@@ -193,15 +193,39 @@ export const postRouter = createTRPCRouter({
       z.object({
         limit: z.number(),
         cursor: z.string().nullish(),
-        query: postInput.partial(),
+        query: z.object({
+          ...postInput.partial().shape,
+          q: z.string().min(1).optional(),
+        }),
       }),
     )
     .query(async ({ ctx, input }) => {
       const { limit, cursor, query } = input;
+      const formattedQ = query.q?.replaceAll(" ", " & ") ?? "";
 
-      const where = Object.fromEntries(
-        Object.entries(query).filter(([_, v]) => !!v),
-      );
+      const where = {
+        AND: [
+          Object.fromEntries(
+            Object.entries(query).filter(([k, v]) => k !== "q" && !!v),
+          ),
+          query.q
+            ? {
+                OR: [
+                  {
+                    title: {
+                      search: formattedQ,
+                    },
+                  },
+                  {
+                    content: {
+                      search: formattedQ,
+                    },
+                  },
+                ],
+              }
+            : {},
+        ],
+      };
 
       const result = await ctx.db.post.findMany({
         take: limit + 1,
@@ -210,7 +234,10 @@ export const postRouter = createTRPCRouter({
           ...where,
         },
         ...resultSchema,
-        orderBy: { createdAt: "desc" },
+
+        orderBy: {
+          createdAt: "desc",
+        },
       });
 
       let nextCursor: typeof cursor | undefined = undefined;
