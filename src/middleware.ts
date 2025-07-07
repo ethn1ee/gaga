@@ -1,7 +1,8 @@
+import { env } from "@/env";
 import { auth } from "@/lib/auth";
+import { isValidPath } from "@/lib/utils";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
-import { env } from "./env";
 
 const protectedRoutes = ["/profile", "/new"];
 const publicOnlyRoutes = ["/sign-in", "/sign-up"];
@@ -24,6 +25,10 @@ export async function middleware(request: NextRequest) {
     if (session) {
       return NextResponse.redirect(new URL("/", env.NEXT_PUBLIC_BASE_URL));
     }
+  }
+
+  if (!isValidPath(pathname.split("/").slice(1))) {
+    return NextResponse.redirect(new URL("/", env.NEXT_PUBLIC_BASE_URL));
   }
 
   return NextResponse.next();

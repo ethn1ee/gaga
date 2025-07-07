@@ -5,6 +5,8 @@ import { Nav } from "@/components/nav";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/contexts/auth-context";
 import { TRPCReactProvider } from "@/trpc/react";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 
@@ -33,6 +35,8 @@ export default function RootLayout({
           <Toaster />
         </div>
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

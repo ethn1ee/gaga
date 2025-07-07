@@ -1,8 +1,8 @@
-"use client";
-
 import { categories } from "@/site-config";
 
 export const isValidPath = (path: string[]) => {
+  if (path.length === 0 || path[0] === "") return true;
+
   return categories.some((category) => {
     if (category.slug === path[0]?.toLowerCase()) {
       if (path[1]) {
