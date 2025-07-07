@@ -3,8 +3,7 @@ import { Search } from "@/components/search";
 import { api } from "@/trpc/server";
 import { FlameIcon, ImageIcon } from "lucide-react";
 import { Suspense } from "react";
-import CategoryThumbnails from "./category-thumbnails";
-import RecentPhotos from "./recent-photos";
+import { CategoryThumbnails, RecentPhotos } from "./_sections";
 
 export const dynamic = "force-dynamic";
 
