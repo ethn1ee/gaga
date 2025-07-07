@@ -1,17 +1,12 @@
-import { Search } from "@/components/search";
 import { type ReactNode, Suspense } from "react";
 
 export const experimental_ppr = true;
 
 const PostsLayout = ({ children }: { children: Readonly<ReactNode> }) => {
   return (
-    <main>
-      <Suspense>
-        <Search />
-      </Suspense>
-
-      {children}
-    </main>
+    <>
+      <Suspense>{children}</Suspense>
+    </>
   );
 };
 
