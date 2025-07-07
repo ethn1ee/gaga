@@ -5,7 +5,10 @@ import { getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { notFound } from "next/navigation";
 import { use, useEffect, useRef } from "react";
-import { Attachments, Carousel, Category, Comments } from "./_components";
+import Attachments from "./_components/attachments";
+import Carousel from "./_components/carousel";
+import Category from "./_components/category";
+import Comments from "./_components/comments";
 
 type PostProps = {
   params: Promise<{ id: string }>;

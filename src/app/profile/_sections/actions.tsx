@@ -9,16 +9,17 @@ const Actions = () => {
   const router = useRouter();
 
   const handleSignOut = async () => {
-    router.push("/");
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Successfully signed out!", {
-            position: "top-center",
-          });
+    await authClient
+      .signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Successfully signed out!", {
+              position: "top-center",
+            });
+          },
         },
-      },
-    });
+      })
+      .finally(() => router.push("/"));
   };
 
   return (
