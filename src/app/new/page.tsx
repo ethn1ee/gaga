@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Form } from "./_form";
+import Form from "./_form/form";
 
 const New = async () => {
   return (
