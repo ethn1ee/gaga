@@ -1,16 +1,30 @@
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { env } from "@/env";
 import type { PostWithComments } from "@/lib/schema";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { type User } from "@prisma/client";
+import { EllipsisIcon } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Skeleton } from "../ui/skeleton";
+import { Button } from "../ui/button";
 import { UserAvatar } from "../user";
+import { type TableMode } from "./table";
 
 type PostRowProps = {
   post: PostWithComments;
+  mode: TableMode;
 };
 
-const PostRow = ({ post }: PostRowProps) => {
+const PostRow = ({ post, mode }: PostRowProps) => {
   const router = useRouter();
   const uniqueCommenters = post.comments.reduce((acc, comment) => {
     if (!acc.some((user) => user.username === comment.authorId)) {
@@ -19,19 +33,26 @@ const PostRow = ({ post }: PostRowProps) => {
     return acc;
   }, [] as User[]);
 
+  const url = `/post/${post.id}`;
+
   const handleClick = () => {
-    router.push(`/post/${post.id}`);
+    router.push(url);
   };
 
   return (
-    <TableRow onClick={handleClick} className="cursor-pointer">
+    <TableRow
+      onClick={mode === "default" ? handleClick : undefined}
+      className="group-data-[mode=default]:cursor-pointer group-data-[mode=data]:hover:bg-background"
+    >
       <TableCell className="truncate">
         <span className="text-lg group-data-[size=sm]:text-base font-normal">
           {post.title}
         </span>
         <div className="space-x-1 text-muted-foreground text-sm">
-          <span>{post.author.name}</span>
-          <span>·</span>
+          <span className="group-data-[mode=data]:hidden">
+            {post.author.name}
+          </span>
+          <span className="group-data-[mode=data]:hidden">·</span>
           <span>{getRelativeTime(post.createdAt)}</span>
         </div>
       </TableCell>
@@ -49,10 +70,41 @@ const PostRow = ({ post }: PostRowProps) => {
             ))}
         </div>
       </TableCell>
+
       <TableCell className="text-center">
         {formatNumber(post.comments.length)}
       </TableCell>
+
       <TableCell className="text-center">{formatNumber(post.views)}</TableCell>
+
+      <TableCell className="hidden group-data-[mode=data]:table-cell">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <EllipsisIcon className="text-muted-foreground" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="**:cursor-pointer">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() =>
+                navigator.clipboard.writeText(env.NEXT_PUBLIC_BASE_URL + url)
+              }
+            >
+              Copy Link
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <Link href={url}>
+              <DropdownMenuItem>View</DropdownMenuItem>
+            </Link>
+            {/* TODO: create edit page */}
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </TableCell>
     </TableRow>
   );
 };
@@ -79,6 +131,9 @@ export const PostRowSkeleton = () => {
       </TableCell>
       <TableCell className="text-center"></TableCell>
       <TableCell className="text-center"></TableCell>
+      <TableCell className="hidden group-data-[mode=data]:table-cell">
+        <EllipsisIcon size={16} className="text-muted-foreground mx-auto" />
+      </TableCell>
     </TableRow>
   );
 };

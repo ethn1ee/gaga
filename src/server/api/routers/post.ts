@@ -187,4 +187,40 @@ export const postRouter = createTRPCRouter({
 
     return result;
   }),
+
+  getBatch: publicProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        cursor: z.string().nullish(),
+        query: postInput.partial(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { limit, cursor, query } = input;
+
+      const where = Object.fromEntries(
+        Object.entries(query).filter(([_, v]) => !!v),
+      );
+
+      const result = await ctx.db.post.findMany({
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        where: {
+          ...where,
+        },
+        ...resultSchema,
+        orderBy: { createdAt: "desc" },
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (result.length > limit) {
+        const nextItem = result.pop();
+        nextCursor = nextItem?.id;
+      }
+      return {
+        items: result,
+        nextCursor,
+      };
+    }),
 });

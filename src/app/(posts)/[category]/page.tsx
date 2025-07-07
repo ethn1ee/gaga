@@ -9,11 +9,11 @@ import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 
-type SubcategoryProps = {
+type CategoryProps = {
   params: Promise<{ category: string }>;
 };
 
-const Subcategory = ({ params }: SubcategoryProps) => {
+const Category = ({ params }: CategoryProps) => {
   const { category } = use(params);
 
   const [data, query] = api.post.getByCategory.useSuspenseQuery(category);
@@ -67,4 +67,4 @@ const Subcategory = ({ params }: SubcategoryProps) => {
   );
 };
 
-export default Subcategory;
+export default Category;

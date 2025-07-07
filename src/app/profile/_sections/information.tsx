@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/table";
 import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
-import { AlertCircleIcon, CheckIcon } from "lucide-react";
+import { AlertCircleIcon, CircleCheckIcon } from "lucide-react";
 import { toast } from "sonner";
 
 const Information = () => {
@@ -88,9 +88,10 @@ const Information = () => {
                 {session?.user.email ?? <Skeleton className="w-20 h-5" />}
                 {!isSessionLoading &&
                   (session?.user.emailVerified ? (
-                    <Badge className="ml-2 p-0.5 rounded-full relative top-0.5 bg-cyan-600">
-                      <CheckIcon />
-                    </Badge>
+                    <CircleCheckIcon
+                      size={20}
+                      className="ml-2 inline text-white fill-cyan-600"
+                    />
                   ) : (
                     <Badge
                       variant="destructive"
