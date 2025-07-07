@@ -1,12 +1,10 @@
 "use client";
 
-import {
-  Actions,
-  EmoryAffiliation,
-  Information,
-  Posts,
-  Summary,
-} from "./_sections";
+import Actions from "./_sections/actions";
+import EmoryAffiliation from "./_sections/emory-affiliation";
+import Information from "./_sections/information";
+import Posts from "./_sections/posts";
+import Summary from "./_sections/summary";
 
 const Profile = () => {
   return (
