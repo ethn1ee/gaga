@@ -23,6 +23,7 @@ const Footer = () => {
       <div className="relative h-[calc(100vh+400px)] -top-[100vh] bg-foreground">
         <motion.div
           animate={{ opacity }}
+          transition={{ duration: 0.1 }}
           className="sticky h-[400px] top-[calc(100vh-400px)] bg-accent"
         >
           <div className="relative h-full container mx-auto flex flex-wrap gap-10 justify-between p-4 overflow-hidden">

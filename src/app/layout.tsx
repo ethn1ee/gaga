@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>
-        <div className="bg-background min-h-svh pb-20 border-b">
+        <div className="bg-background min-h-svh border-b">
           <AuthProvider>
             <Nav />
             <TRPCReactProvider>{children}</TRPCReactProvider>

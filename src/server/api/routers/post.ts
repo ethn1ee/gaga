@@ -187,4 +187,67 @@ export const postRouter = createTRPCRouter({
 
     return result;
   }),
+
+  getBatch: publicProcedure
+    .input(
+      z.object({
+        limit: z.number(),
+        cursor: z.string().nullish(),
+        query: z.object({
+          ...postInput.partial().shape,
+          q: z.string().min(1).optional(),
+        }),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { limit, cursor, query } = input;
+      const formattedQ = query.q?.replaceAll(" ", " & ") ?? "";
+
+      const where = {
+        AND: [
+          Object.fromEntries(
+            Object.entries(query).filter(([k, v]) => k !== "q" && !!v),
+          ),
+          query.q
+            ? {
+                OR: [
+                  {
+                    title: {
+                      search: formattedQ,
+                    },
+                  },
+                  {
+                    content: {
+                      search: formattedQ,
+                    },
+                  },
+                ],
+              }
+            : {},
+        ],
+      };
+
+      const result = await ctx.db.post.findMany({
+        take: limit + 1,
+        cursor: cursor ? { id: cursor } : undefined,
+        where: {
+          ...where,
+        },
+        ...resultSchema,
+
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+
+      let nextCursor: typeof cursor | undefined = undefined;
+      if (result.length > limit) {
+        const nextItem = result.pop();
+        nextCursor = nextItem?.id;
+      }
+      return {
+        items: result,
+        nextCursor,
+      };
+    }),
 });
