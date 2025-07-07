@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const postInput = z.object({
   title: z.string().min(1, "Title is required"),

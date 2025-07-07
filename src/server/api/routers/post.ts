@@ -1,7 +1,7 @@
 import { postInput } from "@/lib/schema";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const resultSchema = {
   include: {
@@ -22,7 +22,7 @@ export const postRouter = createTRPCRouter({
   }),
 
   incrementView: publicProcedure
-    .input(z.string().cuid2())
+    .input(z.cuid2())
     .mutation(async ({ ctx, input }) => {
       const result = await ctx.db.post.update({
         where: {
@@ -93,29 +93,27 @@ export const postRouter = createTRPCRouter({
       return posts;
     }),
 
-  getById: publicProcedure
-    .input(z.string().cuid2())
-    .query(async ({ ctx, input }) => {
-      const result = await ctx.db.post.findUnique({
-        where: { id: input },
-        include: {
-          comments: {
-            include: {
-              author: true,
-              childs: {
-                include: {
-                  author: true,
-                },
+  getById: publicProcedure.input(z.cuid2()).query(async ({ ctx, input }) => {
+    const result = await ctx.db.post.findUnique({
+      where: { id: input },
+      include: {
+        comments: {
+          include: {
+            author: true,
+            childs: {
+              include: {
+                author: true,
               },
             },
-            orderBy: { createdAt: "desc" },
           },
-          author: true,
+          orderBy: { createdAt: "desc" },
         },
-      });
+        author: true,
+      },
+    });
 
-      return result;
-    }),
+    return result;
+  }),
 
   getByUsername: publicProcedure
     .input(z.string().optional())
