@@ -18,8 +18,8 @@ import { PaperclipIcon } from "lucide-react";
 import { type Dispatch, type SetStateAction } from "react";
 import { useFormContext } from "react-hook-form";
 
-const MAX_SIZE_MB = 4,
-  MAX_FILES = 5;
+const MAX_SIZE_MB = 10,
+  MAX_FILES = 10;
 
 type AttachmentInputProps = {
   attachments: File[];
