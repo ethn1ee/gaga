@@ -47,16 +47,21 @@ const SignUp = () => {
           router.push(redirectUrl);
         },
         onError: ({ error }) => {
-          let message = "Please try again later";
-          if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
-            message = "Invalid username or password";
+          let message: string;
+          switch (error.code) {
+            case "USERNAME_IS_ALREADY_TAKEN_PLEASE_TRY_ANOTHER":
+              message = "Username already taken";
+              break;
+
+            default:
+              message = "Unknown error occurred";
+              console.error(error);
           }
 
           toast.error("Failed to sign in!", {
             position: "top-center",
             description: message,
           });
-          console.error(error);
         },
       },
     });

@@ -41,17 +41,21 @@ const SignIn = () => {
           router.push(redirectUrl);
         },
         onError: ({ error }) => {
-          let message = "Please try again later";
-          if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
-            message = "Invalid username or password";
-            return;
+          let message: string;
+          switch (error.code) {
+            case "INVALID_USERNAME_OR_PASSWORD":
+              message = "Invalid username or password";
+              break;
+
+            default:
+              message = "Unknown error occurred";
+              console.error(error);
           }
 
           toast.error("Failed to sign in!", {
             position: "top-center",
             description: message,
           });
-          console.error(error);
         },
       },
     });
