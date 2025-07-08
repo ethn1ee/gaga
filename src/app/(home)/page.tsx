@@ -5,8 +5,6 @@ import CategoryThumbnails from "./_sections/category-thumbnails";
 import HotPosts from "./_sections/hot-posts";
 import RecentPhotos from "./_sections/recent-photos";
 
-export const dynamic = "force-dynamic";
-
 export default async function Page() {
   const categoryStats = await api.category.getStats();
 

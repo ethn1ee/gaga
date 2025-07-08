@@ -1,7 +1,5 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
 import NavDesktop from "./nav-desktop";
 import NavMobile from "./nav-mobile";
 
