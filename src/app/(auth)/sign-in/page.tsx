@@ -30,32 +30,45 @@ const SignIn = () => {
   });
 
   const handleSubmit = async (values: SignInInput) => {
-    const { data, error } = await authClient.signIn.username({
+    await authClient.signIn.username({
       ...values,
       fetchOptions: {
-        onSuccess: (ctx) => {
-          router.push(redirectUrl);
-          toast.success(`Welcome, ${ctx.data.user.name.split(" ")[0]}`, {
+        onSuccess: () => {
+          toast.success("Welcome back!", {
             position: "top-center",
             description: getNow(),
           });
+          router.push(redirectUrl);
+        },
+        onError: ({ error }) => {
+          let message = "Please try again later";
+          if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
+            message = "Invalid username or password";
+            return;
+          }
+
+          toast.error("Failed to sign in!", {
+            position: "top-center",
+            description: message,
+          });
+          console.error(error);
         },
       },
     });
 
-    if (error) {
-      let message = "Please try again later";
-      if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
-        message = "Invalid username or password";
-      }
+    // if (error) {
+    //   let message = "Please try again later";
+    //   if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
+    //     message = "Invalid username or password";
+    //   }
 
-      toast.error("Failed to sign in!", {
-        position: "top-center",
-        description: message,
-      });
-      console.error(error);
-      return;
-    }
+    //   toast.error("Failed to sign in!", {
+    //     position: "top-center",
+    //     description: message,
+    //   });
+    //   console.error(error);
+    //   return;
+    // }
   };
 
   return (
