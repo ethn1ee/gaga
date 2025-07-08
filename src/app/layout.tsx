@@ -27,13 +27,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>
-        <div className="bg-background min-h-svh border-b">
-          <AuthProvider>
-            <Nav />
+        <AuthProvider>
+          <Nav />
+          <div className="bg-background min-h-svh md:border-b pt-14 md:pt-20">
             <TRPCReactProvider>{children}</TRPCReactProvider>
-          </AuthProvider>
-          <Toaster />
-        </div>
+          </div>
+        </AuthProvider>
+        <Toaster />
         <Footer />
         <Analytics />
         <SpeedInsights />

@@ -19,10 +19,14 @@ const Username = () => {
       control={form.control}
       name="username"
       render={({ field }) => (
-        <FormItem className="grid gap-3">
+        <FormItem>
           <FormLabel htmlFor="email">Username</FormLabel>
           <FormControl>
-            <Input {...field} placeholder="Enter your username" required />
+            <Input
+              {...field}
+              placeholder="Enter your username"
+              className="clear-input-style h-10 !ring ring-border"
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

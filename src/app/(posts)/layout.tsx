@@ -6,7 +6,7 @@ export const experimental_ppr = true;
 
 const PostsLayout = ({ children }: { children: Readonly<ReactNode> }) => {
   return (
-    <main className="flex flex-col gap-4 h-one-page">
+    <main className="flex flex-col gap-4 min-h-one-page pt-4">
       <Suspense>
         <Search />
       </Suspense>

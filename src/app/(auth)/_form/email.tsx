@@ -28,10 +28,14 @@ const Email = () => {
         control={form.control}
         name="email"
         render={({ field }) => (
-          <FormItem className="grid gap-3">
+          <FormItem>
             <FormLabel htmlFor="email">Email</FormLabel>
             <FormControl>
-              <Input {...field} placeholder="john.doe@example.com" required />
+              <Input
+                {...field}
+                placeholder="john.doe@example.com"
+                className="clear-input-style h-10 !ring ring-border"
+              />
             </FormControl>
             <FormDescription>
               Enter Emory email if you are an affiliate
@@ -46,12 +50,12 @@ const Email = () => {
           control={form.control}
           name="affiliation"
           render={({ field }) => (
-            <FormItem className="grid gap-3">
+            <FormItem>
               <FormLabel htmlFor="affiliation">Affiliation</FormLabel>
               <FormControl>
                 <Select defaultValue="" onValueChange={field.onChange}>
                   <FormControl>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="clear-input-style h-10 !ring ring-border w-full">
                       <SelectValue placeholder="Select your Emory affiliation" />
                     </SelectTrigger>
                   </FormControl>

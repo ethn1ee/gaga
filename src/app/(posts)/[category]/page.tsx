@@ -28,7 +28,7 @@ const Category = ({ params }: CategoryProps) => {
 
   return (
     <div className="w-full">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-4 mt-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-4 mt-4">
         {[...subcategoriesMap.entries()]
           .slice(0, 5)
           .map(([subcategory, posts]) => (

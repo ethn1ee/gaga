@@ -27,10 +27,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
 
   return (
     <nav
-      className={cn(
-        "w-screen fixed top-0 left-0 flex justify-between px-4 py-2 items-center border-b z-50 bg-background",
-        className,
-      )}
+      className={cn("flex justify-between px-4 py-2 items-center", className)}
     >
       <div className="flex gap-4 items-center">
         <Button

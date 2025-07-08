@@ -25,7 +25,7 @@ const Password = ({ isSignUp = false }: PasswordProps) => {
         control={form.control}
         name="password"
         render={({ field }) => (
-          <FormItem className="grid gap-3">
+          <FormItem>
             <div className="flex items-center">
               <FormLabel htmlFor="password">Password</FormLabel>
               {!isSignUp && (
@@ -42,7 +42,7 @@ const Password = ({ isSignUp = false }: PasswordProps) => {
                 {...field}
                 placeholder="Enter your password"
                 type="password"
-                required
+                className="clear-input-style h-10 !ring ring-border"
               />
             </FormControl>
             <FormMessage />
@@ -55,7 +55,7 @@ const Password = ({ isSignUp = false }: PasswordProps) => {
           control={form.control}
           name="password2"
           render={({ field }) => (
-            <FormItem className="grid gap-3">
+            <FormItem>
               <div className="flex items-center">
                 <FormLabel htmlFor="password">Confirm Password</FormLabel>
                 {!isSignUp && (
@@ -72,7 +72,7 @@ const Password = ({ isSignUp = false }: PasswordProps) => {
                   {...field}
                   placeholder="Confirm your password"
                   type="password"
-                  required
+                  className="clear-input-style h-10 !ring ring-border"
                 />
               </FormControl>
               <FormMessage />
