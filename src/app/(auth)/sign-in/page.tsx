@@ -8,17 +8,17 @@ import { getNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import Password from "../_form/password";
 import Username from "../_form/username";
 
 const SignIn = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const redirectUrl = searchParams.get("next") ?? "/";
+  console.log(redirectUrl);
 
   const form = useForm<SignInInput>({
     resolver: zodResolver(signInInput),
@@ -38,7 +38,7 @@ const SignIn = () => {
             position: "top-center",
             description: getNow(),
           });
-          router.push(redirectUrl);
+          window.location.href = redirectUrl;
         },
         onError: ({ error }) => {
           let message: string;
