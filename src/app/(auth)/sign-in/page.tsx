@@ -56,7 +56,7 @@ const SignIn = () => {
     <FormComponent {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col gap-5 w-full max-w-lg"
+        className="flex flex-col gap-6 w-full max-w-lg"
       >
         <div className="flex flex-col">
           <h1 className="text-2xl font-bold">Welcome back</h1>

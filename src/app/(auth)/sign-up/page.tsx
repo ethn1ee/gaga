@@ -62,9 +62,9 @@ const SignUp = () => {
     <FormComponent {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="w-lg p-6 relative z-10 flex flex-col gap-6 backdrop-blur-md rounded-2xl bg-background/70 shadow-xl"
+        className="flex flex-col gap-6 w-full max-w-lg"
       >
-        <div className="flex flex-col items-center text-center">
+        <div className="flex flex-col">
           <h1 className="text-2xl font-bold">Welcome</h1>
           <p className="text-muted-foreground text-balance">
             Create your EmoryLife account
