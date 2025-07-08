@@ -55,20 +55,6 @@ const SignIn = () => {
         },
       },
     });
-
-    // if (error) {
-    //   let message = "Please try again later";
-    //   if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
-    //     message = "Invalid username or password";
-    //   }
-
-    //   toast.error("Failed to sign in!", {
-    //     position: "top-center",
-    //     description: message,
-    //   });
-    //   console.error(error);
-    //   return;
-    // }
   };
 
   return (
