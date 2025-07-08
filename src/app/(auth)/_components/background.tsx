@@ -32,12 +32,12 @@ const ScrollingGallery = ({
     >
       <div className="flex flex-col gap-2 group-data-[velocity=1]:animate-scroll-1 group-data-[velocity=2]:animate-scroll-2 group-data-[velocity=3]:animate-scroll-3 group-data-[velocity=4]:animate-scroll-4">
         {[...Array<0>(end - start)].map((_, i) => (
-          <ImageCell key={i} src={`/images/${i + start}.png`} />
+          <ImageCell key={i} src={`/images/${i + start}.webp`} />
         ))}
       </div>
       <div className="flex flex-col gap-2 not-sr-only group-data-[velocity=1]:animate-scroll-1 group-data-[velocity=2]:animate-scroll-2 group-data-[velocity=3]:animate-scroll-3 group-data-[velocity=4]:animate-scroll-4">
         {[...Array<0>(end - start)].map((_, i) => (
-          <ImageCell key={i} src={`/images/${i + start}.png`} />
+          <ImageCell key={i} src={`/images/${i + start}.webp`} />
         ))}
       </div>
     </div>
