@@ -1,14 +1,15 @@
 "use client";
 
 import { PaginatedPostTable } from "@/components/post";
-import { notFound, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Results = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const q = searchParams.get("q");
 
   if (!q) {
-    notFound();
+    router.replace("/");
   }
 
   return (
