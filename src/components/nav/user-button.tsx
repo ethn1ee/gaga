@@ -22,15 +22,17 @@ const UserButton = () => {
   const { session, isSessionLoading } = useAuth();
 
   const handleSignOut = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Successfully signed out!", {
-            position: "top-center",
-          });
+    await authClient
+      .signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Successfully signed out!", {
+              position: "top-center",
+            });
+          },
         },
-      },
-    });
+      })
+      .finally(() => router.refresh());
   };
 
   const handleLogIn = () => {
