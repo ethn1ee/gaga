@@ -13,7 +13,7 @@ Welcome to EmoryLife, the over-engineered solution to finding out what's happeni
 
 Think of it as a slightly more organized Yik Yak, but with less anonymity and more code.
 
-## The Magic Behind the Curtain (Tech Stack)
+## Tech Stack
 
 This project is built with the latest and greatest, probably because we like to suffer.
 

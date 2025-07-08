@@ -50,14 +50,14 @@ type ImageCellProps = {
 
 const ImageCell = memo(({ src }: ImageCellProps) => {
   return (
-    <AspectRatio ratio={1 / 1} className="relative">
+    <AspectRatio ratio={1 / 1} className="relative overflow-hidden">
       <Image
         src={src}
         alt="Image"
         quality={30}
         fill
         sizes="200px"
-        className="object-cover bg-muted"
+        className="object-cover bg-muted hover:scale-110 animate"
       />
     </AspectRatio>
   );
