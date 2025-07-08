@@ -23,20 +23,21 @@ const Information = () => {
   const handleEmailVerification = async () => {
     if (!session) return;
 
-    await authClient
-      .sendVerificationEmail({
-        email: session.user.email,
-        callbackURL: "/",
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        toast.success("Verification email sent!", {
-          description: session.user.email,
-          position: "top-center",
-        });
-      });
+    await authClient.sendVerificationEmail({
+      email: session.user.email,
+      callbackURL: "/",
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success("Verification email sent!", {
+            description: session.user.email,
+            position: "top-center",
+          });
+        },
+        onError: (ctx) => {
+          console.error(ctx.error);
+        },
+      },
+    });
   };
 
   return (

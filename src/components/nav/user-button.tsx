@@ -22,18 +22,20 @@ const UserButton = () => {
   const { session, isSessionLoading } = useAuth();
 
   const handleSignOut = async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Successfully signed out!", {
-            position: "top-center",
-          });
+    await authClient
+      .signOut({
+        fetchOptions: {
+          onSuccess: () => {
+            toast.success("Successfully signed out!", {
+              position: "top-center",
+            });
+          },
         },
-      },
-    });
+      })
+      .finally(() => router.refresh());
   };
 
-  const handleLogIn = () => {
+  const handleSignIn = async () => {
     if (!session) router.push("/sign-in");
   };
 
@@ -46,14 +48,14 @@ const UserButton = () => {
           <Button
             variant="secondary"
             disabled={isSessionLoading}
-            onClick={handleLogIn}
+            onClick={handleSignIn}
           >
             {isSessionLoading ? (
               <Loader2Icon className="animate-spin" />
             ) : (
               <>
                 <CircleUserIcon />
-                Log In
+                Sign In
               </>
             )}
           </Button>

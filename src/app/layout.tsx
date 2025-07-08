@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
+import { type ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "EmoryLife",
@@ -23,7 +24,7 @@ const geist = Geist({
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body>
