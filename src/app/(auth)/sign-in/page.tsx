@@ -30,15 +30,20 @@ const SignIn = () => {
   });
 
   const handleSubmit = async (values: SignInInput) => {
-    const { data, error } = await authClient.signIn.username({ ...values });
+    const { data, error } = await authClient.signIn.username({
+      ...values,
+      fetchOptions: {
+        onSuccess: (ctx) => {
+          router.push(redirectUrl);
+          toast.success(`Welcome, ${ctx.data.user.name.split(" ")[0]}`, {
+            position: "top-center",
+            description: getNow(),
+          });
+        },
+      },
+    });
 
-    if (!error) {
-      router.push(redirectUrl);
-      toast.success(`Welcome, ${data.user.name.split(" ")[0]}`, {
-        position: "top-center",
-        description: getNow(),
-      });
-    } else {
+    if (error) {
       let message = "Please try again later";
       if (error.code === "INVALID_USERNAME_OR_PASSWORD") {
         message = "Invalid username or password";
@@ -49,6 +54,7 @@ const SignIn = () => {
         description: message,
       });
       console.error(error);
+      return;
     }
   };
 
