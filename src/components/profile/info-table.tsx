@@ -152,7 +152,7 @@ const EditDialog = ({
       toast.success("Affiliation updated successfully!", {
         position: "top-center",
       });
-      refresh();
+      await refresh();
       setOpen(false);
     },
   });

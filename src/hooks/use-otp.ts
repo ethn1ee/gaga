@@ -68,12 +68,12 @@ const useOTP = ({ email }: UseOTPProps) => {
           otp,
         },
         {
-          onSuccess: () => {
+          onSuccess: async () => {
             toast.success("Email verified!", {
               position: "top-center",
               description: email,
             });
-            refresh();
+            await refresh();
           },
           onError: ({ error }) => {
             let message: string;

@@ -10,7 +10,7 @@ type AuthContextType = {
   session: ReturnType<typeof authClient.useSession>["data"];
   user: User | null;
   isSessionLoading: ReturnType<typeof authClient.useSession>["isPending"];
-  refresh: () => void;
+  refresh: () => Promise<void>;
   error: ReturnType<typeof authClient.useSession>["error"];
 };
 
@@ -23,15 +23,26 @@ type AuthProviderProps = {
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const { data: session, isPending, error, refetch } = authClient.useSession();
+  const {
+    data: session,
+    isPending,
+    error,
+    refetch: refetchSession,
+  } = authClient.useSession();
   const [isMounted, setIsMounted] = useState(false);
 
-  const { data: user, isLoading } = api.user.getById.useQuery(
-    session?.user.id ?? "",
-    {
-      enabled: !!session,
-    },
-  );
+  const {
+    data: user,
+    isLoading,
+    refetch: refetchUser,
+  } = api.user.getById.useQuery(session?.user.id ?? "", {
+    enabled: !!session,
+  });
+
+  const refresh = async () => {
+    refetchSession();
+    await refetchUser();
+  };
 
   useEffect(() => {
     setIsMounted(true);
@@ -50,7 +61,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const value: AuthContextType = {
     session: isMounted ? session : null,
     user: user ?? null,
-    refresh: refetch,
+    refresh,
     isSessionLoading: isMounted ? isPending || isLoading : true,
     error: isMounted ? error : null,
   };
