@@ -69,7 +69,14 @@ const Summary = () => {
       </div>
       <div>
         <h1 className="text-2xl font-medium">{session?.user.name}</h1>
-        <span className="text-muted-foreground">@{session?.user.username}</span>
+        <span className="text-muted-foreground">
+          Joined{" "}
+          {session?.user.createdAt.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </span>
       </div>
     </section>
   );

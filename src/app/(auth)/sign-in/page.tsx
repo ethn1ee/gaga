@@ -1,36 +1,35 @@
 "use client";
 
+import { EmailPasswordForm } from "@/components/auth/form";
 import { Button } from "@/components/ui/button";
-import { Form as FormComponent } from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { authClient } from "@/lib/auth";
 import { signInInput, type SignInInput } from "@/lib/schema";
 import { getNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import Password from "../_form/password";
-import Username from "../_form/username";
 
 const SignIn = () => {
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const redirectUrl = searchParams.get("next") ?? "/";
-  console.log(redirectUrl);
 
-  const form = useForm<SignInInput>({
+  const form = useForm({
     resolver: zodResolver(signInInput),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
     mode: "onChange",
   });
 
   const handleSubmit = async (values: SignInInput) => {
-    await authClient.signIn.username({
+    await authClient.signIn.email({
       ...values,
       fetchOptions: {
         onSuccess: () => {
@@ -43,13 +42,16 @@ const SignIn = () => {
         onError: ({ error }) => {
           let message: string;
           switch (error.code) {
-            case "INVALID_USERNAME_OR_PASSWORD":
+            case "INVALID_EMAIL_OR_PASSWORD":
               message = "Invalid username or password";
               break;
-
+            case "EMAIL_NOT_VERIFIED":
+              message = "Verify your email to sign in";
+              router.push(`/verify-email?email=${values.email}`);
+              break;
             default:
               message = "Unknown error occurred";
-              console.error(error);
+              console.error("Error signing in:", error);
           }
 
           toast.error("Failed to sign in!", {
@@ -62,7 +64,7 @@ const SignIn = () => {
   };
 
   return (
-    <FormComponent {...form}>
+    <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         className="flex flex-col gap-6 w-full max-w-lg"
@@ -74,8 +76,7 @@ const SignIn = () => {
           </p>
         </div>
 
-        <Username />
-        <Password />
+        <EmailPasswordForm />
 
         <Button
           type="submit"
@@ -102,7 +103,7 @@ const SignIn = () => {
           </Link>
         </div>
       </form>
-    </FormComponent>
+    </Form>
   );
 };
 

@@ -10,17 +10,12 @@ const Results = () => {
 
   if (!q) {
     router.replace("/");
+    return;
   }
 
   return (
     <div className="flex-1 flex flex-col justify-between">
-      <PaginatedPostTable
-        isLoading={!q}
-        query={{
-          q,
-        }}
-        numRows={20}
-      />
+      <PaginatedPostTable isLoading={!q} query={{ q }} numRows={20} />
     </div>
   );
 };

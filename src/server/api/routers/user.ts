@@ -1,33 +1,43 @@
+import { user } from "@/lib/schema/user";
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 import { z } from "zod/v4";
 
 export const userRouter = createTRPCRouter({
-  getByUsername: publicProcedure
-    .input(z.string())
-    .query(async ({ ctx, input }) => {
-      const result = await ctx.db.user.findUnique({
-        where: {
-          username: input,
-        },
-      });
+  getById: publicProcedure.input(z.string()).query(async ({ ctx, input }) => {
+    const result = await ctx.db.user.findUnique({
+      where: {
+        id: input,
+      },
+    });
 
-      return result;
-    }),
+    return result;
+  }),
 
-  updateAvatar: publicProcedure
+  getByEmail: publicProcedure.input(z.email()).query(async ({ ctx, input }) => {
+    const result = await ctx.db.user.findUnique({
+      where: {
+        email: input,
+      },
+    });
+
+    return result;
+  }),
+
+  update: publicProcedure
     .input(
       z.object({
-        username: z.string(),
-        image: z.url(),
+        email: z.email(),
+        data: user.partial(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const result = await ctx.db.user.update({
         where: {
-          username: input.username,
+          email: input.email,
         },
         data: {
-          image: input.image,
+          ...input.data,
+          ...(input.data.emoryEmail && { emoryEmailVerified: false }),
         },
       });
 

@@ -163,7 +163,6 @@ const CommentForm = ({
   const { session } = useAuth();
   const requireAuth = useRequireAuth();
   const [isPending, setIsPending] = useState(false);
-  const utils = api.useUtils();
 
   const form = useForm({
     resolver: zodResolver(commentInput),
@@ -175,7 +174,7 @@ const CommentForm = ({
 
   const mutationAction = {
     onSuccess: async () => {
-      await utils.post.invalidate();
+      await api.useUtils().post.invalidate();
       form.reset();
     },
     onError: async (error: unknown) => {
@@ -183,7 +182,7 @@ const CommentForm = ({
         position: "top-center",
         description: "Please try again later.",
       });
-      console.error(error);
+      console.error("Error creating comment:", error);
     },
   };
 
@@ -193,11 +192,13 @@ const CommentForm = ({
     api.comment.createOnParent.useMutation(mutationAction);
 
   const handleSubmit = (values: CommentInput) => {
+    if (!session) return;
+
     if (isReply) {
       requireAuth(() => {
         return createCommentOnParent.mutate({
           content: values.content,
-          authorId: session?.user.username ?? "anonymous",
+          authorId: session.user.id,
           parentId: replyComment!.id,
         });
       });
@@ -205,7 +206,7 @@ const CommentForm = ({
       requireAuth(() => {
         return createCommentOnPost.mutate({
           content: values.content,
-          authorId: session?.user.username ?? "anonymous",
+          authorId: session.user.id,
           postId: postId,
         });
       });

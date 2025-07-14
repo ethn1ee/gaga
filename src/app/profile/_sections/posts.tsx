@@ -15,7 +15,7 @@ const Posts = () => {
           mode="data"
           isLoading={isSessionLoading}
           query={{
-            authorId: session?.user.username ?? undefined,
+            authorId: session?.user.id ?? undefined,
           }}
         />
       </div>

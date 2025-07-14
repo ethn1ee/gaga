@@ -27,7 +27,7 @@ type PostRowProps = {
 const PostRow = ({ post, mode }: PostRowProps) => {
   const router = useRouter();
   const uniqueCommenters = post.comments.reduce((acc, comment) => {
-    if (!acc.some((user) => user.username === comment.authorId)) {
+    if (!acc.some((user) => user.id === comment.authorId)) {
       acc.push(comment.author);
     }
     return acc;
@@ -63,7 +63,7 @@ const PostRow = ({ post, mode }: PostRowProps) => {
             ?.slice(0, 3)
             .map((user) => (
               <UserAvatar
-                key={user.username}
+                key={user.id}
                 user={user}
                 className="size-6 ring-2 ring-background not-first:-ml-1"
               />
