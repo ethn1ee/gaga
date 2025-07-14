@@ -37,6 +37,7 @@ export const userRouter = createTRPCRouter({
         },
         data: {
           ...input.data,
+          ...(input.data.emoryEmail && { emoryEmailVerified: false }),
         },
       });
 
