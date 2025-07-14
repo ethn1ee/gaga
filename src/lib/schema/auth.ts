@@ -1,45 +1,25 @@
 import { z } from "zod/v4";
+import { user } from "./user";
 
 const signUpInput = z
   .object({
-    email: z.email(),
-    name: z.string().min(2, "Name must be at least 2 characters").max(100),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .max(100, "Password must be at most 100 characters"),
-    password2: z.string().min(1, "Passwords must match"),
-    username: z
-      .string()
-      .min(3, "Username must be at least 3 characters")
-      .max(100, "Username must be at most 100 characters"),
-    affiliation: z.enum([
-      "None",
-      "Student",
-      "Alumni",
-      "Mom",
-      "Dad",
-      "Sibling",
-      "Other",
-    ]),
+    name: user.shape.name,
+    email: user.shape.email,
+    password: user.shape.password,
+    password2: z.string(),
+    otp: z.string().length(6),
+    affiliation: user.shape.affiliation,
+    emoryEmail: user.shape.emoryEmail,
+    class: user.shape.class,
   })
   .refine(
     ({ password, password2 }) => password === password2,
-    "Passwords must match",
+    "Passwords do not match",
   );
 
 type SignUpInput = z.infer<typeof signUpInput>;
 
-const signInInput = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters")
-    .max(100, "Username must be at most 100 characters"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .max(100, "Password must be at most 100 characters"),
-});
+const signInInput = signUpInput.pick({ email: true, password: true });
 
 type SignInInput = z.infer<typeof signInInput>;
 

@@ -2,10 +2,12 @@ import { PrismaClient } from "@prisma/client";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
-import { username } from "better-auth/plugins";
+import { emailOTP } from "better-auth/plugins";
 
 import { env } from "@/env";
 import { sendEmail } from "../email";
+
+const FROM_EMAIL = "EmoryLife <hello@emorylife.net>";
 
 const prisma = new PrismaClient();
 
@@ -16,28 +18,39 @@ export const auth = betterAuth({
   secret: env.NEXT_PUBLIC_BETTER_AUTH_SECRET,
   emailAndPassword: {
     enabled: true,
+    requireEmailVerification: true,
+    autoSignIn: true,
   },
   emailVerification: {
-    sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    sendVerificationEmail: async ({ user, url }) => {
-      const { error } = await sendEmail({
-        from: "EmoryLife <hello@emorylife.net>",
-        to: user.email,
-        subject: "Verify your email for EmoryLife",
-        text: `Click the link to verify your email: ${url}`,
-      });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-    },
-    onEmailVerification: async ({ id }) => {
-      await prisma.user.update({
-        where: { id: id },
-        data: { emailVerified: true },
-      });
-    },
   },
-  plugins: [username(), nextCookies()],
+  plugins: [
+    emailOTP({
+      async sendVerificationOTP({ email, otp, type }) {
+        let subject;
+        switch (type) {
+          case "email-verification":
+            subject = "Verify your email for EmoryLife";
+            break;
+          case "forget-password":
+            subject = "Reset your password for EmoryLife";
+            break;
+          default:
+            throw new Error("Invalid OTP type");
+        }
+
+        const { error } = await sendEmail({
+          from: FROM_EMAIL,
+          to: email,
+          subject,
+          text: `Enter the code ${otp}. This code expires in 5 minutes.`,
+        });
+
+        if (error) {
+          throw new Error(error.message);
+        }
+      },
+    }),
+    nextCookies(),
+  ],
 });

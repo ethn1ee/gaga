@@ -55,7 +55,7 @@ const Form = () => {
         position: "top-center",
         description: "Please try again later",
       });
-      console.error(error);
+      console.error("Error creating post:", error);
     },
   });
 
@@ -78,10 +78,11 @@ const Form = () => {
     const urls = await Promise.all(
       attachments.map(async (file) => uploadFile(file)),
     ).finally(() => setIsSubmitLoading(false));
+
     createPost.mutate({
       ...values,
       attachments: urls,
-      authorId: session?.user.username ?? "",
+      authorId: session?.user.id ?? "",
     });
   };
 

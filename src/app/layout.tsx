@@ -8,7 +8,7 @@ import { TRPCReactProvider } from "@/trpc/react";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { type Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import { type ReactNode } from "react";
 
 export const metadata: Metadata = {
@@ -17,23 +17,25 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-const geist = Geist({
+const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  variable: "--font-nunito-sans",
 });
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`}>
+    <html lang="en" className={`${nunitoSans.variable}`}>
       <body>
-        <AuthProvider>
-          <Nav />
-          <div className="bg-background min-h-svh md:border-b pt-14 md:pt-20">
-            <TRPCReactProvider>{children}</TRPCReactProvider>
-          </div>
-        </AuthProvider>
+        <TRPCReactProvider>
+          <AuthProvider>
+            <Nav />
+            <div className="bg-background min-h-svh md:border-b pt-14 md:pt-20">
+              {children}
+            </div>
+          </AuthProvider>
+        </TRPCReactProvider>
         <Toaster />
         <Footer />
         <Analytics />

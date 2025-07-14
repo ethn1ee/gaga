@@ -11,8 +11,8 @@ import { Input } from "@/components/ui/input";
 import { type SignUpInput } from "@/lib/schema";
 import { useFormContext } from "react-hook-form";
 
-const Name = () => {
-  const form = useFormContext<SignUpInput>();
+const NameFormField = () => {
+  const form = useFormContext<Pick<SignUpInput, "name">>();
 
   return (
     <FormField
@@ -20,7 +20,7 @@ const Name = () => {
       name="name"
       render={({ field }) => (
         <FormItem>
-          <FormLabel htmlFor="name">Name</FormLabel>
+          <FormLabel htmlFor="name">Full Name</FormLabel>
           <FormControl>
             <Input
               {...field}
@@ -35,4 +35,4 @@ const Name = () => {
   );
 };
 
-export default Name;
+export default NameFormField;

@@ -27,7 +27,7 @@ const Footer = () => {
           className="sticky h-[400px] top-[calc(100vh-400px)] bg-accent"
         >
           <div className="relative h-full container mx-auto flex flex-wrap gap-10 justify-between p-4 overflow-hidden">
-            <span className="grow-0 shrink-0 text-9xl font-thin tracking-tighter text-muted-foreground">
+            <span className="grow-0 shrink-0 text-9xl font-thin tracking-tighter text-muted-foreground font-low">
               EmoryLife
             </span>
             <div className="h-full flex flex-wrap justify-between grow shrink">

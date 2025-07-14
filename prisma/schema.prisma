@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["fullTextSearchPostgres"]
@@ -22,7 +19,7 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  author   User   @relation("PostCreatedBy", fields: [authorId], references: [username], onDelete: SetDefault, onUpdate: Cascade)
+  author   User   @relation("PostCreatedBy", fields: [authorId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
   authorId String @default("anonymous")
 
   comments Comment[] @relation("CommentBelongsTo")
@@ -45,7 +42,7 @@ model Comment {
 
   childs Comment[] @relation("CommentBelongsTo")
 
-  author   User   @relation("CommentCreatedBy", fields: [authorId], references: [username], onDelete: SetDefault, onUpdate: Cascade)
+  author   User   @relation("CommentCreatedBy", fields: [authorId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
   authorId String @default("anonymous")
 
   @@index([postId, parentId, authorId])
@@ -58,7 +55,7 @@ model Like {
 
   post     Post   @relation("LikeBelongsTo", fields: [postId], references: [id], onDelete: Cascade)
   postId   String
-  author   User   @relation("LikeCreatedBy", fields: [authorId], references: [username], onDelete: Cascade, onUpdate: Cascade)
+  author   User   @relation("LikeCreatedBy", fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   authorId String
 
   @@index([postId, authorId])
@@ -66,15 +63,17 @@ model Like {
 }
 
 model User {
-  username      String
-  name          String
-  email         String
-  emailVerified Boolean
-  affiliation   String   @default("None")
-  class         Int?
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
+  id                 String   @id @default(cuid(2))
+  name               String
+  email              String
+  emailVerified      Boolean
+  emoryEmail         String?
+  emoryEmailVerified Boolean  @default(false)
+  affiliation        String   @default("None")
+  class              Int?
+  image              String?
+  createdAt          DateTime
+  updatedAt          DateTime
 
   sessions Session[]
   accounts Account[]
@@ -83,12 +82,11 @@ model User {
   comments Comment[] @relation("CommentCreatedBy")
   likes    Like[]    @relation("LikeCreatedBy")
 
-  // unused
-  id              String  @id @default(cuid(2))
   displayUsername String?
 
   @@unique([id])
-  @@unique([username])
+  @@unique([email])
+  @@index([email])
   @@map("user")
 }
 

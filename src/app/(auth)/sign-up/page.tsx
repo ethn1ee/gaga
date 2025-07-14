@@ -1,104 +1,99 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Form as FormComponent } from "@/components/ui/form";
-import { authClient } from "@/lib/auth";
-import { signUpInput, type SignUpInput } from "@/lib/schema";
-import { getNow } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import Email from "../_form/email";
-import Name from "../_form/name";
-import Password from "../_form/password";
-import Username from "../_form/username";
+import { type Dispatch, type SetStateAction, useState } from "react";
+import Affiliation from "./_steps/affiliation";
+import Complete from "./_steps/complete";
+import EmailVerificationForm from "./_steps/email-verification";
+import SignUpForm from "./_steps/sign-up";
+
+enum STEPS {
+  SIGN_UP,
+  EMAIL_VERIFICATION,
+  AFFILIATION,
+  COMPLETE,
+}
+
+export type UserData = {
+  email: string;
+  name: string;
+};
+
+export type FormProps = {
+  step: STEPS;
+  setStep: Dispatch<SetStateAction<STEPS>>;
+  userData: UserData;
+  setUserData: Dispatch<SetStateAction<UserData>>;
+};
+
+const forms = {
+  [STEPS.SIGN_UP]: SignUpForm,
+  [STEPS.EMAIL_VERIFICATION]: EmailVerificationForm,
+  [STEPS.AFFILIATION]: Affiliation,
+  [STEPS.COMPLETE]: Complete,
+};
+
+const messages = {
+  [STEPS.SIGN_UP]: {
+    title: "Welcome",
+    subtitle: "Create your EmoryLife account",
+  },
+  [STEPS.EMAIL_VERIFICATION]: {
+    title: "Verify your email",
+    subtitle: "Verification code has been sent.",
+  },
+  [STEPS.AFFILIATION]: {
+    title: "Are you an Emory affiliate?",
+    subtitle: "We are excited to have you join the EmoryLife community!",
+  },
+  [STEPS.COMPLETE]: {
+    title: "Welcome!",
+    subtitle: "Your account has been created.",
+  },
+};
 
 const SignUp = () => {
-  const searchParams = useSearchParams();
-
-  const redirectUrl = searchParams.get("next") ?? "/";
-
-  const form = useForm({
-    resolver: zodResolver(signUpInput),
-    defaultValues: {
-      email: "",
-      password: "",
-      password2: "",
-      name: "",
-      username: "",
-      affiliation: "None" as SignUpInput["affiliation"],
-    },
-    mode: "onChange",
+  const [step, setStep] = useState(STEPS.SIGN_UP);
+  const [userData, setUserData] = useState<UserData>({
+    email: "",
+    name: "",
   });
 
-  const handleSubmit = async (values: SignUpInput) => {
-    await authClient.signUp.email({
-      ...values,
-      fetchOptions: {
-        onSuccess: () => {
-          toast.success("Welcome!", {
-            position: "top-center",
-            description: getNow(),
-          });
-          window.location.href = redirectUrl;
-        },
-        onError: ({ error }) => {
-          let message: string;
-          switch (error.code) {
-            case "USERNAME_IS_ALREADY_TAKEN_PLEASE_TRY_ANOTHER":
-              message = "Username already taken";
-              break;
+  // const form = useForm({
+  //   resolver: zodResolver(signUpInput),
+  //   defaultValues: {
+  //     email: "",
+  //     password: "",
+  //     password2: "",
+  //     name: "",
+  //     otp: "",
+  //     emoryEmail: "",
+  //     affiliation: "None" as SignUpInput["affiliation"],
+  //   },
+  //   mode: "onChange",
+  // });
 
-            default:
-              message = "Unknown error occurred";
-              console.error(error);
-          }
-
-          toast.error("Failed to sign in!", {
-            position: "top-center",
-            description: message,
-          });
-        },
-      },
-    });
-  };
+  const CurrentForm = forms[step];
 
   return (
-    <FormComponent {...form}>
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col gap-6 w-full max-w-lg"
-      >
-        <div className="flex flex-col">
-          <h1 className="text-2xl font-bold">Welcome</h1>
-          <p className="text-muted-foreground text-balance">
-            Create your EmoryLife account
-          </p>
-        </div>
+    <div className="flex flex-col gap-6 w-full max-w-lg">
+      <div className="flex flex-col">
+        <h1 className="text-2xl font-bold">{messages[step].title}</h1>
+        <p className="text-muted-foreground text-balance">
+          {messages[step].subtitle}
+        </p>
+      </div>
 
-        <Name />
-        <Email />
-        <Username />
-        <Password isSignUp />
+      {CurrentForm && (
+        <CurrentForm
+          step={step}
+          setStep={setStep}
+          userData={userData}
+          setUserData={setUserData}
+        />
+      )}
 
-        <Button
-          type="submit"
-          disabled={
-            form.formState.isSubmitting ||
-            !!signUpInput.safeParse(form.watch()).error
-          }
-          className="w-full"
-        >
-          {form.formState.isSubmitting ? (
-            <Loader2Icon className="animate-spin" />
-          ) : (
-            "Sign Up"
-          )}
-        </Button>
-
+      {step !== STEPS.COMPLETE && (
         <div className="text-center text-sm">
           Already have an account?{" "}
           <Link
@@ -108,8 +103,8 @@ const SignUp = () => {
             Sign in
           </Link>
         </div>
-      </form>
-    </FormComponent>
+      )}
+    </div>
   );
 };
 
