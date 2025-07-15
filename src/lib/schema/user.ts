@@ -26,6 +26,7 @@ const user = z.object({
     .refine((val) => val.endsWith("emory.edu"), "Must be an Emory email")
     .nullable()
     .optional(),
+  emoryEmailVerified: z.boolean(),
   class: z
     .number()
     .refine(

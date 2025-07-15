@@ -125,12 +125,12 @@ model Account {
 }
 
 model Verification {
-  id         String    @id
+  id         String   @id @default(cuid(2))
   identifier String
   value      String
   expiresAt  DateTime
-  createdAt  DateTime?
-  updatedAt  DateTime?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("verification")
 }

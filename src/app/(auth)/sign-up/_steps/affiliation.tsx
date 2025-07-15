@@ -3,6 +3,7 @@
 import { AffiliationForm } from "@/components/auth/form";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { sendAffiliationVerification } from "@/lib/auth";
 import { signUpInput } from "@/lib/schema";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,23 +29,39 @@ const Affiliation = ({ userData, setStep }: FormProps) => {
   });
 
   const updateAffiliation = api.user.update.useMutation({
-    onSuccess: () => {
-      toast.success("Welcome!", {
-        position: "top-center",
+    onSuccess: async (data) => {
+      const { error } = await sendAffiliationVerification({
+        userId: data.id,
+        name: data.name,
+        emoryEmail: data.emoryEmail!,
       });
+
+      if (error) {
+        toast.error("Failed to send verification email!", {
+          description: "Please try again later",
+          position: "top-center",
+        });
+        console.error(error);
+      } else {
+        toast.success("Verification Email sent!", {
+          description:
+            "Check your Emory email inbox to verify your affiliation",
+          position: "top-center",
+        });
+      }
       setStep((prev) => prev + 1);
     },
     onError: (error) => {
       toast.error("Failed to update affiliation!", {
-        position: "top-center",
         description: "Please try again later",
+        position: "top-center",
       });
       console.error("Error updating affiliation", error);
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof schema>) => {
-    updateAffiliation.mutate({
+  const handleSubmit = async (values: z.infer<typeof schema>) => {
+    await updateAffiliation.mutateAsync({
       email: userData.email,
       data: { ...values },
     });

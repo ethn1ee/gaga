@@ -8,7 +8,7 @@ import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import Title from "../title";
+import Title from "../ui/title";
 import UserButton from "./user-button";
 
 const NavMobile = ({ className }: React.ComponentProps<"nav">) => {

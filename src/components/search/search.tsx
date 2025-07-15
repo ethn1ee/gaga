@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Title from "../title";
+import Title from "../ui/title";
 
 const Search = () => {
   const router = useRouter();

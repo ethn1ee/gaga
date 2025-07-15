@@ -67,7 +67,7 @@ const VerificationForm = ({ email }: VerificationFormProps) => {
     if (success) router.push("/");
   };
 
-  return isUserLoading ? (
+  return !data ? (
     <div className="size-full flex items-center justify-center">
       <Loader2Icon className="animate-spin text-muted-foreground" />
     </div>

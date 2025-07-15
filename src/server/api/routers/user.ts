@@ -13,28 +13,35 @@ export const userRouter = createTRPCRouter({
     return result;
   }),
 
-  getByEmail: publicProcedure.input(z.email()).query(async ({ ctx, input }) => {
-    const result = await ctx.db.user.findUnique({
-      where: {
-        email: input,
-      },
-    });
+  getByEmail: publicProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const result = await ctx.db.user.findUnique({
+        where: {
+          email: input,
+        },
+      });
 
-    return result;
-  }),
+      return result;
+    }),
 
   update: publicProcedure
     .input(
-      z.object({
-        email: z.email(),
-        data: user.partial(),
-      }),
+      z
+        .object({
+          email: z.string().optional(),
+          id: z.string().optional(),
+          data: user.partial(),
+        })
+        .refine((data) => !!data.email || !!data.id, {
+          message: "Either email or id must be provided",
+        }),
     )
     .mutation(async ({ ctx, input }) => {
+      const where = input.email ? { email: input.email } : { id: input.id };
+
       const result = await ctx.db.user.update({
-        where: {
-          email: input.email,
-        },
+        where,
         data: {
           ...input.data,
           ...(input.data.emoryEmail && { emoryEmailVerified: false }),

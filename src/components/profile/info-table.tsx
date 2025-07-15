@@ -143,6 +143,7 @@ const EditDialog = ({
       affiliation: user?.affiliation as z.infer<
         typeof formSchema.shape.affiliation
       >,
+      emoryEmailVerified: user?.emoryEmailVerified ?? false,
     },
     mode: "onChange",
   });

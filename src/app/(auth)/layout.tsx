@@ -3,15 +3,15 @@ import Background from "./_components/background";
 
 export const experimental_ppr = true;
 
-const PostsLayout = ({ children }: { children: Readonly<ReactNode> }) => {
+const AuthLayout = ({ children }: { children: Readonly<ReactNode> }) => {
   return (
-    <main className="h-one-page px-4 md:py-20 flex flex-col md:flex-row items-center gap-4 md:gap-10 relative overflow-visible">
+    <main className="h-full min-h-one-page md:h-[calc(100svh-80px)] px-4 md:py-20 flex items-center gap-4 md:gap-10 relative overflow-visible">
       <Background />
-      <div className="flex-1 flex items-center justify-center size-full relative">
+      <div className="flex-1 relative flex justify-center">
         <Suspense>{children}</Suspense>
       </div>
     </main>
   );
 };
 
-export default PostsLayout;
+export default AuthLayout;
