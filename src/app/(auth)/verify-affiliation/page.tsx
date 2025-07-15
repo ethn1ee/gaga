@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 
 const VerifyAffiliationPage = () => {
   const searchParams = useSearchParams();
-
   const [isVerifying, setIsVerifying] = useState(true);
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,13 +18,16 @@ const VerifyAffiliationPage = () => {
       const id = searchParams.get("id");
       const token = searchParams.get("token");
 
-      setIsVerified(
-        id && token ? await verifyAffiliation({ id, token }) : false,
-      );
-
       if (!id || !token) {
-        setError("Link is invalid or has expired");
+        setError("Link is invalid");
+      } else {
+        const result = await verifyAffiliation({ id, token });
+        if (!result) {
+          setError("Link is invalid or has expired");
+        }
+        setIsVerified(result);
       }
+
       setIsVerifying(false);
     };
 
