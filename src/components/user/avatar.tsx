@@ -58,7 +58,7 @@ const UserAvatarWithDetail = ({
           {user?.name}
           {user?.emoryEmailVerified && (
             <HoverCard>
-              <HoverCardTrigger className="font-light size-5 p-0 cursor-pointer bg-muted rounded-full flex items-center justify-center">
+              <HoverCardTrigger className="font-light size-5 p-0 cursor-pointer bg-muted rounded-full flex items-center justify-center hover:opacity-60 animate">
                 <GraduationCapIcon size={12} className="text-cyan-600" />
               </HoverCardTrigger>
               <HoverCardContent className="flex gap-2 items-center">
