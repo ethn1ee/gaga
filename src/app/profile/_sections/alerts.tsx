@@ -67,6 +67,7 @@ const Alerts = () => {
             verify your associated Emory email.
             <LoadingButton
               isLoading={isLoading}
+              disabled={isLoading}
               onClick={handleAffiliationVerification}
               size="sm"
               variant="secondary"
