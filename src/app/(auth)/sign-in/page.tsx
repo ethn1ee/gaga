@@ -1,13 +1,12 @@
 "use client";
 
 import { EmailPasswordForm } from "@/components/auth/form";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { authClient } from "@/lib/auth";
 import { signInInput, type SignInInput } from "@/lib/schema";
 import { getNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2Icon } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -80,20 +79,17 @@ const SignIn = () => {
 
         <EmailPasswordForm />
 
-        <Button
+        <LoadingButton
           type="submit"
           disabled={
             form.formState.isSubmitting ||
             !!signInInput.safeParse(form.watch()).error
           }
+          isLoading={form.formState.isSubmitting}
           className="w-full"
         >
-          {form.formState.isSubmitting ? (
-            <Loader2Icon className="animate-spin" />
-          ) : (
-            "Sign in"
-          )}
-        </Button>
+          Sign In
+        </LoadingButton>
 
         <div className="text-center text-sm">
           Don&apos;t have an account?{" "}

@@ -15,16 +15,18 @@ const Background = () => {
 
 export default Background;
 
+type ScrollingGalleryProps = {
+  start: number;
+  end: number;
+  velocity: number;
+} & ComponentProps<"div">;
+
 const ScrollingGallery = ({
   start,
   end,
   className,
   velocity,
-}: ComponentProps<"div"> & {
-  start: number;
-  end: number;
-  velocity: number;
-}) => {
+}: ScrollingGalleryProps) => {
   return (
     <div
       data-velocity={velocity}

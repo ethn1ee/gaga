@@ -1,13 +1,12 @@
 "use client";
 
 import { AffiliationForm } from "@/components/auth/form";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { sendAffiliationVerification } from "@/lib/auth";
 import { signUpInput } from "@/lib/schema";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { type z } from "zod/v4";
@@ -75,20 +74,17 @@ const Affiliation = ({ userData, setStep }: FormProps) => {
       >
         <AffiliationForm />
 
-        <Button
+        <LoadingButton
           type="submit"
           disabled={
             Object.entries(form.formState.errors).length > 0 ||
             form.formState.isSubmitting
           }
+          isLoading={form.formState.isSubmitting}
           className="w-full"
         >
-          {form.formState.isSubmitting ? (
-            <Loader2Icon className="animate-spin" />
-          ) : (
-            "Continue"
-          )}
-        </Button>
+          Continue
+        </LoadingButton>
       </form>
     </Form>
   );

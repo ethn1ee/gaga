@@ -4,9 +4,9 @@ import { Button } from "./button";
 
 type LoadingButtonProps = {
   isLoading: boolean;
-};
+} & ComponentProps<typeof Button>;
 
-const LoadingButton = ({
+export const LoadingButton = ({
   isLoading,
   className,
   children,
@@ -14,7 +14,7 @@ const LoadingButton = ({
   size,
   asChild = false,
   ...props
-}: LoadingButtonProps & ComponentProps<typeof Button>) => {
+}: LoadingButtonProps) => {
   return (
     <Button
       variant={variant}
@@ -27,5 +27,3 @@ const LoadingButton = ({
     </Button>
   );
 };
-
-export default LoadingButton;
