@@ -39,13 +39,16 @@ export const userRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const where = input.email ? { email: input.email } : { id: input.id };
+      const data = {
+        ...input.data,
+        ...((input.data.affiliation === "None" || input.data.emoryEmail) && {
+          emoryEmailVerified: false,
+        }),
+      };
 
       const result = await ctx.db.user.update({
         where,
-        data: {
-          ...input.data,
-          ...(input.data.emoryEmail && { emoryEmailVerified: false }),
-        },
+        data,
       });
 
       return result;
