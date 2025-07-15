@@ -22,7 +22,7 @@ export const sendAffiliationVerification = async ({
   return await sendEmail({
     to: emoryEmail,
     subject: `Verify Emory Affiliation for ${name}`,
-    text: `Click the following link to verify Emory affiliation for ${name} at EmoryLife:\n\n${link}`,
+    text: `Click the following link to verify Emory affiliation for ${name} at EmoryLife:\n\n${link}\n\nThis link expires in 24 hours.`,
   });
 };
 
