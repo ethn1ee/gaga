@@ -31,17 +31,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   } = authClient.useSession();
   const [isMounted, setIsMounted] = useState(false);
 
-  const {
-    data: user,
-    isLoading,
-    refetch: refetchUser,
-  } = api.user.getById.useQuery(session?.user.id ?? "", {
-    enabled: !!session,
-  });
+  const { data: user, isLoading } = api.user.getById.useQuery(
+    session?.user.id ?? "",
+    {
+      enabled: !!session,
+    },
+  );
+
+  const utils = api.useUtils();
 
   const refresh = async () => {
     refetchSession();
-    await refetchUser();
+    await utils.user.invalidate();
   };
 
   useEffect(() => {

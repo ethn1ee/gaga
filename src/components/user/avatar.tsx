@@ -1,12 +1,15 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn, getInitials } from "@/lib/utils";
-import { Loader2Icon } from "lucide-react";
+import { type User } from "@prisma/client";
+import { GraduationCapIcon, Loader2Icon } from "lucide-react";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../ui/hover-card";
 
 type UserAvatarProps = {
-  user?: {
-    name?: string | null;
-    image?: string | null;
-  };
+  user?: Partial<User>;
   isLoading?: boolean;
   className?: React.ComponentProps<typeof Avatar>["className"];
 };
@@ -45,18 +48,38 @@ const UserAvatarWithDetail = ({
   size,
 }: UserAvatarWithDetailProps) => {
   return (
-    <div className="flex flex-row items-center gap-2">
+    <div data-size={size} className="group flex flex-row items-center gap-2">
       <UserAvatar
         user={user}
-        className={cn(
-          size === "sm" ? "size-6" : size === "default" ? "size-9" : "",
-        )}
+        className="group-data-[size=default]:size-9 group-data-[size=sm]:size-6"
       />
-
       <div>
-        <span className={cn("font-medium mr-2", size === "default" && "block")}>
+        <span className="font-medium mr-2 inline-flex gap-1 items-center">
           {user?.name}
+          {user?.emoryEmailVerified && (
+            <HoverCard>
+              <HoverCardTrigger className="font-light size-5 p-0 cursor-pointer bg-muted rounded-full flex items-center justify-center hover:opacity-60 animate">
+                <GraduationCapIcon size={12} className="text-cyan-600" />
+              </HoverCardTrigger>
+              <HoverCardContent className="flex gap-2 items-center">
+                <div className="bg-muted size-12 rounded-full flex items-center justify-center">
+                  <GraduationCapIcon size={20} className="text-cyan-600" />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-base leading-none">
+                    {user.affiliation}
+                  </span>
+                  {user.class && (
+                    <span className="text-xs text-muted-foreground leading-none">
+                      Class of {user.class}
+                    </span>
+                  )}
+                </div>
+              </HoverCardContent>
+            </HoverCard>
+          )}
         </span>
+
         <span
           className={cn(
             "text-muted-foreground text-sm",

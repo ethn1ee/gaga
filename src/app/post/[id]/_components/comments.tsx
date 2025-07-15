@@ -2,14 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { UserAvatarWithDetail } from "@/components/user";
 import { useAuth, useRequireAuth } from "@/hooks";
 import { commentInput, type CommentInput } from "@/lib/schema";
 import { cn, getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type Comment, type Post, type User } from "@prisma/client";
-import { Loader2Icon, SendIcon, XIcon } from "lucide-react";
+import { type Comment, type User } from "@prisma/client";
+import { SendIcon, XIcon } from "lucide-react";
 import {
   useEffect,
   useRef,
@@ -26,12 +27,11 @@ type CommentWithAuthorAndChild = Comment & { author: User } & {
 };
 
 type CommentsProps = {
-  postId: Post["id"];
-  comments: CommentWithAuthorAndChild[];
+  postId: string;
 };
 
-const Comments = ({ postId, comments }: CommentsProps) => {
-  const { isSessionLoading } = useAuth();
+const Comments = ({ postId }: CommentsProps) => {
+  const { data } = api.comment.getByPostId.useQuery(postId);
   const [replyTo, setReplyTo] = useState("");
   const commentsRef = useRef<HTMLElement>(null);
 
@@ -44,28 +44,22 @@ const Comments = ({ postId, comments }: CommentsProps) => {
     }
   });
 
-  if (isSessionLoading) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <section ref={commentsRef} className="border-t pt-4 min-h-80">
       <h3 className="flex items-center gap-2 mb-4">
         <span>Comments</span>
-        <span className="text-muted-foreground text-base">
-          {comments.length}
-        </span>
+        <span className="text-muted-foreground text-base">{data?.length}</span>
       </h3>
 
       <CommentForm
         postId={postId}
         isReply={replyTo !== ""}
         setReplyTo={setReplyTo}
-        replyComment={comments.find((comment) => comment.id === replyTo)}
+        replyComment={data?.find((comment) => comment.id === replyTo)}
       />
 
       <div className="space-y-3 mt-6">
-        {comments.map((comment) => (
+        {data?.map((comment) => (
           <CommentItem
             key={comment.id}
             comment={comment}
@@ -151,7 +145,7 @@ type CommentFormProps = {
   postId: string;
   isReply: boolean;
   setReplyTo: Dispatch<SetStateAction<string>>;
-  replyComment?: Comment;
+  replyComment?: CommentWithAuthorAndChild;
 };
 
 const CommentForm = ({
@@ -162,7 +156,7 @@ const CommentForm = ({
 }: CommentFormProps) => {
   const { session } = useAuth();
   const requireAuth = useRequireAuth();
-  const [isPending, setIsPending] = useState(false);
+  const utils = api.useUtils();
 
   const form = useForm({
     resolver: zodResolver(commentInput),
@@ -170,11 +164,12 @@ const CommentForm = ({
       content: "",
       authorId: "anonymous",
     },
+    mode: "onChange",
   });
 
   const mutationAction = {
     onSuccess: async () => {
-      await api.useUtils().post.invalidate();
+      await utils.comment.invalidate();
       form.reset();
     },
     onError: async (error: unknown) => {
@@ -191,20 +186,20 @@ const CommentForm = ({
   const createCommentOnParent =
     api.comment.createOnParent.useMutation(mutationAction);
 
-  const handleSubmit = (values: CommentInput) => {
+  const handleSubmit = async (values: CommentInput) => {
     if (!session) return;
 
     if (isReply) {
-      requireAuth(() => {
-        return createCommentOnParent.mutate({
+      await requireAuth(async () => {
+        await createCommentOnParent.mutateAsync({
           content: values.content,
           authorId: session.user.id,
           parentId: replyComment!.id,
         });
       });
     } else {
-      requireAuth(() => {
-        return createCommentOnPost.mutate({
+      await requireAuth(async () => {
+        await createCommentOnPost.mutateAsync({
           content: values.content,
           authorId: session.user.id,
           postId: postId,
@@ -212,14 +207,6 @@ const CommentForm = ({
       });
     }
   };
-
-  useEffect(() => {
-    if (isReply) {
-      setIsPending(createCommentOnParent.isPending);
-    } else {
-      setIsPending(createCommentOnPost.isPending);
-    }
-  }, [isReply, createCommentOnPost.isPending, createCommentOnParent.isPending]);
 
   return (
     <Form {...form}>
@@ -241,7 +228,7 @@ const CommentForm = ({
                 >
                   <XIcon size={16} />
                   <span className="mr-1 text-xs font-medium">
-                    Reply to {replyComment?.authorId}
+                    Reply to {replyComment?.author.name}
                   </span>
                 </Button>
               )}
@@ -253,14 +240,17 @@ const CommentForm = ({
             </div>
           )}
         />
-        <Button
+        <LoadingButton
           size="icon"
           type="submit"
-          disabled={isPending || !commentInput.safeParse(form.watch()).success}
+          disabled={
+            form.formState.isSubmitting || !form.formState.isValid || !session
+          }
+          isLoading={form.formState.isSubmitting}
           className="size-10"
         >
-          {isPending ? <Loader2Icon className="animate-spin" /> : <SendIcon />}
-        </Button>
+          <SendIcon />
+        </LoadingButton>
       </form>
     </Form>
   );

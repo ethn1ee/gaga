@@ -23,7 +23,7 @@ const TitleInput = () => {
             <Input
               {...field}
               placeholder="Untitled"
-              className="!text-4xl p-0 clear-input-style"
+              className="!text-4xl p-0 clear-input-style h-10"
             />
           </FormControl>
           <FormMessage />

@@ -22,7 +22,7 @@ const useRequireAuth = (options: RequireAuthOptions = {}) => {
   const router = useRouter();
 
   const requireAuth = useCallback(
-    (action?: () => void) => {
+    async (action?: () => void | Promise<void>) => {
       if (isSessionLoading) return false;
 
       if (!session) {
@@ -36,7 +36,7 @@ const useRequireAuth = (options: RequireAuthOptions = {}) => {
       }
 
       // User is authenticated, execute the optional action
-      action?.();
+      await action?.();
       return true;
     },
     [session, isSessionLoading, router, redirectTo, message, showToast],
