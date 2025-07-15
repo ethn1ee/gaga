@@ -59,20 +59,6 @@ const SignUp = () => {
     name: "",
   });
 
-  // const form = useForm({
-  //   resolver: zodResolver(signUpInput),
-  //   defaultValues: {
-  //     email: "",
-  //     password: "",
-  //     password2: "",
-  //     name: "",
-  //     otp: "",
-  //     emoryEmail: "",
-  //     affiliation: "None" as SignUpInput["affiliation"],
-  //   },
-  //   mode: "onChange",
-  // });
-
   const CurrentForm = forms[step];
 
   return (

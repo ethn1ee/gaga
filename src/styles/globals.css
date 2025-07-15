@@ -163,10 +163,6 @@
   .min-h-one-page {
     @apply my-0 box-border min-h-[calc(100svh-56px)] md:min-h-[calc(100svh-80px)];
   }
-
-  .h-one-page {
-    @apply my-0 box-border h-[calc(100svh-56px)] md:h-[calc(100svh-80px)];
-  }
 }
 
 @theme {

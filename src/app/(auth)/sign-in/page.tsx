@@ -41,6 +41,7 @@ const SignIn = () => {
         },
         onError: ({ error }) => {
           let message: string;
+          let description: string | undefined;
           switch (error.code) {
             case "INVALID_EMAIL_OR_PASSWORD":
               message = "Invalid username or password";
@@ -51,12 +52,13 @@ const SignIn = () => {
               break;
             default:
               message = "Unknown error occurred";
+              description = "Please try again later.";
               console.error("Error signing in:", error);
           }
 
-          toast.error("Failed to sign in!", {
+          toast.error(message, {
             position: "top-center",
-            description: message,
+            description,
           });
         },
       },

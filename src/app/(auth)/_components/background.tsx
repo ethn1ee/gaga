@@ -5,7 +5,7 @@ import { memo, type ComponentProps } from "react";
 
 const Background = () => {
   return (
-    <div className="flex-1 grid grid-cols-3 gap-2 size-full rounded-2xl overflow-hidden">
+    <div className="flex-1 grid grid-cols-3 gap-2 size-full rounded-2xl overflow-hidden max-md:hidden">
       <ScrollingGallery start={0} end={10} velocity={4} />
       <ScrollingGallery start={10} end={20} velocity={3} />
       <ScrollingGallery start={20} end={30} velocity={2} />
