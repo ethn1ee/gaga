@@ -1,5 +1,6 @@
 "use server";
 
+import { env } from "@/env";
 import { sendEmail } from "@/lib/email";
 import { api } from "@/trpc/server";
 
@@ -16,11 +17,12 @@ export const sendAffiliationVerification = async ({
 }: SendVerificationProps) => {
   const identifier = `affiliation-${userId}-${emoryEmail}`;
   const result = await api.verification.create(identifier);
+  const link = `${env.NEXT_PUBLIC_BASE_URL}/verify-affiliation?id=${result.id}&token=${result.value}`;
 
   return await sendEmail({
     to: emoryEmail,
-    subject: "Verify Emory Affiliation for EmoryLife",
-    text: `Click the following link to verify Emory affiliation for ${name}:\n\nhttps://emorylife.net/verify-affiliation?id=${result.id}&token=${result.value}`,
+    subject: `Verify Emory Affiliation for ${name}`,
+    text: `Click the following link to verify Emory affiliation for ${name} at EmoryLife:\n\n${link}`,
   });
 };
 
