@@ -14,17 +14,18 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type CarouselProps = {
-  attachments: Post["attachments"];
+  attachments: Post["attachments"] | undefined;
+  isLoading: boolean;
 };
 
-const Carousel = ({ attachments }: CarouselProps) => {
-  const images = attachments.filter((file) => getFileType(file) === "image");
+const Carousel = ({ attachments, isLoading }: CarouselProps) => {
+  const images = attachments?.filter((file) => getFileType(file) === "image");
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!api) return;
+    if (!api || !images) return;
 
     api.scrollTo(0);
     setCount(images.length);
@@ -33,13 +34,15 @@ const Carousel = ({ attachments }: CarouselProps) => {
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
     });
-  }, [api, attachments, images.length]);
+  }, [api, attachments, images]);
 
   const handleClick = () => {
     if (!api) return;
     if (current === count - 1) api.scrollTo(0);
     else api.scrollNext();
   };
+
+  if (isLoading || !images) return null;
 
   return (
     <CarouselComponent

@@ -71,7 +71,7 @@ const Form = () => {
       attachments.map(async (file) => uploadFile(file)),
     );
 
-    createPost.mutate({
+    await createPost.mutateAsync({
       ...values,
       attachments: urls,
       authorId: session?.user.id ?? "",
@@ -83,7 +83,7 @@ const Form = () => {
       <FormComponent {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="my-4 flex flex-col gap-5"
+          className="my-4 flex flex-col gap-6"
         >
           {isSessionLoading ? (
             <div className="h-[50vh] w-full flex items-center justify-center">

@@ -97,41 +97,12 @@ export const postRouter = createTRPCRouter({
     const result = await ctx.db.post.findUnique({
       where: { id: input },
       include: {
-        comments: {
-          include: {
-            author: true,
-            childs: {
-              include: {
-                author: true,
-              },
-            },
-          },
-          orderBy: { createdAt: "desc" },
-        },
         author: true,
       },
     });
 
     return result;
   }),
-
-  getByUsername: publicProcedure
-    .input(z.string().optional())
-    .query(async ({ ctx, input }) => {
-      const result = await ctx.db.post.findMany({
-        where: { authorId: input },
-        include: {
-          comments: {
-            include: { author: true },
-            orderBy: { createdAt: "desc" },
-          },
-          author: true,
-        },
-        orderBy: { createdAt: "desc" },
-      });
-
-      return result;
-    }),
 
   getPhotos: publicProcedure.input(z.number()).query(async ({ ctx, input }) => {
     const result = await ctx.db.post.findMany({

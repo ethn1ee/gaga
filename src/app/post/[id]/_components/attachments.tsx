@@ -6,13 +6,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 type AttachmentsProp = {
-  attachments: Post["attachments"];
+  attachments: Post["attachments"] | undefined;
+  isLoading: boolean;
 };
 
 const Attachments = ({ attachments }: AttachmentsProp) => {
   return (
     <div className="flex gap-2 flex-wrap">
-      {attachments.map((file, i) => {
+      {attachments?.map((file, i) => {
         const fileName = extractOriginalFilename(file);
 
         return (
