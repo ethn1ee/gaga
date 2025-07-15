@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Form as FormComponent } from "@/components/ui/form";
+import { LoadingButton } from "@/components/ui/loading-button";
 import useAuth from "@/hooks/use-auth";
 import { postInput, type PostInput } from "@/lib/schema";
 import { getNow, uploadFile } from "@/lib/utils";
@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type Post } from "@prisma/client";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import AttachmentInput from "./attachment";
@@ -32,9 +32,9 @@ const Form = () => {
       attachments: [],
       authorId: "anonymous",
     },
+    mode: "onChange",
   });
 
-  const [isSubmitLoading, setIsSubmitLoading] = useState(false);
   const [attachments, setAttachments] = useState<File[]>([]);
 
   const createPost = api.post.create.useMutation({
@@ -59,12 +59,6 @@ const Form = () => {
     },
   });
 
-  useEffect(() => {
-    if (createPost.isPending) {
-      setIsSubmitLoading(true);
-    }
-  }, [createPost.isPending]);
-
   const handleSubmit = async (values: PostInput) => {
     if (values.category === "photos" && attachments.length === 0) {
       toast.warning("Please attach at least one photo", {
@@ -73,11 +67,9 @@ const Form = () => {
       return;
     }
 
-    setIsSubmitLoading(true);
-
     const urls = await Promise.all(
       attachments.map(async (file) => uploadFile(file)),
-    ).finally(() => setIsSubmitLoading(false));
+    );
 
     createPost.mutate({
       ...values,
@@ -86,41 +78,41 @@ const Form = () => {
     });
   };
 
-  if (isSessionLoading) {
-    return <p>Loading...</p>;
-  }
-
   return (
     <FormProvider {...form}>
       <FormComponent {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="mb-4 flex flex-col gap-5"
+          className="my-4 flex flex-col gap-5"
         >
-          <CategoryInput />
-          <TitleInput />
-          <ContentInput />
-          <AttachmentInput
-            attachments={attachments}
-            setAttachments={setAttachments}
-          />
+          {isSessionLoading ? (
+            <div className="h-[50vh] w-full flex items-center justify-center">
+              <Loader2Icon className="animate-spin text-muted-foreground" />
+            </div>
+          ) : (
+            <>
+              <CategoryInput />
+              <TitleInput />
+              <ContentInput />
+              <AttachmentInput
+                attachments={attachments}
+                setAttachments={setAttachments}
+              />
 
-          <Button
-            size="lg"
-            type="submit"
-            disabled={
-              isSubmitLoading || !!postInput.safeParse(form.watch()).error
-            }
-          >
-            {isSubmitLoading ? (
-              <>
-                <Loader2Icon className="animate-spin" />
-                Posting ...
-              </>
-            ) : (
-              "Post"
-            )}
-          </Button>
+              <LoadingButton
+                size="lg"
+                type="submit"
+                disabled={
+                  form.formState.isSubmitting ||
+                  !form.formState.isValid ||
+                  Object.entries(form.formState.errors).length > 0
+                }
+                isLoading={form.formState.isSubmitting}
+              >
+                Post
+              </LoadingButton>
+            </>
+          )}
         </form>
       </FormComponent>
     </FormProvider>

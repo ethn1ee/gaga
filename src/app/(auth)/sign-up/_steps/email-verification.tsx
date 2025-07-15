@@ -3,10 +3,10 @@
 import { OTPFormField } from "@/components/auth/form/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { useOTP } from "@/hooks";
 import { signUpInput } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2Icon } from "lucide-react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { type z } from "zod/v4";
@@ -58,20 +58,17 @@ const EmailVerificationForm = ({ userData, setStep }: FormProps) => {
           </Button>
         </div>
 
-        <Button
+        <LoadingButton
           type="submit"
           disabled={
             Object.entries(form.formState.errors).length > 0 ||
             form.formState.isSubmitting
           }
+          isLoading={form.formState.isSubmitting}
           className="w-full"
         >
-          {form.formState.isSubmitting ? (
-            <Loader2Icon className="animate-spin" />
-          ) : (
-            "Continue"
-          )}
-        </Button>
+          Continue
+        </LoadingButton>
       </form>
     </Form>
   );

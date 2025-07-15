@@ -69,15 +69,14 @@ const CategoryInput = () => {
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                {form.getValues("category") === "" ? (
+                {form.watch("category") === "" ? (
                   <SelectItem value="error" disabled>
                     Select a category first
                   </SelectItem>
                 ) : (
                   categories
                     .find(
-                      (category) =>
-                        category.slug === form.getValues("category"),
+                      (category) => category.slug === form.watch("category"),
                     )
                     ?.subcategories.map((subcategory, i) => (
                       <SelectItem value={subcategory.slug} key={i}>
