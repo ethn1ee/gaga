@@ -21,6 +21,23 @@ export const verificationRouter = createTRPCRouter({
     return result;
   }),
 
+  getByIdAndToken: publicProcedure
+    .input(z.object({ id: z.string(), token: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const result = await ctx.db.verification.findFirst({
+        where: {
+          id: input.id,
+          value: input.token,
+        },
+      });
+
+      if (result && result.expiresAt < new Date()) {
+        return null;
+      }
+
+      return result;
+    }),
+
   verify: publicProcedure
     .input(z.object({ id: z.string(), token: z.string() }))
     .query(async ({ ctx, input }) => {
