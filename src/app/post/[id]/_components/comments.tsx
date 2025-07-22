@@ -45,7 +45,7 @@ const Comments = ({ postId }: CommentsProps) => {
   });
 
   return (
-    <section ref={commentsRef} className="border-t pt-4 min-h-80">
+    <section id="comments" ref={commentsRef} className="border-t pt-4 min-h-80">
       <h3 className="flex items-center gap-2 mb-4">
         <span>Comments</span>
         <span className="text-muted-foreground text-base">{data?.length}</span>

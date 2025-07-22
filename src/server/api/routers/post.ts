@@ -65,33 +65,33 @@ export const postRouter = createTRPCRouter({
       return result;
     }),
 
-  getByCategoryAndSubcategory: publicProcedure
-    .input(
-      z.object({
-        category: postInput.shape.category,
-        subcategory: postInput.shape.subcategory,
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      const posts = await ctx.db.post.findMany({
-        where: {
-          AND: {
-            category: {
-              equals: input.category,
-              mode: "insensitive",
-            },
-            subcategory: {
-              equals: input.subcategory,
-              mode: "insensitive",
-            },
-          },
-        },
-        ...resultSchema,
-        orderBy: { createdAt: "desc" },
-      });
+  // getByCategoryAndSubcategory: publicProcedure
+  //   .input(
+  //     z.object({
+  //       category: postInput.shape.category,
+  //       subcategory: postInput.shape.subcategory,
+  //     }),
+  //   )
+  //   .query(async ({ ctx, input }) => {
+  //     const posts = await ctx.db.post.findMany({
+  //       where: {
+  //         AND: {
+  //           category: {
+  //             equals: input.category,
+  //             mode: "insensitive",
+  //           },
+  //           subcategory: {
+  //             equals: input.subcategory,
+  //             mode: "insensitive",
+  //           },
+  //         },
+  //       },
+  //       ...resultSchema,
+  //       orderBy: { createdAt: "desc" },
+  //     });
 
-      return posts;
-    }),
+  //     return posts;
+  //   }),
 
   getById: publicProcedure.input(z.cuid2()).query(async ({ ctx, input }) => {
     const result = await ctx.db.post.findUnique({
@@ -220,5 +220,12 @@ export const postRouter = createTRPCRouter({
         items: result,
         nextCursor,
       };
+    }),
+
+  deleteById: publicProcedure
+    .input(z.string())
+    .mutation(async ({ ctx, input }) => {
+      const result = await ctx.db.post.delete({ where: { id: input } });
+      return result;
     }),
 });
