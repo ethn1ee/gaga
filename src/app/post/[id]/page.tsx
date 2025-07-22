@@ -1,6 +1,8 @@
 "use client";
 
+import { PostMenu } from "@/components/post";
 import { UserAvatarWithDetail } from "@/components/user";
+import { useAuth } from "@/hooks";
 import { getRelativeTime } from "@/lib/utils";
 import { api } from "@/trpc/react";
 import { notFound } from "next/navigation";
@@ -21,6 +23,7 @@ const Post = ({ params }: PostProps) => {
   const viewIncrementedRef = useRef(false);
   const { data, isLoading, isSuccess } = api.post.getById.useQuery(id);
   const incrementViewMutation = api.post.incrementView.useMutation();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (isSuccess && viewIncrementedRef.current === false) {
@@ -51,12 +54,17 @@ const Post = ({ params }: PostProps) => {
         </div>
       </section>
 
-      <UserAvatarWithDetail
-        user={data?.author}
-        isLoading={isLoading}
-        time={data ? getRelativeTime(data.createdAt) : ""}
-        size="default"
-      />
+      <section id="info" className="flex justify-between items-center">
+        <UserAvatarWithDetail
+          user={data?.author}
+          isLoading={isLoading}
+          time={data ? getRelativeTime(data.createdAt) : ""}
+          size="default"
+        />
+        {user && data && data?.authorId === user?.id && (
+          <PostMenu id={data?.id} />
+        )}
+      </section>
 
       <Comments postId={id} />
     </main>

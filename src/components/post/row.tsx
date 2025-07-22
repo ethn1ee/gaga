@@ -1,22 +1,14 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+"use client";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { env } from "@/env";
 import type { PostWithComments } from "@/lib/schema";
 import { formatNumber, getRelativeTime } from "@/lib/utils";
 import { type User } from "@prisma/client";
 import { EllipsisIcon } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
 import { UserAvatar } from "../user";
+import PostMenu from "./menu";
 import { type TableMode } from "./table";
 
 type PostRowProps = {
@@ -78,32 +70,7 @@ const PostRow = ({ post, mode }: PostRowProps) => {
       <TableCell className="text-center">{formatNumber(post.views)}</TableCell>
 
       <TableCell className="hidden group-data-[mode=data]:table-cell">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <EllipsisIcon className="text-muted-foreground" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="**:cursor-pointer">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() =>
-                navigator.clipboard.writeText(env.NEXT_PUBLIC_BASE_URL + url)
-              }
-            >
-              Copy Link
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <Link href={url}>
-              <DropdownMenuItem>View</DropdownMenuItem>
-            </Link>
-            {/* TODO: create edit page */}
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <PostMenu id={post.id} />
       </TableCell>
     </TableRow>
   );

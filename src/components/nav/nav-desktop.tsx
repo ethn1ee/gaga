@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { categories, colorMap, type Category } from "@/site-config";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import UserButton from "./user-button";
 
@@ -23,7 +24,12 @@ const NavDesktop = ({
         <div className="flex items-center max-w-[600px] justify-between flex-1">
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
-              <Link href="/" className="size-10 bg-accent border rounded" />
+              <Link
+                href="/"
+                className="size-10 overflow-hidden relative animate hover:bg-transparent focus:bg-transparent hover:scale-110"
+              >
+                <Image src="/logo.png" alt="Logo" fill />
+              </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
           {categories.map((category, i) => (

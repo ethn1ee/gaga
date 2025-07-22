@@ -25,11 +25,14 @@ const EmailFormField = ({ isSignUp = false }: EmailFormFieldProps) => {
       name="email"
       render={({ field }) => (
         <FormItem>
-          <FormLabel htmlFor="email">Email</FormLabel>
+          <FormLabel htmlFor="email">
+            {isSignUp && "Personal "}
+            Email
+          </FormLabel>
           <FormControl>
             <Input
               {...field}
-              placeholder="john.doe@example.com"
+              placeholder="john.doe@gmail.com"
               className="clear-input-style h-10 !ring ring-border"
             />
           </FormControl>
