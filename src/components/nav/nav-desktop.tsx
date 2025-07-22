@@ -26,7 +26,7 @@ const NavDesktop = ({
             <NavigationMenuLink asChild>
               <Link
                 href="/"
-                className="size-10 overflow-hidden relative animate hover:bg-transparent hover:scale-110"
+                className="size-10 overflow-hidden relative animate hover:bg-transparent focus:bg-transparent hover:scale-110"
               >
                 <Image src="/logo.png" alt="Logo" fill />
               </Link>

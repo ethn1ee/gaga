@@ -2,13 +2,22 @@
 
 import { PaginatedPostTable } from "@/components/post";
 import { useAuth } from "@/hooks";
+import { ChevronRightIcon } from "lucide-react";
+import Link from "next/link";
 
 const Posts = () => {
   const { session, isSessionLoading } = useAuth();
 
   return (
     <section>
-      <h2 className="text-lg border-none font-medium">My Posts</h2>
+      <Link href={`/profile/posts`} className="group ml-2 block mb-2">
+        <h2 className="text-lg border-none font-medium inline">My Posts</h2>
+        <ChevronRightIcon
+          size={16}
+          className="inline mb-1 ml-1 text-ring group-hover:translate-x-1 transition-all"
+        />
+      </Link>
+
       <div className="border p-3 rounded-md h-110 flex flex-col justify-between">
         <PaginatedPostTable
           numRows={5}

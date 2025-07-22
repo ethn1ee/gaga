@@ -23,6 +23,7 @@ import {
 import { env } from "@/env";
 import { api } from "@/trpc/react";
 import { EllipsisIcon } from "lucide-react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -74,6 +75,7 @@ const PostMenu = ({ id }: PostMenuProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="**:cursor-pointer">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() =>
               navigator.clipboard.writeText(env.NEXT_PUBLIC_BASE_URL + url)
@@ -81,7 +83,11 @@ const PostMenu = ({ id }: PostMenuProps) => {
           >
             Copy Link
           </DropdownMenuItem>
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          {pathname !== url && (
+            <Link href={url}>
+              <DropdownMenuItem>View</DropdownMenuItem>
+            </Link>
+          )}
           <DropdownMenuSeparator />
           <AlertDialogTrigger
             onClick={() => setIsDeleteDialogOpen(true)}

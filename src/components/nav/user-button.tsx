@@ -66,14 +66,16 @@ const UserButton = () => {
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
-            <Link href="/profile" className="size-full">
+          <Link href="/profile">
+            <DropdownMenuItem className="cursor-pointer">
               Profile
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            My posts
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/profile/posts">
+            <DropdownMenuItem className="cursor-pointer">
+              My posts
+            </DropdownMenuItem>
+          </Link>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
             Sign out

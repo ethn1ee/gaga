@@ -62,20 +62,15 @@ const Footer = () => {
             </div>
 
             <div className="absolute left-0 bottom-0 p-4 items-end w-full flex justify-between">
-              <Link
-                href="https://github.com/ethn1ee"
-                className="text-muted-foreground group leading-none text-sm"
-              >
-                Made by Taehoon Lee, Class of &apos;26
-                <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-[1px] bg-foreground/20" />
+              <p className="leading-none text-sm text-muted-foreground">
+                © EmoryLife {new Date().getFullYear()}. All rights reserved.
+              </p>
+
+              <Link href="https://github.com/ethn1ee/gaga">
+                <Button size="icon">
+                  <IconBrandGithub />
+                </Button>
               </Link>
-              <div>
-                <Link href="https://github.com/ethn1ee/gaga">
-                  <Button size="icon">
-                    <IconBrandGithub />
-                  </Button>
-                </Link>
-              </div>
             </div>
           </div>
         </motion.div>
