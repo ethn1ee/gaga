@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { categories } from "@/site-config";
 import { IconBrandGithub } from "@tabler/icons-react";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -27,9 +28,14 @@ const Footer = () => {
           className="sticky h-[400px] top-[calc(100vh-400px)] bg-accent"
         >
           <div className="relative h-full container mx-auto flex flex-wrap gap-10 justify-between p-4 overflow-hidden">
-            <span className="grow-0 shrink-0 text-9xl font-thin tracking-tighter text-muted-foreground font-low">
-              EmoryLife
-            </span>
+            <Image
+              src="/logo.png"
+              alt="logo"
+              width={200}
+              height={200}
+              className="size-50 object-cover opacity-75"
+            />
+
             <div className="h-full flex flex-wrap justify-between grow shrink">
               {categories.map((category, i) => (
                 <div dir="rtl" key={i} className="basis-1/4 pr-4">
