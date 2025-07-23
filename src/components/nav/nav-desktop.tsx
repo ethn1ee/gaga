@@ -19,6 +19,8 @@ import UserButton from "./user-button";
 const NavDesktop = ({
   className,
 }: React.ComponentProps<typeof NavigationMenu>) => {
+  const t = useTranslations("misc");
+
   return (
     <NavigationMenu viewport={false} className={className}>
       <NavigationMenuList className="w-screen flex justify-between items-center py-4 px-5 relative z-50">
@@ -29,7 +31,7 @@ const NavDesktop = ({
                 href="/"
                 className="size-10 overflow-hidden relative animate hover:bg-transparent focus:bg-transparent hover:scale-110"
               >
-                <Image src="/logo.png" alt="Logo" fill />
+                <Image src="/logo.png" alt="Logo" fill sizes="40px" />
               </Link>
             </NavigationMenuLink>
           </NavigationMenuItem>
@@ -47,7 +49,7 @@ const NavDesktop = ({
               <Link href="/new">
                 <Button>
                   <PlusIcon className="text-primary-foreground" />
-                  <span>New Post</span>
+                  <span>{t("new-post")}</span>
                 </Button>
               </Link>
             </NavigationMenuLink>

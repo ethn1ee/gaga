@@ -5,6 +5,7 @@ import { cn, isValidPath } from "@/lib/utils";
 import { categories } from "@/site-config";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,6 +13,8 @@ import Title from "../ui/title";
 import UserButton from "./user-button";
 
 const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
+  const t = useTranslations();
+
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [path, setPath] = useState<string[]>([]);
@@ -66,7 +69,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
               <Link href="/new" onClick={() => setOpen(false)}>
                 <Button className="w-full">
                   <PlusIcon className="text-primary-foreground" />
-                  <span>New Post</span>
+                  <span>{t("misc.new-post")}</span>
                 </Button>
               </Link>
             </li>
@@ -76,7 +79,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
                   variant="ghost"
                   className="py-3 !px-4 w-full h-fit justify-between text-xl font-semibold"
                 >
-                  Home
+                  {t("misc.home")}
                   <ChevronRightIcon />
                 </Button>
               </Link>
@@ -88,7 +91,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
                     variant="ghost"
                     className="py-3 !px-4 w-full h-fit justify-between text-xl font-semibold"
                   >
-                    {category.name}
+                    {t(`category.${category.slug}.title`)}
                     <ChevronRightIcon />
                   </Button>
                 </Link>
@@ -104,7 +107,9 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
                           variant="ghost"
                           className="py-3 px-4 pl-6 w-full h-fit justify-start text-lg font-normal"
                         >
-                          {subcategory.name}
+                          {t(
+                            `category.${category.slug}.subcategories.${subcategory.slug}.title`,
+                          )}
                         </Button>
                       </Link>
                     </li>

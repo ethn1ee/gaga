@@ -83,6 +83,7 @@
   },
 
   "home": {
+    "title": "Home",
     "hero": {
       "title": "Welcome to EmoryLife!",
       "subtitle": {
@@ -94,5 +95,11 @@
       "recent-posts": "Recent Posts",
       "recent-photos": "Recent Photos"
     }
+  },
+
+  "misc": {
+    "new-post": "New Post",
+    "home": "Home",
+    "sign-in": "Sign In"
   }
 }
