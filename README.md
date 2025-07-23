@@ -24,11 +24,30 @@ This project is built with the latest and greatest, probably because we like to 
 - **Tailwind CSS**
 - **Shadcn/UI**
 
-## Running Locally
+## Development
 
-1.  `pnpm install`
-2.  `pnpm dev`
-3.  Open [http://localhost:3000](http://localhost:3000) and pray.
+### Running locally
+
+1. Run the following command
+```
+make
+```
+2.  Open [http://localhost:3000](http://localhost:3000)
+
+### Running Prisma studio
+
+1. Run the following command
+```
+make studio
+```
+2. Open [http://localhost:5555](http://localhost:5555)
+
+### Regenerating DB
+
+1. Run the following command
+```
+make db
+```
 
 ---
 
