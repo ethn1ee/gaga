@@ -4,6 +4,7 @@ import { formatNumber } from "@/lib/utils";
 import { categories, type Category, colorMap } from "@/site-config";
 import { ChevronRightIcon } from "lucide-react";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 type CategoryThumbnailsProps = {
@@ -32,6 +33,8 @@ type ThumbnailProps = {
 };
 
 const Thumbnail = ({ category, stat }: ThumbnailProps) => {
+  const t = useTranslations("category");
+
   const detailVariant = {
     default: {
       opacity: 0,
@@ -72,7 +75,7 @@ const Thumbnail = ({ category, stat }: ThumbnailProps) => {
           <span
             className={`${colors.title} text-xl md:text-2xl font-normal flex items-center`}
           >
-            {category.name}
+            {t(`${category.slug}.title`)}
             <motion.span
               variants={chevronVariant}
               transition={{ duration: 0.3, ease: "easeOut" }}

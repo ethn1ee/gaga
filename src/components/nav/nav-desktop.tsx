@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import { categories, colorMap, type Category } from "@/site-config";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import UserButton from "./user-button";
@@ -21,7 +22,7 @@ const NavDesktop = ({
   return (
     <NavigationMenu viewport={false} className={className}>
       <NavigationMenuList className="w-screen flex justify-between items-center py-4 px-5 relative z-50">
-        <div className="flex items-center max-w-[600px] justify-between flex-1">
+        <div className="flex items-center max-w-[600px] gap-4 flex-1">
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link
@@ -70,13 +71,15 @@ type CategoryItemProps = {
 };
 
 const CategoryItem = ({ category }: CategoryItemProps) => {
+  const t = useTranslations("category");
+
   const colors = colorMap[category.color];
 
   return (
     <NavigationMenuItem>
       <NavigationMenuTrigger>
         <category.icon size={20} className="text-muted-foreground mr-2" />
-        <span>{category.name}</span>
+        <span>{t(`${category.slug}.title`)}</span>
       </NavigationMenuTrigger>
       <NavigationMenuContent>
         <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] lg:grid-rows-5">
@@ -88,11 +91,11 @@ const CategoryItem = ({ category }: CategoryItemProps) => {
               <div
                 className={`${colors.title} mt-4 mb-2 text-lg font-medium flex items-center gap-2`}
               >
-                {category.name}
+                {t(`${category.slug}.title`)}
                 <ChevronRightIcon size={20} className={colors.title} />
               </div>
               <p className="text-muted-foreground text-sm leading-tight">
-                {category.description}
+                {t(`${category.slug}.description`)}
               </p>
             </Link>
           </li>
@@ -100,9 +103,13 @@ const CategoryItem = ({ category }: CategoryItemProps) => {
             <SubcategoryItem
               key={j}
               href={`/${category.slug}/${subcategory.slug}`}
-              title={subcategory.name}
+              title={t(
+                `${category.slug}.subcategories.${subcategory.slug}.title`,
+              )}
             >
-              {subcategory.description}
+              {t(
+                `${category.slug}.subcategories.${subcategory.slug}.description`,
+              )}
             </SubcategoryItem>
           ))}
         </ul>

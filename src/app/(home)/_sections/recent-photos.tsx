@@ -1,15 +1,19 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { getFileType } from "@/lib/utils";
 import { api } from "@/trpc/server";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import Link from "next/link";
 
 const RecentPhotos = async () => {
+  const t = await getTranslations("home");
   const photos = await api.post.getPhotos(9);
 
   return (
     <section id="recent-photos" className="md:basis-3/5 order-2 lg:order-1">
-      <span className="block text-lg font-medium mb-2">Recent Photos</span>
+      <span className="block text-lg font-medium mb-2">
+        {t("sections.recent-photos")}
+      </span>
       <div className="grid grid-cols-3 gap-1 overflow-hidden rounded-md">
         {photos.map((photoPost, i) => {
           const photos = photoPost.attachments.filter(
