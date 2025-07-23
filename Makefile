@@ -1,12 +1,19 @@
-.PHONY: dev
+SHELL := /bin/zsh
+
+.PHONY: dev studio db install
+
 dev:
-	@[ ! -d "node_modules" ] && pnpm install
+	@make install
 	@pnpm dev
 
-.PHONY: studio
-studio:
-	@pnpm db:studio
+install:
+	@if [ ! -d "node_modules" ]; then \
+		echo "Directory 'node_modules' not found. Running 'pnpm install'..."; \
+		pnpm install; \
+	fi
 
-.PHONY: db
+studio:
+	@npx prisma studio
+
 db:
-	@pnpm db:push && npx prisma generate
+	@npx prisma db push && pnpm install
