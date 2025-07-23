@@ -1,0 +1,98 @@
+{
+  "category": {
+    "general": {
+      "title": "General",
+      "description": "Essential information for navigating college life",
+      "subcategories": {
+        "documents": {
+          "title": "Documents",
+          "description": "Academic calendar, exam schedules, and important dates"
+        },
+        "new-students": {
+          "title": "New Students",
+          "description": "Resources and guides for first-year students and transfers"
+        },
+        "international-students": {
+          "title": "International Students",
+          "description": "Support, visa information, and cultural adaptation resources"
+        },
+        "financial-aid": {
+          "title": "Financial Aid",
+          "description": "Scholarships, grants, loans, and financial planning advice"
+        }
+      }
+    },
+    "academics": {
+      "title": "Academics",
+      "description": "Information about academic programs and resources",
+      "subcategories": {
+        "pre-med": {
+          "title": "Pre-med",
+          "description": "Course requirements, MCAT prep, and medical school application tips"
+        },
+        "pre-law": {
+          "title": "Pre-law",
+          "description": "Resources for LSAT preparation, law school admissions, and career pathways in law"
+        },
+        "business": {
+          "title": "Business",
+          "description": "Courses and guidance for business studies, including management, finance, and entrepreneurship"
+        },
+        "nursing": {
+          "title": "Nursing",
+          "description": "Education pathways for aspiring nurses, including NCLEX prep and career advice"
+        },
+        "other": {
+          "title": "Other",
+          "description": "Additional academic areas and interdisciplinary programs not covered by other subcategories"
+        }
+      }
+    },
+    "living": {
+      "title": "Living",
+      "description": "Information about living on campus",
+      "subcategories": {
+        "jobs": {
+          "title": "Jobs",
+          "description": "On-campus employment, internships, and part-time opportunities"
+        },
+        "rents": {
+          "title": "Rentals",
+          "description": "Off-campus housing options, finding roommates, and leasing advice"
+        },
+        "marketplace": {
+          "title": "Marketplace",
+          "description": "Buy, sell, and trade textbooks, furniture, and other essentials"
+        }
+      }
+    },
+    "photos": {
+      "title": "Photos",
+      "description": "Photos of campus and dorms",
+      "subcategories": {
+        "campus": {
+          "title": "Campus",
+          "description": "School buildings, landmarks, and campus events"
+        },
+        "dorms": {
+          "title": "Dorms",
+          "description": "Residence halls, room layouts, and living spaces"
+        }
+      }
+    }
+  },
+
+  "home": {
+    "hero": {
+      "title": "Welcome to EmoryLife!",
+      "subtitle": {
+        "1": "Information hub for Korean community at Emory University.",
+        "2": "Or at least a place to post campus squirrel pics."
+      }
+    },
+    "sections": {
+      "recent-posts": "Recent Posts",
+      "recent-photos": "Recent Photos"
+    }
+  }
+}
