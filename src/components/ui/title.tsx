@@ -1,4 +1,7 @@
-import { cn, slugToTitle } from "@/lib/utils";
+"use client";
+
+import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { type ComponentProps } from "react";
 
@@ -16,6 +19,13 @@ const Title = ({
   withLink = false,
   className,
 }: TitleProps & ComponentProps<"div">) => {
+  const t = useTranslations("category");
+
+  const tPrimary = primary ? t(`${primary}.title`) : undefined;
+  const tSecondary = secondary
+    ? t(`${primary}.subcategories.${secondary}.title`)
+    : undefined;
+
   return (
     <div className={cn("flex gap-4 items-center", className)}>
       <h3
@@ -33,7 +43,7 @@ const Title = ({
               secondary ? "text-muted-foreground" : "text-foreground",
             )}
           >
-            {slugToTitle(primary, { isCategory: true })}
+            {tPrimary}
           </Link>
         ) : (
           <span
@@ -41,18 +51,16 @@ const Title = ({
               secondary ? "text-muted-foreground" : "text-foreground",
             )}
           >
-            {slugToTitle(primary, { isCategory: true })}
+            {tPrimary}
           </span>
         )}
         {secondary && (
           <>
             <span className="text-muted-foreground">/</span>
             {withLink ? (
-              <Link href={`/${primary}/${secondary}`}>
-                {slugToTitle(secondary, { isSubcategory: true })}
-              </Link>
+              <Link href={`/${primary}/${secondary}`}>{tSecondary}</Link>
             ) : (
-              <span>{slugToTitle(secondary, { isSubcategory: true })}</span>
+              <span>{tSecondary}</span>
             )}
           </>
         )}

@@ -1,7 +1,6 @@
 "use client";
 
 import { PaginatedPostTable } from "@/components/post";
-import Title from "@/components/ui/title";
 import { useAuth } from "@/hooks";
 
 const MyPosts = () => {
@@ -9,7 +8,7 @@ const MyPosts = () => {
 
   return (
     <main className="min-h-one-page flex flex-col gap-4 pt-4">
-      <Title primary="My Posts" />
+      <h3 className="text-3xl">My Posts</h3>
       <div className="flex-1 flex flex-col justify-between">
         <PaginatedPostTable
           numRows={5}

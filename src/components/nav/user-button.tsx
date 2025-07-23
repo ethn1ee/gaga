@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -65,23 +66,32 @@ const UserButton = () => {
       </DropdownMenuTrigger>
 
       {session && (
-        <DropdownMenuContent>
+        <DropdownMenuContent className="**:cursor-pointer">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
+
+          <DropdownMenuGroup>
+            <Link href="/profile">
+              <DropdownMenuItem className="cursor-pointer">
+                Profile
+              </DropdownMenuItem>
+            </Link>
+            <Link href="/profile/posts">
+              <DropdownMenuItem className="cursor-pointer">
+                My posts
+              </DropdownMenuItem>
+            </Link>
+          </DropdownMenuGroup>
+
           <DropdownMenuSeparator />
-          <Link href="/profile">
-            <DropdownMenuItem className="cursor-pointer">
-              Profile
+
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              onClick={handleSignOut}
+              className="cursor-pointer"
+            >
+              Sign out
             </DropdownMenuItem>
-          </Link>
-          <Link href="/profile/posts">
-            <DropdownMenuItem className="cursor-pointer">
-              My posts
-            </DropdownMenuItem>
-          </Link>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
-            Sign out
-          </DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       )}
     </DropdownMenu>

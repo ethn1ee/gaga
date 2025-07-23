@@ -9,7 +9,7 @@ import Summary from "./_sections/summary";
 
 const Profile = () => {
   return (
-    <main className="space-y-10">
+    <main className="space-y-10 pt-4">
       <Summary />
       <Alerts />
       <Information />
