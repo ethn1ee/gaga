@@ -17,7 +17,7 @@
           "description": "지원, 비자 정보 및 문화 적응 자료"
         },
         "financial-aid": {
-          "title": "재정 지원",
+          "title": "재정 보조",
           "description": "장학금, 보조금, 대출 및 재정 계획 조언"
         }
       }
@@ -27,11 +27,11 @@
       "description": "학술 프로그램 및 자료에 대한 정보",
       "subcategories": {
         "pre-med": {
-          "title": "의대 준비",
+          "title": "의대",
           "description": "수강 요구사항, MCAT 준비 및 의대 입학 팁"
         },
         "pre-law": {
-          "title": "법대 준비",
+          "title": "법대",
           "description": "LSAT 준비, 로스쿨 입학 및 법학 경력 경로를 위한 자료"
         },
         "business": {
@@ -61,7 +61,7 @@
           "description": "캠퍼스 외 주거 옵션, 룸메이트 찾기 및 임대 조언"
         },
         "marketplace": {
-          "title": "마켓플레이스",
+          "title": "장터",
           "description": "교과서, 가구 및 기타 필수품 구매, 판매 및 교환"
         }
       }
@@ -83,6 +83,7 @@
   },
 
   "home": {
+    "title": "홈",
     "hero": {
       "title": "EmoryLife에 오신 것을 환영합니다!",
       "subtitle": {
@@ -94,5 +95,11 @@
       "recent-posts": "최근 게시물",
       "recent-photos": "최근 사진"
     }
+  },
+
+  "misc": {
+    "new-post": "새 게시물",
+    "home": "홈",
+    "sign-in": "로그인"
   }
 }

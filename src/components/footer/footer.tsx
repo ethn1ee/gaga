@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 import { categories } from "@/site-config";
 import { IconBrandGithub } from "@tabler/icons-react";
 import { motion, useMotionValueEvent, useScroll } from "motion/react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
 const Footer = () => {
+  const t = useTranslations("category");
+
   const { scrollYProgress } = useScroll();
   const [opacity, setOpacity] = useState(0);
 
@@ -43,7 +46,7 @@ const Footer = () => {
                     href={`/${category.slug}`}
                     className="font-semibold after:bg-foreground animate-underline"
                   >
-                    {category.name}
+                    {t(`${category.slug}.title`)}
                   </Link>
                   <ul dir="rtl" className="space-y-2 mt-2">
                     {category.subcategories.map((subcategory, j) => (
@@ -52,7 +55,9 @@ const Footer = () => {
                           href={`/${category.slug}/${subcategory.slug}`}
                           className="after:bg-muted-foreground animate-underline"
                         >
-                          {subcategory.name}
+                          {t(
+                            `${category.slug}.subcategories.${subcategory.slug}.title`,
+                          )}
                         </Link>
                       </li>
                     ))}

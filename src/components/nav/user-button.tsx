@@ -12,12 +12,14 @@ import {
 import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
 import { CircleUserIcon, Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { UserAvatar } from "../user";
 
 const UserButton = () => {
+  const t = useTranslations("misc");
   const router = useRouter();
   const { session, isSessionLoading } = useAuth();
 
@@ -55,7 +57,7 @@ const UserButton = () => {
             ) : (
               <>
                 <CircleUserIcon />
-                Sign In
+                {t("sign-in")}
               </>
             )}
           </Button>
