@@ -14,6 +14,7 @@ import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
+import LocaleSwitch from "./locale-switch";
 import UserButton from "./user-button";
 
 const NavDesktop = ({
@@ -40,7 +41,11 @@ const NavDesktop = ({
           ))}
         </div>
 
-        <div className="flex">
+        <div className="flex items-center">
+          <NavigationMenuItem className="mr-3">
+            <LocaleSwitch />
+          </NavigationMenuItem>
+
           <NavigationMenuItem>
             <NavigationMenuLink
               asChild

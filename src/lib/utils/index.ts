@@ -1,4 +1,5 @@
 import { cn } from "./cn";
+import { getCookie, setCookie } from "./cookie";
 import { extractOriginalFilename, replaceFileExtension } from "./filename";
 import { formatNumber } from "./format-number";
 import { getFileType } from "./get-file-type";
@@ -14,6 +15,7 @@ export {
   cn,
   extractOriginalFilename,
   formatNumber,
+  getCookie,
   getFileType,
   getInitials,
   getNow,
@@ -21,6 +23,7 @@ export {
   isValidPath,
   parseIdentifier,
   replaceFileExtension,
+  setCookie,
   slugToTitle,
   toSlug,
   uploadFile,
