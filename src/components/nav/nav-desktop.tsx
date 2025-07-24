@@ -9,6 +9,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { useAuth } from "@/hooks";
 import { categories, colorMap, type Category } from "@/site-config";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -21,6 +22,7 @@ const NavDesktop = ({
   className,
 }: React.ComponentProps<typeof NavigationMenu>) => {
   const t = useTranslations("misc");
+  const { session } = useAuth();
 
   return (
     <NavigationMenu viewport={false} className={className}>
@@ -41,27 +43,29 @@ const NavDesktop = ({
           ))}
         </div>
 
-        <div className="flex items-center">
-          <NavigationMenuItem className="mr-3">
+        <div className="flex items-center gap-2">
+          <NavigationMenuItem>
             <LocaleSwitch />
           </NavigationMenuItem>
 
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              asChild
-              className="focus:bg-transparent hover:bg-trasparent"
-            >
-              <Link href="/new">
-                <Button>
-                  <PlusIcon className="text-primary-foreground" />
-                  <span>{t("new-post")}</span>
-                </Button>
-              </Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+          {session && (
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                asChild
+                className="focus:bg-transparent hover:bg-trasparent p-0"
+              >
+                <Link href="/new">
+                  <Button>
+                    <PlusIcon className="text-muted" />
+                    <span>{t("new-post")}</span>
+                  </Button>
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          )}
 
           <NavigationMenuItem>
-            <NavigationMenuLink className="focus:bg-transparent hover:bg-trasparent">
+            <NavigationMenuLink className="focus:bg-transparent hover:bg-trasparent p-0">
               <UserButton />
             </NavigationMenuLink>
           </NavigationMenuItem>

@@ -8,17 +8,17 @@ const LocaleSwitch = () => {
     <div
       data-locale={locale}
       onClick={toggleLocale}
-      className="group cursor-pointer border rounded-sm relative size-fit px-1.5 py-1.5 flex items-center gap-2 *:text-sm *:font-mono *:leading-none *:text-center *:text-muted-foreground"
+      className="group cursor-pointer border rounded-md relative h-9 px-1 flex items-center [&_span]:w-7 *:text-sm *:font-mono *:leading-none *:text-center *:text-muted-foreground"
     >
       <motion.div
         animate={{
-          ...(locale === "ko" ? { left: 2 } : { right: 2 }),
+          ...(locale === "ko" ? { left: 4 } : { right: 4 }),
           transition: { duration: 0.3 },
         }}
-        className="absolute h-6 w-7 bg-muted -z-10 rounded-sm"
+        className="absolute size-7 bg-muted -z-10 rounded-sm"
       />
-      <span className="group-data-[locale=ko]:text-foreground w-5">한</span>
-      <span className="group-data-[locale=en]:text-foreground w-5">EN</span>
+      <span className="group-data-[locale=ko]:text-foreground">한</span>
+      <span className="group-data-[locale=en]:text-foreground">A</span>
     </div>
   );
 };
