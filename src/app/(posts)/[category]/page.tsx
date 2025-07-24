@@ -1,10 +1,10 @@
 "use client";
 
 import { PostTable } from "@/components/post";
-import { slugToTitle } from "@/lib/utils";
 import { categories } from "@/site-config";
 import { api } from "@/trpc/react";
 import { ChevronRightIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { use } from "react";
 
@@ -13,6 +13,7 @@ type CategoryProps = {
 };
 
 const Category = ({ params }: CategoryProps) => {
+  const t = useTranslations("category");
   const { category } = use(params);
 
   const [data, query] = api.post.getByCategory.useSuspenseQuery(category);
@@ -37,7 +38,7 @@ const Category = ({ params }: CategoryProps) => {
                 href={`/${category}/${subcategory}`}
                 className="group text-sm font-medium ml-2 block mb-2 text-muted-foreground"
               >
-                {slugToTitle(subcategory, { isSubcategory: true })}
+                {t(`${category}.subcategories.${subcategory}.title`)}
                 <ChevronRightIcon
                   size={16}
                   className="inline mb-0.5 ml-1 text-ring group-hover:translate-x-1 transition-all"

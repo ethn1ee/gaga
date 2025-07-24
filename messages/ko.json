@@ -1,0 +1,105 @@
+{
+  "category": {
+    "general": {
+      "title": "일반",
+      "description": "대학 생활을 위한 필수 정보",
+      "subcategories": {
+        "documents": {
+          "title": "문서",
+          "description": "학사 일정, 시험 스케줄 및 중요한 날짜"
+        },
+        "new-students": {
+          "title": "신입생",
+          "description": "1학년 및 편입생을 위한 자료와 가이드"
+        },
+        "international-students": {
+          "title": "유학생",
+          "description": "지원, 비자 정보 및 문화 적응 자료"
+        },
+        "financial-aid": {
+          "title": "재정 보조",
+          "description": "장학금, 보조금, 대출 및 재정 계획 조언"
+        }
+      }
+    },
+    "academics": {
+      "title": "학업",
+      "description": "학술 프로그램 및 자료에 대한 정보",
+      "subcategories": {
+        "pre-med": {
+          "title": "의대",
+          "description": "수강 요구사항, MCAT 준비 및 의대 입학 팁"
+        },
+        "pre-law": {
+          "title": "법대",
+          "description": "LSAT 준비, 로스쿨 입학 및 법학 경력 경로를 위한 자료"
+        },
+        "business": {
+          "title": "비즈니스",
+          "description": "경영, 금융, 창업을 포함한 경영학 과정 및 지도"
+        },
+        "nursing": {
+          "title": "간호학",
+          "description": "간호사 지망생을 위한 교육 경로, NCLEX 준비 및 진로 조언"
+        },
+        "other": {
+          "title": "기타",
+          "description": "다른 하위 카테고리에 포함되지 않는 추가 학술 분야 및 학제간 프로그램"
+        }
+      }
+    },
+    "living": {
+      "title": "생활",
+      "description": "캠퍼스 생활에 대한 정보",
+      "subcategories": {
+        "jobs": {
+          "title": "일자리",
+          "description": "캠퍼스 내 취업, 인턴십 및 아르바이트 기회"
+        },
+        "rents": {
+          "title": "임대",
+          "description": "캠퍼스 외 주거 옵션, 룸메이트 찾기 및 임대 조언"
+        },
+        "marketplace": {
+          "title": "장터",
+          "description": "교과서, 가구 및 기타 필수품 구매, 판매 및 교환"
+        }
+      }
+    },
+    "photos": {
+      "title": "사진",
+      "description": "캠퍼스와 기숙사 사진",
+      "subcategories": {
+        "campus": {
+          "title": "캠퍼스",
+          "description": "학교 건물, 랜드마크 및 캠퍼스 행사"
+        },
+        "dorms": {
+          "title": "기숙사",
+          "description": "학생 기숙사, 방 구조 및 생활 공간"
+        }
+      }
+    }
+  },
+
+  "home": {
+    "title": "홈",
+    "hero": {
+      "title": "EmoryLife에 오신 것을 환영합니다!",
+      "subtitle": {
+        "1": "에모리 대학교 한국인 커뮤니티를 위한 정보망입니다.",
+        "2": "무엇이든 공유하세요. 캠퍼스 다람쥐 사진이라도 환영입니다!"
+      }
+    },
+    "sections": {
+      "recent-posts": "최근 게시물",
+      "recent-photos": "최근 사진"
+    }
+  },
+
+  "misc": {
+    "new-post": "새 게시물",
+    "home": "홈",
+    "sign-in": "로그인"
+  }
+}
