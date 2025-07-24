@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,11 +11,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
-import { CircleUserIcon, Loader2Icon } from "lucide-react";
+import { CircleUserIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { LoadingButton } from "../ui/loading-button";
 import { UserAvatar } from "../user";
 
 const UserButton = () => {
@@ -48,20 +48,14 @@ const UserButton = () => {
         {session ? (
           <UserAvatar user={session.user} className="size-9" />
         ) : (
-          <Button
-            variant="secondary"
+          <LoadingButton
+            isLoading={isSessionLoading}
             disabled={isSessionLoading}
             onClick={handleSignIn}
           >
-            {isSessionLoading ? (
-              <Loader2Icon className="animate-spin" />
-            ) : (
-              <>
-                <CircleUserIcon />
-                {t("sign-in")}
-              </>
-            )}
-          </Button>
+            <CircleUserIcon className="text-muted" />
+            {t("sign-in")}
+          </LoadingButton>
         )}
       </DropdownMenuTrigger>
 

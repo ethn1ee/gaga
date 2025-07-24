@@ -51,7 +51,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={`${font.variable}`}>
-      <body data-locale={locale} className="data-[locale=en]:font-light">
+      <body
+        data-locale={locale}
+        className="data-[locale=en]:[&_p]:font-light data-[locale=en]:[&_button]:font-light"
+      >
         <NextIntlClientProvider>
           <LocaleProvider>
             <TRPCReactProvider>
