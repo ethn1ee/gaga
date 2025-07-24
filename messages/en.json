@@ -229,21 +229,38 @@
           "button": "Delete Account",
           "dialog": {
             "title": "Are you absolutely sure?",
-            "description": "All of your data including posts and comments will be permanently deleted."
+            "description": "All of your data including posts and comments will be permanently deleted.",
+            "buttons": {
+              "cancel": "Cancel",
+              "delete": "Delete my account"
+            }
           }
         }
       }
+    },
+    "edit-dialog": {
+      "cancel": "Cancel",
+      "save": "Save"
     }
   },
 
   "user-button": {
-    "title": "My Account",
     "button": "Sign In",
-    "items": {
-      "profile": "Profile",
-      "my-posts": "My posts",
-      "sign-out": "Sign out"
-    }
+    "my-account": {
+      "title": "My Account",
+      "items": {
+        "profile": "Profile",
+        "my-posts": "My posts"
+      }
+    },
+    "website": {
+      "title": "Website",
+      "items": {
+        "request-features": "Request features",
+        "visit-github": "Visit GitHub"
+      }
+    },
+    "sign-out": "Sign out"
   },
 
   "misc": {
