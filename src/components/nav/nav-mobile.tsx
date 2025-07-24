@@ -10,6 +10,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Title from "../ui/title";
+import LocaleSwitch from "./locale-switch";
 import UserButton from "./user-button";
 
 const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
@@ -54,7 +55,10 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
         <Title size="xs" primary={path[0] ?? ""} secondary={path[1]} />
       </div>
 
-      <UserButton />
+      <div className="flex gap-2.5">
+        <LocaleSwitch />
+        <UserButton />
+      </div>
 
       <AnimatePresence>
         {open && (
