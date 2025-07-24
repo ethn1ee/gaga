@@ -1,6 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth";
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import useAuth from "./use-auth";
@@ -12,6 +13,7 @@ type UseOTPProps = {
 const COOLDOWN_SECONDS = 60;
 
 const useOTP = ({ email }: UseOTPProps) => {
+  const t = useTranslations("auth.toast");
   const [cooldown, setCooldown] = useState(COOLDOWN_SECONDS);
   const [isVerificationLoading, setIsVerificationLoading] = useState(false);
   const sent = useRef(false);
@@ -42,22 +44,22 @@ const useOTP = ({ email }: UseOTPProps) => {
         },
         {
           onSuccess: () => {
-            toast.success("Verification email sent!", {
+            toast.success(t("send-otp.success.message"), {
               position: "top-center",
               description: email,
             });
           },
           onError: ({ error }) => {
-            toast.error("Failed to send verification email!", {
+            toast.error(t("send-otp.error.message"), {
               position: "top-center",
-              description: "Please try again later.",
+              description: t("send-otp.error.description"),
             });
             console.error("Error sending OTP", error);
           },
         },
       )
       .finally(() => setCooldown(COOLDOWN_SECONDS));
-  }, [email]);
+  }, [email, t]);
 
   const verifyOTP = async (otp: string) => {
     setIsVerificationLoading(true);
@@ -69,7 +71,7 @@ const useOTP = ({ email }: UseOTPProps) => {
         },
         {
           onSuccess: async () => {
-            toast.success("Email verified!", {
+            toast.success(t("verify-otp.success.message"), {
               position: "top-center",
               description: email,
             });
@@ -80,12 +82,12 @@ const useOTP = ({ email }: UseOTPProps) => {
             let description: string;
             switch (error.code) {
               case "INVALID_OTP":
-                message = "Invalid code!";
-                description = "Try again.";
+                message = t("verify-otp.error.message");
+                description = t("verify-otp.error.description");
                 break;
               default:
-                message = "Unknown error occurred";
-                description = "Please try again later.";
+                message = t("unknown-error.message");
+                description = t("unknown-error.description");
                 console.error("Error verifying OTP:", error);
             }
 

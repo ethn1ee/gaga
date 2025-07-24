@@ -6,6 +6,7 @@ import { LoadingButton } from "@/components/ui/loading-button";
 import { authClient } from "@/lib/auth";
 import { signUpInput } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { type z } from "zod/v4";
@@ -18,7 +19,9 @@ const schema = signUpInput.pick({
   password2: true,
 });
 
-const SignUpForm = ({ setStep, setUserData }: FormProps) => {
+const BasicInformationForm = ({ setStep, setUserData }: FormProps) => {
+  const t = useTranslations("auth");
+
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -43,12 +46,12 @@ const SignUpForm = ({ setStep, setUserData }: FormProps) => {
           let description: string;
           switch (error.code) {
             case "USER_ALREADY_EXISTS":
-              message = "Email already in use!";
-              description = "Sign in or use a different email.";
+              message = t("toast.user-already-exists.message");
+              description = t("toast.user-already-exists.description");
               break;
             default:
-              message = "Unknown error occurred";
-              description = "Please try again later.";
+              message = "toast.unknown-error.message";
+              description = "toast.unknown-error.description";
               console.error("Error signing up:", error);
           }
 
@@ -73,16 +76,17 @@ const SignUpForm = ({ setStep, setUserData }: FormProps) => {
           type="submit"
           disabled={
             Object.entries(form.formState.errors).length > 0 ||
+            !form.formState.isValid ||
             form.formState.isSubmitting
           }
           isLoading={form.formState.isSubmitting}
           className="w-full"
         >
-          Continue
+          {t("buttons.continue")}
         </LoadingButton>
       </form>
     </Form>
   );
 };
 
-export default SignUpForm;
+export default BasicInformationForm;

@@ -3,12 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
 import { Nova_Mono } from "next/font/google";
 import Link from "next/link";
 
 const novaMono = Nova_Mono({ subsets: ["latin"], weight: "400" });
 
 const Complete = () => {
+  const t = useTranslations("auth.buttons");
   const { user } = useAuth();
 
   return (
@@ -53,7 +55,7 @@ const Complete = () => {
       )}
       <Link href="/" className="w-full">
         <Button type="button" className="relative z-10 w-full">
-          Start exploring!
+          {t("start-exploring")}
         </Button>
       </Link>
     </section>

@@ -2,21 +2,26 @@
 
 import { AffiliationForm } from "@/components/auth/form";
 import InfoTable from "@/components/profile/info-table";
+import { useTranslations } from "next-intl";
 
 const EmoryAffiliation = () => {
+  const t = useTranslations("auth.inputs");
+  const tTitle = useTranslations("profile.sections.affiliation")("title");
+
   const fields = [
     {
-      title: "Affiliation",
+      title: t("affiliation.label"),
       field: "affiliation",
       editable: true,
+      translate: true,
     },
-    { title: "Emory Email", field: "emoryEmail", editable: true },
-    { title: "Class", field: "class", editable: true },
+    { title: t("emory-email.label"), field: "emoryEmail", editable: true },
+    { title: t("class.label"), field: "class", editable: true },
   ];
 
   return (
     <InfoTable
-      title="Emory Affiliation"
+      title={tTitle}
       fields={fields}
       editFormFields={<AffiliationForm />}
     />

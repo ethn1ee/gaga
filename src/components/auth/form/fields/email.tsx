@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { type SignUpInput } from "@/lib/schema";
+import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
 type EmailFormFieldProps = {
@@ -17,6 +18,7 @@ type EmailFormFieldProps = {
 };
 
 const EmailFormField = ({ isSignUp = false }: EmailFormFieldProps) => {
+  const t = useTranslations("auth.inputs.email");
   const form = useFormContext<Pick<SignUpInput, "email">>();
 
   return (
@@ -26,8 +28,7 @@ const EmailFormField = ({ isSignUp = false }: EmailFormFieldProps) => {
       render={({ field }) => (
         <FormItem>
           <FormLabel htmlFor="email">
-            {isSignUp && "Personal "}
-            Email
+            {t("label", { isSignUp: isSignUp.toString() })}
           </FormLabel>
           <FormControl>
             <Input
@@ -37,12 +38,7 @@ const EmailFormField = ({ isSignUp = false }: EmailFormFieldProps) => {
             />
           </FormControl>
           <FormMessage />
-          {isSignUp && (
-            <FormDescription>
-              Do not enter an Emory email here. You can add Emory affiliation
-              later.
-            </FormDescription>
-          )}
+          {isSignUp && <FormDescription>{t("description")}</FormDescription>}
         </FormItem>
       )}
     />

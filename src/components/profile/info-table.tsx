@@ -24,6 +24,7 @@ import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type User } from "@prisma/client";
 import { Loader2Icon, PencilIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   useState,
   type Dispatch,
@@ -37,11 +38,17 @@ import { Form } from "../ui/form";
 
 type InfoTableProps = {
   title: string;
-  fields: { title: string; field: string; editable?: boolean }[];
+  fields: {
+    title: string;
+    field: string;
+    editable?: boolean;
+    translate?: boolean;
+  }[];
   editFormFields: ReactNode;
 };
 
 const InfoTable = (props: InfoTableProps) => {
+  const t = useTranslations("auth");
   const [open, setOpen] = useState(false);
   const { user, isSessionLoading } = useAuth();
 
@@ -74,20 +81,28 @@ const InfoTable = (props: InfoTableProps) => {
             </TableRow>
           </TableHeader>
           <TableBody className="*:h-12">
-            {props.fields.map(({ title, field }) => (
-              <TableRow key={field}>
-                <TableCell>{title}</TableCell>
-                <TableCell>
-                  {isSessionLoading || !user ? (
-                    <Skeleton className="w-20 h-5" />
-                  ) : (
-                    (user[field as keyof User]?.toString() ?? (
-                      <span className="text-muted-foreground">Not set</span>
-                    ))
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
+            {props.fields.map(({ title, field, translate }) => {
+              const rawValue = user?.[field as keyof User]?.toString();
+              const value =
+                translate && rawValue
+                  ? t(`inputs.${field}.values.${rawValue}`)
+                  : rawValue;
+
+              return (
+                <TableRow key={field}>
+                  <TableCell>{title}</TableCell>
+                  <TableCell>
+                    {isSessionLoading || !user ? (
+                      <Skeleton className="w-20 h-5" />
+                    ) : (
+                      (value ?? (
+                        <span className="text-muted-foreground">Not set</span>
+                      ))
+                    )}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>
@@ -124,7 +139,7 @@ const EditDialog = ({
       ({ emoryEmail, affiliation }) => {
         if (!affiliation) return true;
 
-        if (affiliation !== "None") {
+        if (affiliation !== "none") {
           return !!emoryEmail;
         }
         return true;

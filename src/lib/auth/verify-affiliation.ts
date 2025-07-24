@@ -18,7 +18,8 @@ export const sendAffiliationVerification = async ({
   const identifier = `affiliation-${userId}-${emoryEmail}`;
   const result = await api.verification.create(identifier);
   const link = `${env.NEXT_PUBLIC_BASE_URL}/verify-affiliation?id=${result.id}&token=${result.value}`;
-
+  console.log("create verication:", result);
+  console.log(emoryEmail, userId, name);
   return await sendEmail({
     to: emoryEmail,
     subject: `Verify Emory Affiliation for ${name}`,

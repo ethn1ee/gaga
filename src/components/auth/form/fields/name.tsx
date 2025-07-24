@@ -9,9 +9,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { type SignUpInput } from "@/lib/schema";
+import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
 const NameFormField = () => {
+  const t = useTranslations("auth.inputs.name");
   const form = useFormContext<Pick<SignUpInput, "name">>();
 
   return (
@@ -20,7 +22,7 @@ const NameFormField = () => {
       name="name"
       render={({ field }) => (
         <FormItem>
-          <FormLabel htmlFor="name">Full Name</FormLabel>
+          <FormLabel htmlFor="name">{t("label")}</FormLabel>
           <FormControl>
             <Input
               {...field}

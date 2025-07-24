@@ -14,7 +14,7 @@ const AffiliationForm = () => {
   return (
     <>
       <AffiliationFormField />
-      {form.watch("affiliation") !== "None" && (
+      {form.watch("affiliation") !== "none" && (
         <>
           <EmoryEmailFormField />
           <ClassFormField />

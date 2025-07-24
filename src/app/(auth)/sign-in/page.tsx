@@ -7,12 +7,14 @@ import { authClient } from "@/lib/auth";
 import { signInInput, type SignInInput } from "@/lib/schema";
 import { getNow } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const SignIn = () => {
+  const t = useTranslations("auth");
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -71,9 +73,9 @@ const SignIn = () => {
         className="flex flex-col gap-6 w-full max-w-lg"
       >
         <div className="flex flex-col">
-          <h1 className="text-2xl font-bold">Welcome back</h1>
+          <h1 className="text-2xl font-bold">{t("sign-in.title")}</h1>
           <p className="text-muted-foreground text-balance">
-            Sign in to your EmoryLife account
+            {t("sign-in.subtitle")}
           </p>
         </div>
 
@@ -88,16 +90,16 @@ const SignIn = () => {
           isLoading={form.formState.isSubmitting}
           className="w-full"
         >
-          Sign In
+          {t("buttons.sign-in")}
         </LoadingButton>
 
         <div className="text-center text-sm">
-          Don&apos;t have an account?{" "}
+          {t("sign-in.sign-up-instead.message")}{" "}
           <Link
             href="/sign-up"
             className="underline underline-offset-4 font-medium text-primary"
           >
-            Sign up
+            {t("sign-in.sign-up-instead.button")}
           </Link>
         </div>
       </form>

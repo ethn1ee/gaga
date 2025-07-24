@@ -1,3 +1,5 @@
+"use client";
+
 import { useLocale } from "@/hooks";
 import { motion } from "motion/react";
 
@@ -12,8 +14,8 @@ const LocaleSwitch = () => {
     >
       <motion.div
         animate={{
-          ...(locale === "ko" ? { left: 4 } : { right: 4 }),
-          transition: { duration: 0.3 },
+          ...(locale === "ko" ? { x: 0 } : { x: 28 }),
+          transition: { duration: 0.3, ease: "easeOut" },
         }}
         className="absolute size-7 bg-muted -z-10 rounded-sm"
       />

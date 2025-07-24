@@ -97,9 +97,151 @@
     }
   },
 
+  "auth": {
+    "sign-in": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your EmoryLife account",
+      "sign-up-instead": {
+        "message": "Don't have an account?",
+        "button": "Sign up"
+      }
+    },
+    "sign-up": {
+      "sign-in-instead": {
+        "message": "Already have an account?",
+        "button": "Sign in"
+      },
+      "basic-information": {
+        "title": "Welcome",
+        "subtitle": "Create your EmoryLife account"
+      },
+      "email-verification": {
+        "title": "Verify your email",
+        "subtitle": "Verification code has been sent to your email."
+      },
+      "affiliation": {
+        "title": "Are you an Emory affiliate?",
+        "subtitle": "Access various information and news about Emory!"
+      },
+      "complete": {
+        "title": "Congratulations!",
+        "subtitle": "Your account has been created."
+      }
+    },
+    "inputs": {
+      "name": {
+        "label": "Name"
+      },
+      "email": {
+        "label": "{isSignUp, select, true {Personal} other {}} Email",
+        "description": "Do not enter an Emory email here. You can add Emory affiliation later."
+      },
+      "password": {
+        "label": "Password"
+      },
+      "password2": {
+        "label": "Confirm Password"
+      },
+      "otp": {
+        "resend": "Resend",
+        "resend-in": "Resend in {seconds}s"
+      },
+      "affiliation": {
+        "label": "Emory Affiliation",
+        "placeholder": "Select your Emory affiliation",
+        "values": {
+          "none": "None",
+          "student": "Student",
+          "alumni": "Alumni",
+          "mom": "Mom",
+          "dad": "Dad",
+          "sibling": "Sibling",
+          "other": "Other"
+        }
+      },
+      "emory-email": {
+        "label": "Emory Email",
+        "description": "Enter your affiliated Emory email."
+      },
+      "class": {
+        "label": "Class"
+      }
+    },
+    "toast": {
+      "user-already-exists": {
+        "message": "Email already in use!",
+        "description": "Sign in or use a different email."
+      },
+      "unknown-error": {
+        "message": "Unknown error occurred",
+        "description": "Please try again later."
+      },
+      "send-affiliation-verification": {
+        "success": {
+          "message": "Verification email sent!",
+          "description": "Check your Emory email inbox to verify your affiliation."
+        },
+        "error": {
+          "message": "Failed to send verification email!",
+          "description": "Please try again later."
+        }
+      },
+      "send-otp": {
+        "success": {
+          "message": "Verification code sent!"
+        },
+        "error": {
+          "message": "Failed to send verification email!",
+          "description": "Please try again later."
+        }
+      },
+      "verify-otp": {
+        "success": {
+          "message": "Verification successful!"
+        },
+        "error": {
+          "message": "Invalid code!",
+          "description": "Please try again."
+        }
+      }
+    },
+    "buttons": {
+      "sign-in": "Sign In",
+      "continue": "Continue",
+      "start-exploring": "Start Exploring!"
+    }
+  },
+
+  "profile": {
+    "sections": {
+      "my-information": {
+        "title": "My Information"
+      },
+      "affiliation": {
+        "title": "Emory Affiliation"
+      },
+      "my-posts": {
+        "title": "My Posts"
+      },
+      "actions": {
+        "sign-out": "Sign Out",
+        "delete-account": "Delete account"
+      }
+    }
+  },
+
+  "user-button": {
+    "title": "My Account",
+    "button": "Sign In",
+    "items": {
+      "profile": "Profile",
+      "my-posts": "My posts",
+      "sign-out": "Sign out"
+    }
+  },
+
   "misc": {
     "new-post": "New Post",
-    "home": "Home",
-    "sign-in": "Sign In"
+    "home": "Home"
   }
 }

@@ -13,13 +13,13 @@ const user = z.object({
     .min(8, "Password must be at least 8 characters")
     .max(100, "Password must be at most 100 characters"),
   affiliation: z.enum([
-    "None",
-    "Student",
-    "Alumni",
-    "Mom",
-    "Dad",
-    "Sibling",
-    "Other",
+    "none",
+    "student",
+    "alumni",
+    "mom",
+    "dad",
+    "sibling",
+    "other",
   ]),
   emoryEmail: z
     .email()

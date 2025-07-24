@@ -20,7 +20,7 @@ import { LoadingButton } from "../ui/loading-button";
 import { UserAvatar } from "../user";
 
 const UserButton = () => {
-  const t = useTranslations("misc");
+  const t = useTranslations("user-button");
   const router = useRouter();
   const { session, isSessionLoading } = useAuth();
 
@@ -54,36 +54,29 @@ const UserButton = () => {
             onClick={handleSignIn}
           >
             <CircleUserIcon className="text-muted" />
-            {t("sign-in")}
+            {t("button")}
           </LoadingButton>
         )}
       </DropdownMenuTrigger>
 
       {session && (
-        <DropdownMenuContent className="**:cursor-pointer">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuContent>
+          <DropdownMenuLabel>{t("title")}</DropdownMenuLabel>
 
           <DropdownMenuGroup>
             <Link href="/profile">
-              <DropdownMenuItem className="cursor-pointer">
-                Profile
-              </DropdownMenuItem>
+              <DropdownMenuItem>{t("items.profile")}</DropdownMenuItem>
             </Link>
             <Link href="/profile/posts">
-              <DropdownMenuItem className="cursor-pointer">
-                My posts
-              </DropdownMenuItem>
+              <DropdownMenuItem>{t("items.my-posts")}</DropdownMenuItem>
             </Link>
           </DropdownMenuGroup>
 
           <DropdownMenuSeparator />
 
           <DropdownMenuGroup>
-            <DropdownMenuItem
-              onClick={handleSignOut}
-              className="cursor-pointer"
-            >
-              Sign out
+            <DropdownMenuItem onClick={handleSignOut}>
+              {t("items.sign-out")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

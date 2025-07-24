@@ -3,11 +3,13 @@
 import { OTPFormField } from "@/components/auth/form/fields";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { LoadingButton } from "@/components/ui/loading-button";
 import { useOTP } from "@/hooks";
 import { signUpInput } from "@/lib/schema";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -39,6 +41,7 @@ type VerificationFormProps = {
 };
 
 const VerificationForm = ({ email }: VerificationFormProps) => {
+  const t = useTranslations("auth");
   const { sendOTP, verifyOTP, cooldown } = useOTP({ email });
   const { data, isLoading: isUserLoading } =
     api.user.getByEmail.useQuery(email);
@@ -78,9 +81,11 @@ const VerificationForm = ({ email }: VerificationFormProps) => {
         className="flex flex-col gap-6 w-full max-w-lg"
       >
         <div className="flex flex-col">
-          <h1 className="text-2xl font-bold">Verify your email</h1>
+          <h1 className="text-2xl font-bold">
+            {t("sign-up.email-verification.title")}
+          </h1>
           <p className="text-muted-foreground text-balance">
-            Verification code has been sent to {email}
+            {t("sign-up.email-verification.subtitle")}
           </p>
         </div>
 
@@ -95,24 +100,23 @@ const VerificationForm = ({ email }: VerificationFormProps) => {
             size="lg"
             className="h-12"
           >
-            {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend"}
+            {cooldown > 0
+              ? t("inputs.otp.resend-in", { seconds: cooldown })
+              : t("inputs.otp.resend")}
           </Button>
         </div>
 
-        <Button
+        <LoadingButton
           type="submit"
           disabled={
             form.formState.isSubmitting ||
             !formSchema.safeParse(form.watch()).success
           }
+          isLoading={form.formState.isSubmitting}
           className="w-full"
         >
-          {form.formState.isSubmitting ? (
-            <Loader2Icon className="animate-spin" />
-          ) : (
-            "Sign in"
-          )}
-        </Button>
+          {t("buttons.sign-in")}
+        </LoadingButton>
       </form>
     </Form>
   );

@@ -7,6 +7,7 @@ import { sendAffiliationVerification } from "@/lib/auth";
 import { signUpInput } from "@/lib/schema";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { type z } from "zod/v4";
@@ -19,11 +20,13 @@ const schema = signUpInput.pick({
 });
 
 const Affiliation = ({ userData, setStep }: FormProps) => {
+  const t = useTranslations("auth");
+
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       emoryEmail: "",
-      affiliation: "None",
+      affiliation: "none",
     },
   });
 
@@ -36,26 +39,31 @@ const Affiliation = ({ userData, setStep }: FormProps) => {
       });
 
       if (error) {
-        toast.error("Failed to send verification email!", {
-          description: "Please try again later",
+        toast.error(t("toast.send-affiliation-verification.error.message"), {
+          description: t(
+            "toast.send-affiliation-verification.error.description",
+          ),
           position: "top-center",
         });
         console.error(error);
       } else {
-        toast.success("Verification Email sent!", {
-          description:
-            "Check your Emory email inbox to verify your affiliation",
-          position: "top-center",
-        });
+        toast.success(
+          t("toast.send-affiliation-verification.success.message"),
+          {
+            description:
+              "toast.send-affiliation-verification.success.description",
+            position: "top-center",
+          },
+        );
       }
       setStep((prev) => prev + 1);
     },
     onError: (error) => {
-      toast.error("Failed to update affiliation!", {
-        description: "Please try again later",
+      toast.error(t("toast.unknown-error.message"), {
+        description: t("toast.unknown-error.description"),
         position: "top-center",
       });
-      console.error("Error updating affiliation", error);
+      console.error("Error updating affiliation:", error);
     },
   });
 
@@ -83,7 +91,7 @@ const Affiliation = ({ userData, setStep }: FormProps) => {
           isLoading={form.formState.isSubmitting}
           className="w-full"
         >
-          Continue
+          {t("buttons.continue")}
         </LoadingButton>
       </form>
     </Form>

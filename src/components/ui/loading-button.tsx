@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Loader2Icon } from "lucide-react";
 import { type ComponentProps } from "react";
 import { Button } from "./button";
@@ -23,7 +24,7 @@ export const LoadingButton = ({
       size={size}
       asChild={asChild}
       disabled={disabled}
-      className={className}
+      className={cn(className)}
       {...props}
     >
       {isLoading ? <Loader2Icon className="animate-spin" /> : children}

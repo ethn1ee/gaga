@@ -2,10 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const Actions = () => {
+  const t = useTranslations("profile.sections.actions");
   const router = useRouter();
 
   const handleSignOut = async () => {
@@ -25,9 +27,9 @@ const Actions = () => {
   return (
     <section className="*:w-full space-y-2">
       <Button variant="secondary" onClick={handleSignOut}>
-        Sign Out
+        {t("sign-out")}
       </Button>
-      <Button variant="destructive">Delete Account</Button>
+      <Button variant="destructive">{t("delete-account")}</Button>
     </section>
   );
 };
