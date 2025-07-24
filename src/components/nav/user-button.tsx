@@ -90,10 +90,12 @@ const UserButton = () => {
           <DropdownMenuLabel>{t("website.title")}</DropdownMenuLabel>
 
           <DropdownMenuGroup>
-            <DropdownMenuItem>
-              <FlaskConicalIcon />
-              {t("website.items.request-features")}
-            </DropdownMenuItem>
+            <Link href="/feature-requests">
+              <DropdownMenuItem>
+                <FlaskConicalIcon />
+                {t("website.items.request-features")}
+              </DropdownMenuItem>
+            </Link>
             <Link href="https://github.com/ethn1ee/emorylife">
               <DropdownMenuItem>
                 <IconBrandGithub />

@@ -18,14 +18,14 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
 
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [path, setPath] = useState<string[]>([]);
+  const [paths, setPaths] = useState<string[]>([]);
 
   useEffect(() => {
     const parts = pathname.split("/").slice(1);
     if (isValidPath(parts)) {
-      setPath(parts);
+      setPaths(parts);
     } else {
-      setPath([]);
+      setPaths([]);
     }
   }, [pathname]);
 
@@ -52,7 +52,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
             className="h-0.5 w-6 bg-foreground absolute bottom-1.5"
           />
         </Button>
-        <Title size="xs" primary={path[0] ?? ""} secondary={path[1]} />
+        <Title size="xs" primary={paths[0] ?? ""} secondary={paths[1]} />
       </div>
 
       <div className="flex gap-2.5">
