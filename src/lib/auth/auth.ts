@@ -22,6 +22,11 @@ export const auth = betterAuth({
   emailVerification: {
     autoSignInAfterVerification: true,
   },
+  user: {
+    deleteUser: {
+      enabled: true,
+    },
+  },
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {

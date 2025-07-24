@@ -32,10 +32,12 @@ const Affiliation = ({ userData, setStep }: FormProps) => {
 
   const updateAffiliation = api.user.update.useMutation({
     onSuccess: async (data) => {
+      if (!data.emoryEmail) return;
+
       const { error } = await sendAffiliationVerification({
         userId: data.id,
         name: data.name,
-        emoryEmail: data.emoryEmail!,
+        emoryEmail: data.emoryEmail,
       });
 
       if (error) {
@@ -50,8 +52,7 @@ const Affiliation = ({ userData, setStep }: FormProps) => {
         toast.success(
           t("toast.send-affiliation-verification.success.message"),
           {
-            description:
-              "toast.send-affiliation-verification.success.description",
+            description: data.emoryEmail,
             position: "top-center",
           },
         );
@@ -68,6 +69,7 @@ const Affiliation = ({ userData, setStep }: FormProps) => {
   });
 
   const handleSubmit = async (values: z.infer<typeof schema>) => {
+    console.log(values);
     await updateAffiliation.mutateAsync({
       email: userData.email,
       data: { ...values },
@@ -86,6 +88,7 @@ const Affiliation = ({ userData, setStep }: FormProps) => {
           type="submit"
           disabled={
             Object.entries(form.formState.errors).length > 0 ||
+            form.formState.isValid ||
             form.formState.isSubmitting
           }
           isLoading={form.formState.isSubmitting}

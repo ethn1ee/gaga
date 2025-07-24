@@ -225,7 +225,13 @@
       },
       "actions": {
         "sign-out": "Sign Out",
-        "delete-account": "Delete account"
+        "delete-account": {
+          "button": "Delete Account",
+          "dialog": {
+            "title": "Are you absolutely sure?",
+            "description": "All of your data including posts and comments will be permanently deleted."
+          }
+        }
       }
     }
   },
