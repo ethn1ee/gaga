@@ -69,7 +69,7 @@ model User {
   emailVerified      Boolean
   emoryEmail         String?
   emoryEmailVerified Boolean  @default(false)
-  affiliation        String   @default("None")
+  affiliation        String   @default("none")
   class              Int?
   image              String?
   createdAt          DateTime
