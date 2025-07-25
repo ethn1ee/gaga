@@ -14,7 +14,6 @@ import { authClient } from "@/lib/auth";
 import { IconBrandGithub } from "@tabler/icons-react";
 import {
   CircleUserIcon,
-  FlaskConicalIcon,
   LogOutIcon,
   TablePropertiesIcon,
   UserIcon,
@@ -90,12 +89,12 @@ const UserButton = () => {
           <DropdownMenuLabel>{t("website.title")}</DropdownMenuLabel>
 
           <DropdownMenuGroup>
-            <Link href="/feature-requests">
+            {/* <Link href="/feature-requests">
               <DropdownMenuItem>
                 <FlaskConicalIcon />
                 {t("website.items.request-features")}
               </DropdownMenuItem>
-            </Link>
+            </Link> */}
             <Link href="https://github.com/ethn1ee/emorylife">
               <DropdownMenuItem>
                 <IconBrandGithub />

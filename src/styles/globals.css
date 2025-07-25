@@ -90,7 +90,7 @@
   }
 
   main {
-    @apply container mx-auto box-border w-full overflow-x-hidden px-4 pb-10;
+    @apply container mx-auto box-border w-full overflow-x-hidden px-4 pt-4 pb-10;
   }
 
   button,
