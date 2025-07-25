@@ -88,7 +88,7 @@ const CategoryItem = ({ category }: CategoryItemProps) => {
 
   return (
     <NavigationMenuItem>
-      <NavigationMenuTrigger>
+      <NavigationMenuTrigger className="bg-transparent">
         <category.icon size={20} className="text-muted-foreground mr-2" />
         <span>{t(`${category.slug}.title`)}</span>
       </NavigationMenuTrigger>

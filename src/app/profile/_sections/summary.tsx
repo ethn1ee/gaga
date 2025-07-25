@@ -6,7 +6,7 @@ import { UserAvatar } from "@/components/user";
 import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
 import { getFileType, uploadFile } from "@/lib/utils";
-import { PencilIcon } from "lucide-react";
+import { PencilIcon, TrashIcon } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { toast } from "sonner";
 
@@ -16,6 +16,7 @@ const Summary = () => {
 
   const handleAvatarChange = async (e: ChangeEvent<HTMLInputElement>) => {
     setIsLoading(true);
+
     if (!e.target.files || e.target.files.length === 0) {
       setIsLoading(false);
       return;
@@ -33,11 +34,17 @@ const Summary = () => {
 
     const url = await uploadFile(file);
 
-    await authClient
-      .updateUser({
-        image: url,
-      })
-      .finally(() => setIsLoading(false));
+    await authClient.updateUser({
+      image: url,
+    });
+
+    setIsLoading(false);
+  };
+
+  const handleAvatarDelete = async () => {
+    setIsLoading(true);
+    await authClient.updateUser({ image: null });
+    setIsLoading(false);
   };
 
   return (
@@ -51,14 +58,14 @@ const Summary = () => {
           />
         </div>
 
-        <Label
-          htmlFor="avatar"
-          className="cursor-pointer absolute right-0 bottom-0"
-        >
-          <div className="rounded-full size-8 flex items-center justify-center bg-background border hover:shadow transition-all">
-            <PencilIcon size={12} />
+        <div className="group absolute left-1/2 -translate-x-1/2 -bottom-6 bg-background p-0.5 border flex rounded-full *:size-7 *:cursor-pointer *:hover:bg-muted *:transition-all *:rounded-full *:flex *:items-center *:justify-center ">
+          <Label htmlFor="avatar">
+            <PencilIcon size={14} />
+          </Label>
+          <div onClick={handleAvatarDelete}>
+            <TrashIcon size={14} className="text-destructive" />
           </div>
-        </Label>
+        </div>
 
         <Input
           id="avatar"

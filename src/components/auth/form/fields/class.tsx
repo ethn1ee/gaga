@@ -2,7 +2,6 @@
 
 import {
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -10,9 +9,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { type SignUpInput } from "@/lib/schema";
+import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
 const ClassFormField = () => {
+  const t = useTranslations("auth.inputs.class");
   const form = useFormContext<Pick<SignUpInput, "class">>();
 
   return (
@@ -21,7 +22,7 @@ const ClassFormField = () => {
       name="class"
       render={({ field }) => (
         <FormItem>
-          <FormLabel htmlFor="class">Class</FormLabel>
+          <FormLabel htmlFor="class">{t("label")}</FormLabel>
           <FormControl>
             <Input
               {...field}
@@ -35,7 +36,6 @@ const ClassFormField = () => {
               className="clear-input-style h-10 !ring ring-border"
             />
           </FormControl>
-          <FormDescription>Enter your graduation year.</FormDescription>
           <FormMessage />
         </FormItem>
       )}

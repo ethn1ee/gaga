@@ -15,9 +15,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { type SignUpInput, signUpInput } from "@/lib/schema";
+import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
 const AffiliationFormField = () => {
+  const t = useTranslations("auth.inputs.affiliation");
   const form =
     useFormContext<Pick<SignUpInput, "affiliation" | "class" | "emoryEmail">>();
 
@@ -27,12 +29,12 @@ const AffiliationFormField = () => {
       name="affiliation"
       render={({ field }) => (
         <FormItem>
-          <FormLabel htmlFor="affiliation">Emory Affiliation</FormLabel>
+          <FormLabel htmlFor="affiliation">{t("label")}</FormLabel>
           <FormControl>
             <Select
               value={field.value as string}
               onValueChange={(val) => {
-                if (val === "None") {
+                if (val === "none") {
                   form.setValue("class", null);
                   form.setValue("emoryEmail", null);
                 }
@@ -41,14 +43,14 @@ const AffiliationFormField = () => {
             >
               <FormControl>
                 <SelectTrigger className="clear-input-style h-10 !ring ring-border w-full">
-                  <SelectValue placeholder="Select your Emory affiliation" />
+                  <SelectValue placeholder={t("placeholder")} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
                 {Object.values(signUpInput.shape.affiliation.enum).map(
                   (value) => (
                     <SelectItem key={value} value={value}>
-                      {value.charAt(0).toUpperCase() + value.slice(1)}
+                      {t(`values.${value}`)}
                     </SelectItem>
                   ),
                 )}

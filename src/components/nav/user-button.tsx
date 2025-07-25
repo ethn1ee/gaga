@@ -11,7 +11,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks";
 import { authClient } from "@/lib/auth";
-import { CircleUserIcon } from "lucide-react";
+import { IconBrandGithub } from "@tabler/icons-react";
+import {
+  CircleUserIcon,
+  LogOutIcon,
+  TablePropertiesIcon,
+  UserIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,7 +26,7 @@ import { LoadingButton } from "../ui/loading-button";
 import { UserAvatar } from "../user";
 
 const UserButton = () => {
-  const t = useTranslations("misc");
+  const t = useTranslations("user-button");
   const router = useRouter();
   const { session, isSessionLoading } = useAuth();
 
@@ -54,24 +60,45 @@ const UserButton = () => {
             onClick={handleSignIn}
           >
             <CircleUserIcon className="text-muted" />
-            {t("sign-in")}
+            {t("button")}
           </LoadingButton>
         )}
       </DropdownMenuTrigger>
 
       {session && (
-        <DropdownMenuContent className="**:cursor-pointer">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuContent className="w-50 mr-2">
+          <DropdownMenuLabel>{t("my-account.title")}</DropdownMenuLabel>
 
           <DropdownMenuGroup>
             <Link href="/profile">
-              <DropdownMenuItem className="cursor-pointer">
-                Profile
+              <DropdownMenuItem>
+                <UserIcon />
+                {t("my-account.items.profile")}
               </DropdownMenuItem>
             </Link>
             <Link href="/profile/posts">
-              <DropdownMenuItem className="cursor-pointer">
-                My posts
+              <DropdownMenuItem>
+                <TablePropertiesIcon />
+                {t("my-account.items.my-posts")}
+              </DropdownMenuItem>
+            </Link>
+          </DropdownMenuGroup>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuLabel>{t("website.title")}</DropdownMenuLabel>
+
+          <DropdownMenuGroup>
+            {/* <Link href="/feature-requests">
+              <DropdownMenuItem>
+                <FlaskConicalIcon />
+                {t("website.items.request-features")}
+              </DropdownMenuItem>
+            </Link> */}
+            <Link href="https://github.com/ethn1ee/emorylife">
+              <DropdownMenuItem>
+                <IconBrandGithub />
+                {t("website.items.visit-github")}
               </DropdownMenuItem>
             </Link>
           </DropdownMenuGroup>
@@ -79,11 +106,9 @@ const UserButton = () => {
           <DropdownMenuSeparator />
 
           <DropdownMenuGroup>
-            <DropdownMenuItem
-              onClick={handleSignOut}
-              className="cursor-pointer"
-            >
-              Sign out
+            <DropdownMenuItem onClick={handleSignOut}>
+              <LogOutIcon />
+              {t("sign-out")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>

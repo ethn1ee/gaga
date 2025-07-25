@@ -10,9 +10,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { type SignUpInput } from "@/lib/schema";
+import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
 const EmoryEmailFormField = () => {
+  const t = useTranslations("auth.inputs.emory-email");
   const form = useFormContext<Pick<SignUpInput, "emoryEmail">>();
 
   return (
@@ -21,7 +23,7 @@ const EmoryEmailFormField = () => {
       name="emoryEmail"
       render={({ field }) => (
         <FormItem>
-          <FormLabel htmlFor="emoryEmail">Emory Email</FormLabel>
+          <FormLabel htmlFor="emoryEmail">{t("label")}</FormLabel>
           <FormControl>
             <Input
               {...field}
@@ -30,7 +32,7 @@ const EmoryEmailFormField = () => {
               className="clear-input-style h-10 !ring ring-border"
             />
           </FormControl>
-          <FormDescription>Enter your affiliated Emory email.</FormDescription>
+          <FormDescription>{t("description")}</FormDescription>
           <FormMessage />
         </FormItem>
       )}

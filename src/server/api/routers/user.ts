@@ -41,7 +41,7 @@ export const userRouter = createTRPCRouter({
       const where = input.email ? { email: input.email } : { id: input.id };
       const data = {
         ...input.data,
-        ...((input.data.affiliation === "None" || input.data.emoryEmail) && {
+        ...((input.data.affiliation === "none" || input.data.emoryEmail) && {
           emoryEmailVerified: false,
         }),
       };

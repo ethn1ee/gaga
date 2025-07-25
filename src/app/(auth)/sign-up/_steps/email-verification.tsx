@@ -7,6 +7,7 @@ import { LoadingButton } from "@/components/ui/loading-button";
 import { useOTP } from "@/hooks";
 import { signUpInput } from "@/lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { type z } from "zod/v4";
@@ -17,6 +18,8 @@ const schema = signUpInput.pick({
 });
 
 const EmailVerificationForm = ({ userData, setStep }: FormProps) => {
+  const t = useTranslations("auth");
+
   const { sendOTP, verifyOTP, cooldown } = useOTP({
     email: userData.email,
   });
@@ -54,7 +57,9 @@ const EmailVerificationForm = ({ userData, setStep }: FormProps) => {
             size="lg"
             className="h-12"
           >
-            {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend"}
+            {cooldown > 0
+              ? t("inputs.otp.resend-in", { seconds: cooldown })
+              : t("inputs.otp.resend")}
           </Button>
         </div>
 
@@ -67,7 +72,7 @@ const EmailVerificationForm = ({ userData, setStep }: FormProps) => {
           isLoading={form.formState.isSubmitting}
           className="w-full"
         >
-          Continue
+          {t("buttons.continue")}
         </LoadingButton>
       </form>
     </Form>
