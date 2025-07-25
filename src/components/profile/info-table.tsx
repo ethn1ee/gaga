@@ -23,7 +23,7 @@ import { user as userSchema } from "@/lib/schema/user";
 import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type User } from "@prisma/client";
-import { Loader2Icon, PencilIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   useState,
@@ -35,6 +35,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { type z } from "zod/v4";
 import { Form } from "../ui/form";
+import { LoadingButton } from "../ui/loading-button";
 
 type InfoTableProps = {
   title: string;
@@ -125,6 +126,7 @@ const EditDialog = ({
   fields,
   title,
 }: EditDialogProps) => {
+  const t = useTranslations("profile.edit-dialog");
   const { user, refresh } = useAuth();
 
   const schemaMask = fields.reduce<Record<string, boolean>>((acc, item) => {
@@ -195,23 +197,20 @@ const EditDialog = ({
               variant="outline"
               onClick={() => setOpen(false)}
             >
-              Cancel
+              {t("cancel")}
             </Button>
 
-            <Button
+            <LoadingButton
               type="submit"
               disabled={
                 !formSchema.safeParse(form.watch()).success ||
                 form.formState.isSubmitting ||
                 !form.formState.isDirty
               }
+              isLoading={form.formState.isSubmitting}
             >
-              {form.formState.isSubmitting ? (
-                <Loader2Icon className="animate-spin" />
-              ) : (
-                "Save"
-              )}
-            </Button>
+              {t("save")}
+            </LoadingButton>
           </DialogFooter>
         </form>
       </Form>

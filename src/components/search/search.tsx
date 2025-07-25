@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Title from "../ui/title";
+import CategoryTitle from "../ui/title";
 
 const Search = () => {
   const router = useRouter();
@@ -30,7 +30,7 @@ const Search = () => {
   return (
     <div>
       {paths[0] && (
-        <Title
+        <CategoryTitle
           primary={paths[0]?.toLowerCase()}
           secondary={paths[1]?.toLowerCase()}
           withLink

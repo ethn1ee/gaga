@@ -225,19 +225,42 @@
       },
       "actions": {
         "sign-out": "로그아웃",
-        "delete-account": "계정 삭제"
+        "delete-account": {
+          "button": "계정 삭제",
+          "dialog": {
+            "title": "정말 확실한가요?",
+            "description": "귀하의 게시물, 댓글을 포함한 모든 데이터가 영구적으로 삭제됩니다.",
+            "buttons": {
+              "cancel": "취소",
+              "delete": "계정 삭제"
+            }
+          }
+        }
       }
+    },
+    "edit-dialog": {
+      "cancel": "취소",
+      "save": "저장"
     }
   },
 
   "user-button": {
-    "title": "계정",
     "button": "로그인",
-    "items": {
-      "profile": "프로필",
-      "my-posts": "내 게시물",
-      "sign-out": "로그아웃"
-    }
+    "my-account": {
+      "title": "내 계정",
+      "items": {
+        "profile": "프로필",
+        "my-posts": "내 게시물"
+      }
+    },
+    "website": {
+      "title": "사이트",
+      "items": {
+        "request-features": "기능 요청",
+        "visit-github": "GitHub 보기"
+      }
+    },
+    "sign-out": "로그아웃"
   },
 
   "misc": {

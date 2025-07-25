@@ -12,7 +12,7 @@ type TitleProps = {
   withLink?: boolean;
 };
 
-const Title = ({
+const CategoryTitle = ({
   primary,
   secondary,
   size = "default",
@@ -28,7 +28,7 @@ const Title = ({
 
   return (
     <div className={cn("flex gap-4 items-center", className)}>
-      <h3
+      <h1
         className={cn(
           "space-x-2 block w-fit m-0 border-none shrink-0",
           size === "default" && "text-3xl font-semibold",
@@ -64,9 +64,9 @@ const Title = ({
             )}
           </>
         )}
-      </h3>
+      </h1>
     </div>
   );
 };
 
-export default Title;
+export default CategoryTitle;

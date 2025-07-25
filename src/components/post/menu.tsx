@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { env } from "@/env";
 import { api } from "@/trpc/react";
-import { EllipsisIcon } from "lucide-react";
+import { EllipsisIcon, EyeIcon, LinkIcon, TrashIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -73,19 +73,23 @@ const PostMenu = ({ id }: PostMenuProps) => {
             <EllipsisIcon className="text-muted-foreground" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="**:cursor-pointer">
+        <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuSeparator />
+
           <DropdownMenuItem
             onClick={() =>
               navigator.clipboard.writeText(env.NEXT_PUBLIC_BASE_URL + url)
             }
           >
+            <LinkIcon />
             Copy Link
           </DropdownMenuItem>
           {pathname !== url && (
             <Link href={url}>
-              <DropdownMenuItem>View</DropdownMenuItem>
+              <DropdownMenuItem>
+                <EyeIcon />
+                View
+              </DropdownMenuItem>
             </Link>
           )}
           <DropdownMenuSeparator />
@@ -93,7 +97,10 @@ const PostMenu = ({ id }: PostMenuProps) => {
             onClick={() => setIsDeleteDialogOpen(true)}
             className="size-full"
           >
-            <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+            <DropdownMenuItem variant="destructive">
+              <TrashIcon />
+              Delete
+            </DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>

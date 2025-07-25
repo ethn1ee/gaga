@@ -19,8 +19,8 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  author   User   @relation("PostCreatedBy", fields: [authorId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
-  authorId String @default("anonymous")
+  author   User   @relation("PostCreatedBy", fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId String
 
   comments Comment[] @relation("CommentBelongsTo")
   likes    Like[]    @relation("LikeBelongsTo")
@@ -42,8 +42,8 @@ model Comment {
 
   childs Comment[] @relation("CommentBelongsTo")
 
-  author   User   @relation("CommentCreatedBy", fields: [authorId], references: [id], onDelete: SetDefault, onUpdate: Cascade)
-  authorId String @default("anonymous")
+  author   User   @relation("CommentCreatedBy", fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  authorId String
 
   @@index([postId, parentId, authorId])
   @@map("comment")

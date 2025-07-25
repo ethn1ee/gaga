@@ -15,7 +15,13 @@ const signUpInput = z
   .refine(
     ({ password, password2 }) => password === password2,
     "Passwords do not match",
-  );
+  )
+  .refine(({ affiliation, emoryEmail, class: classYear }) => {
+    if (affiliation !== "none") {
+      return !!emoryEmail && !!classYear;
+    }
+    return true;
+  });
 
 type SignUpInput = z.infer<typeof signUpInput>;
 
