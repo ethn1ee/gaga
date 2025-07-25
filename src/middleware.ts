@@ -2,7 +2,6 @@ import { env } from "@/env";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
-import { isValidPath } from "./lib/utils";
 
 const protectedRoutes = ["/profile", "/new"];
 const publicOnlyRoutes = ["/sign-in", "/sign-up", "/verify-email"];
@@ -19,19 +18,12 @@ export async function middleware(request: NextRequest) {
       signInUrl.searchParams.set("next", pathname);
       return NextResponse.redirect(signInUrl);
     }
-    return NextResponse.next();
   }
 
   if (publicOnlyRoutes.some((route) => pathname.startsWith(route))) {
-    console.log("session", session);
     if (session) {
       return NextResponse.redirect(new URL("/", env.NEXT_PUBLIC_BASE_URL));
     }
-    return NextResponse.next();
-  }
-
-  if (!isValidPath(pathname.split("/").slice(1))) {
-    return NextResponse.redirect(new URL("/", env.NEXT_PUBLIC_BASE_URL));
   }
 
   return NextResponse.next();
@@ -39,7 +31,5 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   runtime: "nodejs",
-  matcher: [
-    "/((?!api|verify-affiliation|feature-requests|search|post|_next/static|_next/image|favicon.ico|_vercel).*)",
-  ],
+  matcher: ["/profile/:path*", "/new", "/sign-in", "/sign-up", "/verify-email"],
 };

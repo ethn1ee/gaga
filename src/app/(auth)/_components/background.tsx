@@ -56,7 +56,7 @@ const ImageCell = memo(({ src }: ImageCellProps) => {
       <Image
         src={src}
         alt="Image"
-        quality={30}
+        quality={25}
         fill
         sizes="200px"
         className="object-cover bg-muted hover:scale-110 animate"
