@@ -12,7 +12,7 @@ type TitleProps = {
   withLink?: boolean;
 };
 
-const Title = ({
+const CategoryTitle = ({
   primary,
   secondary,
   size = "default",
@@ -69,4 +69,4 @@ const Title = ({
   );
 };
 
-export default Title;
+export default CategoryTitle;

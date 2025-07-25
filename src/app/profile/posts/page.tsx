@@ -8,7 +8,7 @@ const MyPosts = () => {
 
   return (
     <main className="min-h-one-page flex flex-col gap-4 pt-4">
-      <h3 className="text-3xl">My Posts</h3>
+      <h1 className="text-3xl font-semibold">My Posts</h1>
       <div className="flex-1 flex flex-col justify-between">
         <PaginatedPostTable
           numRows={5}

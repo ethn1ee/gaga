@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import { isValidPath } from "./lib/utils";
 
-const protectedRoutes = ["/profile", "/new", "/feature-requests"];
+const protectedRoutes = ["/profile", "/new"];
 const publicOnlyRoutes = ["/sign-in", "/sign-up", "/verify-email"];
 
 export async function middleware(request: NextRequest) {
@@ -40,6 +40,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   runtime: "nodejs",
   matcher: [
-    "/((?!api|verify-affiliation|search|post|_next/static|_next/image|favicon.ico|_vercel).*)",
+    "/((?!api|verify-affiliation|feature-requests|search|post|_next/static|_next/image|favicon.ico|_vercel).*)",
   ],
 };

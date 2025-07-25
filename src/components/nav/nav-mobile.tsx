@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import Title from "../ui/title";
+import CategoryTitle from "../ui/title";
 import LocaleSwitch from "./locale-switch";
 import UserButton from "./user-button";
 
@@ -52,7 +52,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
             className="h-0.5 w-6 bg-foreground absolute bottom-1.5"
           />
         </Button>
-        <Title size="xs" primary={paths[0] ?? ""} secondary={paths[1]} />
+        <CategoryTitle size="xs" primary={paths[0] ?? ""} secondary={paths[1]} />
       </div>
 
       <div className="flex gap-2.5">
