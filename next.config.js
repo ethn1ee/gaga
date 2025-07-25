@@ -9,6 +9,7 @@ const config = {
     remotePatterns: [
       { hostname: "5ohpjhzc4espaz0u.public.blob.vercel-storage.com" },
     ],
+    qualities: [25, 50, 75],
   },
   experimental: {
     nodeMiddleware: true,
