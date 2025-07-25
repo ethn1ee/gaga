@@ -10,6 +10,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import CategoryTitle from "../ui/title";
+
 import LocaleSwitch from "./locale-switch";
 import UserButton from "./user-button";
 
