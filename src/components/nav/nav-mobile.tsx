@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { cn, isValidPath } from "@/lib/utils";
+import { cn, isValidCategory } from "@/lib/utils";
 import { categories } from "@/site-config";
 import { ChevronRightIcon, PlusIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import CategoryTitle from "../ui/title";
+import BreadcrumbTitle from "../ui/breadcrumb-title";
 
 import LocaleSwitch from "./locale-switch";
 import UserButton from "./user-button";
@@ -23,7 +23,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
 
   useEffect(() => {
     const parts = pathname.split("/").slice(1);
-    if (isValidPath(parts)) {
+    if (isValidCategory(parts)) {
       setPaths(parts);
     } else {
       setPaths([]);
@@ -53,7 +53,7 @@ const NavMobile = ({ className }: React.ComponentProps<"nav">) => {
             className="h-0.5 w-6 bg-foreground absolute bottom-1.5"
           />
         </Button>
-        <CategoryTitle size="xs" primary={paths[0] ?? ""} secondary={paths[1]} />
+        <BreadcrumbTitle size="xs" primary={paths[0] ?? ""} secondary={paths[1]} />
       </div>
 
       <div className="flex gap-2.5">

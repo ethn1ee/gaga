@@ -1,22 +1,19 @@
-"use client";
-
 import { PostTable } from "@/components/post";
 import { categories } from "@/site-config";
-import { api } from "@/trpc/react";
+import { api } from "@/trpc/server";
 import { ChevronRightIcon } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
-import { use } from "react";
 
 type CategoryProps = {
   params: Promise<{ category: string }>;
 };
 
-const Category = ({ params }: CategoryProps) => {
-  const t = useTranslations("category");
-  const { category } = use(params);
+const Category = async ({ params }: CategoryProps) => {
+  const t = await getTranslations("category");
+  const category = (await params).category.toLowerCase();
 
-  const [data, query] = api.post.getByCategory.useSuspenseQuery(category);
+  const data = await api.post.getByCategory(category);
 
   const subcategoriesMap = new Map<string, typeof data>();
   categories
@@ -33,7 +30,7 @@ const Category = ({ params }: CategoryProps) => {
         {[...subcategoriesMap.entries()]
           .slice(0, 5)
           .map(([subcategory, posts]) => (
-            <div key={subcategory}>
+            <section id={subcategory} key={subcategory}>
               <Link
                 href={`/${category}/${subcategory}`}
                 className="group text-sm font-medium ml-2 block mb-2 text-muted-foreground"
@@ -46,14 +43,10 @@ const Category = ({ params }: CategoryProps) => {
               </Link>
               <div className="border rounded-xl px-4 py-2 h-[400px] overflow-hidden">
                 <div className="mask-b-from-80% mask-b-to-100% h-full">
-                  <PostTable
-                    data={posts}
-                    isLoading={query.isLoading}
-                    size="sm"
-                  />
+                  <PostTable data={posts} isLoading={!category} size="sm" />
                 </div>
               </div>
-            </div>
+            </section>
           ))}
       </div>
     </div>

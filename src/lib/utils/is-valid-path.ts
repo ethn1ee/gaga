@@ -1,6 +1,6 @@
 import { categories } from "@/site-config";
 
-export const isValidPath = (path: string[]) => {
+export const isValidCategory = (path: string[]) => {
   if (path.length === 0 || path[0] === "") return true;
 
   return categories.some((category) => {

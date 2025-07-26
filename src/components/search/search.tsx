@@ -2,17 +2,34 @@
 
 import { Input } from "@/components/ui/input";
 import { SearchIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import CategoryTitle from "../ui/title";
+import BreadcrumbTitle from "../ui/breadcrumb-title";
 
 const Search = () => {
+  const tSearch = useTranslations("search")("title");
+  const tCategory = useTranslations("category");
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const paths = pathname.split("/").slice(1);
 
   const [input, setInput] = useState("");
+
+  const primary = pathname.split("/")[1]?.toLowerCase();
+  const secondary = pathname.split("/")[2]?.toLowerCase();
+  const linkPrimary = primary !== "search" ? `/${primary}` : undefined;
+  const linkSecondary = secondary ? `/${primary}/${secondary}` : undefined;
+
+  const tPrimary = primary
+    ? primary === "search"
+      ? tSearch
+      : tCategory(`${primary}.title`)
+    : undefined;
+
+  const tSecondary = secondary
+    ? tCategory(`${primary}.subcategories.${secondary}.title`)
+    : undefined;
 
   useEffect(() => {
     const q = searchParams.get("q");
@@ -29,11 +46,12 @@ const Search = () => {
 
   return (
     <div>
-      {paths[0] && (
-        <CategoryTitle
-          primary={paths[0]?.toLowerCase()}
-          secondary={paths[1]?.toLowerCase()}
-          withLink
+      {tPrimary && (
+        <BreadcrumbTitle
+          primary={tPrimary}
+          secondary={tSecondary}
+          linkPrimary={linkPrimary}
+          linkSecondary={linkSecondary}
           className="mb-4 max-md:hidden"
         />
       )}

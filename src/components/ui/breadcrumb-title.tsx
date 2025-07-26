@@ -1,31 +1,25 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { type ComponentProps } from "react";
 
-type TitleProps = {
+type BreadcrumbTitleProps = {
   primary: string;
   secondary?: string;
   size?: "default" | "sm" | "xs";
-  withLink?: boolean;
+  linkPrimary?: string;
+  linkSecondary?: string;
 };
 
-const CategoryTitle = ({
+const BreadcrumbTitle = ({
   primary,
   secondary,
   size = "default",
-  withLink = false,
+  linkPrimary,
+  linkSecondary,
   className,
-}: TitleProps & ComponentProps<"div">) => {
-  const t = useTranslations("category");
-
-  const tPrimary = primary ? t(`${primary}.title`) : undefined;
-  const tSecondary = secondary
-    ? t(`${primary}.subcategories.${secondary}.title`)
-    : undefined;
-
+}: BreadcrumbTitleProps & ComponentProps<"div">) => {
   return (
     <div className={cn("flex gap-4 items-center", className)}>
       <h1
@@ -36,14 +30,17 @@ const CategoryTitle = ({
           size === "xs" && "text-base",
         )}
       >
-        {withLink ? (
+        {linkPrimary ? (
           <Link
-            href={`/${primary}`}
+            href={linkPrimary}
             className={cn(
-              secondary ? "text-muted-foreground" : "text-foreground",
+              "animate-underline after:left-0",
+              secondary
+                ? "text-muted-foreground after:text-muted-foreground"
+                : "text-foreground",
             )}
           >
-            {tPrimary}
+            {primary}
           </Link>
         ) : (
           <span
@@ -51,16 +48,21 @@ const CategoryTitle = ({
               secondary ? "text-muted-foreground" : "text-foreground",
             )}
           >
-            {tPrimary}
+            {primary}
           </span>
         )}
         {secondary && (
           <>
             <span className="text-muted-foreground">/</span>
-            {withLink ? (
-              <Link href={`/${primary}/${secondary}`}>{tSecondary}</Link>
+            {linkSecondary ? (
+              <Link
+                href={linkSecondary}
+                className="animate-underline after:left-0"
+              >
+                {secondary}
+              </Link>
             ) : (
-              <span>{tSecondary}</span>
+              <span>{secondary}</span>
             )}
           </>
         )}
@@ -69,4 +71,4 @@ const CategoryTitle = ({
   );
 };
 
-export default CategoryTitle;
+export default BreadcrumbTitle;
