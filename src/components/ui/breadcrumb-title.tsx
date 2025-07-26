@@ -30,11 +30,15 @@ const BreadcrumbTitle = ({
           size === "xs" && "text-base",
         )}
       >
+        <span className="animate-underline">hello</span>
         {linkPrimary ? (
           <Link
             href={linkPrimary}
             className={cn(
-              secondary ? "text-muted-foreground" : "text-foreground",
+              "animate-underline after:left-0",
+              secondary
+                ? "text-muted-foreground after:text-muted-foreground"
+                : "text-foreground",
             )}
           >
             {primary}
@@ -52,7 +56,12 @@ const BreadcrumbTitle = ({
           <>
             <span className="text-muted-foreground">/</span>
             {linkSecondary ? (
-              <Link href={linkSecondary}>{secondary}</Link>
+              <Link
+                href={linkSecondary}
+                className="animate-underline after:left-0"
+              >
+                {secondary}
+              </Link>
             ) : (
               <span>{secondary}</span>
             )}

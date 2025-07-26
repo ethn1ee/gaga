@@ -6,7 +6,12 @@ import { isValidCategory } from "./lib/utils";
 
 const protectedRoutes = ["profile", "new"];
 const publicOnlyRoutes = ["sign-in", "sign-up", "verify-email"];
-const allowedRoutes = ["search", "feature-requests", "verify-affiliation"];
+const allowedRoutes = [
+  "search",
+  "feature-requests",
+  "verify-affiliation",
+  "post",
+];
 
 export async function middleware(request: NextRequest) {
   const session = await auth.api.getSession({
@@ -44,5 +49,7 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   runtime: "nodejs",
-  matcher: [`/((?!_next|api|favicon.ico|.well-known|manifest.webmanifest).*)`],
+  matcher: [
+    `/((?!api|_next|_next/image|_next/static|favicon.ico|.well-known|manifest.webmanifest).*)`,
+  ],
 };

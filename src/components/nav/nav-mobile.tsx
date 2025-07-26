@@ -9,7 +9,7 @@ import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import BreadcrumbTitle from "../ui/title";
+import BreadcrumbTitle from "../ui/breadcrumb-title";
 
 import LocaleSwitch from "./locale-switch";
 import UserButton from "./user-button";

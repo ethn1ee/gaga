@@ -5,7 +5,7 @@ import { SearchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import BreadcrumbTitle from "../ui/title";
+import BreadcrumbTitle from "../ui/breadcrumb-title";
 
 const Search = () => {
   const tSearch = useTranslations("search")("title");
@@ -18,8 +18,8 @@ const Search = () => {
 
   const primary = pathname.split("/")[1]?.toLowerCase();
   const secondary = pathname.split("/")[2]?.toLowerCase();
-  const linkPrimary = `/${primary}`;
-  const linkSecondary = `/${primary}/${secondary}`;
+  const linkPrimary = primary !== "search" ? `/${primary}` : undefined;
+  const linkSecondary = secondary ? `/${primary}/${secondary}` : undefined;
 
   const tPrimary = primary
     ? primary === "search"
