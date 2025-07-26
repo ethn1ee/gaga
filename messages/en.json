@@ -267,6 +267,36 @@
     "title": "Search"
   },
 
+  "new": {
+    "inputs": {
+      "category": {
+        "label": "Category",
+        "placeholder": "Select a category"
+      },
+      "subcategory": {
+        "label": "Subcategory",
+        "placeholder": "Select a subcategory",
+        "select-category-first": "Select a category first"
+      },
+      "title": {
+        "label": "Title",
+        "placeholder": "Untitled"
+      },
+      "content": {
+        "label": "Content",
+        "placeholder": "What's on your mind?"
+      },
+      "attachments": {
+        "label": "Attachments",
+        "instruction": "Click to upload or drag and drop",
+        "sub-instruction": "Each file must not exceed {maxSize}MB. Maximum {maxFiles} files."
+      }
+    },
+    "buttons": {
+      "post": "Post"
+    }
+  },
+
   "misc": {
     "new-post": "New Post",
     "home": "Home"
