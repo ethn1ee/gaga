@@ -30,7 +30,6 @@ const BreadcrumbTitle = ({
           size === "xs" && "text-base",
         )}
       >
-        <span className="animate-underline">hello</span>
         {linkPrimary ? (
           <Link
             href={linkPrimary}

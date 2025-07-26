@@ -40,6 +40,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  console.log("Invalid route:", basePath);
+
   if (!isValidCategory(pathname.split("/").slice(1))) {
     return NextResponse.redirect(new URL("/", env.NEXT_PUBLIC_BASE_URL));
   }
@@ -50,6 +52,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   runtime: "nodejs",
   matcher: [
-    `/((?!api|_next|_next/image|_next/static|favicon.ico|.well-known|manifest.webmanifest).*)`,
+    "/((?!api|_next/static|_next/image|images|favicon.ico|.well-known|manifest.webmanifest|sitemap.xml|robots.txt).*)",
   ],
 };

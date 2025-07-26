@@ -112,7 +112,7 @@
 }
 
 @utility clear-input-style {
-  @apply border-none bg-transparent! shadow-none ring-0 focus-visible:ring-0;
+  @apply border-none bg-transparent! shadow-none ring-0! focus-visible:ring-0!;
 }
 
 @utility animate {
