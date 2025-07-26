@@ -42,7 +42,7 @@ const AffiliationFormField = () => {
               }}
             >
               <FormControl>
-                <SelectTrigger className="clear-input-style h-10 !ring ring-border w-full">
+                <SelectTrigger className="bg-transparent! w-full">
                   <SelectValue placeholder={t("placeholder")} />
                 </SelectTrigger>
               </FormControl>

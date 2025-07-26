@@ -14,9 +14,12 @@ import {
 } from "@/components/ui/select";
 import { type PostInput } from "@/lib/schema";
 import { categories } from "@/site-config";
+import { useTranslations } from "next-intl";
 import { useFormContext } from "react-hook-form";
 
 const CategoryInput = () => {
+  const tCategory = useTranslations("category");
+  const tForm = useTranslations("new.inputs");
   const form = useFormContext<PostInput>();
 
   const handleCategoryChange = (value: string) => {
@@ -31,20 +34,20 @@ const CategoryInput = () => {
         name="category"
         render={({ field }) => (
           <FormItem className="max-md:w-full w-50">
-            <FormLabel className="sr-only">Category</FormLabel>
+            <FormLabel className="sr-only">{tForm("category.label")}</FormLabel>
             <Select
               onValueChange={handleCategoryChange}
               defaultValue={field.value}
             >
               <FormControl>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a category" />
+                <SelectTrigger className="bg-transparent! w-full">
+                  <SelectValue placeholder={tForm("category.placeholder")} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
                 {categories.map((category, i) => (
                   <SelectItem value={category.slug} key={i}>
-                    {category.name}
+                    {tCategory(`${category.slug}.title`)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -61,17 +64,19 @@ const CategoryInput = () => {
         name="subcategory"
         render={({ field }) => (
           <FormItem className="max-md:w-full w-50">
-            <FormLabel className="sr-only">Subcategory</FormLabel>
+            <FormLabel className="sr-only">
+              {tForm("subcategory.label")}
+            </FormLabel>
             <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select a subcategory" />
+                <SelectTrigger className="bg-transparent! w-full">
+                  <SelectValue placeholder={tForm("subcategory.placeholder")} />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
                 {form.watch("category") === "" ? (
                   <SelectItem value="error" disabled>
-                    Select a category first
+                    {tForm("subcategory.select-category-first")}
                   </SelectItem>
                 ) : (
                   categories
@@ -80,7 +85,9 @@ const CategoryInput = () => {
                     )
                     ?.subcategories.map((subcategory, i) => (
                       <SelectItem value={subcategory.slug} key={i}>
-                        {subcategory.name}
+                        {tCategory(
+                          `${form.watch("category")}.subcategories.${subcategory.slug}.title`,
+                        )}
                       </SelectItem>
                     ))
                 )}

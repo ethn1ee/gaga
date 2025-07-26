@@ -9,16 +9,18 @@ import { api } from "@/trpc/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type Post } from "@prisma/client";
 import { Loader2Icon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import AttachmentInput from "./attachment";
+import AttachmentsInput from "./attachments";
 import CategoryInput from "./category";
 import ContentInput from "./content";
 import TitleInput from "./title";
 
 const Form = () => {
+  const t = useTranslations("new.buttons");
   const router = useRouter();
   const { session, isSessionLoading } = useAuth();
 
@@ -83,7 +85,7 @@ const Form = () => {
       <FormComponent {...form}>
         <form
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="my-4 flex flex-col gap-6"
+          className="mb-4 flex flex-col gap-6"
         >
           {isSessionLoading ? (
             <div className="h-[50vh] w-full flex items-center justify-center">
@@ -94,7 +96,7 @@ const Form = () => {
               <CategoryInput />
               <TitleInput />
               <ContentInput />
-              <AttachmentInput
+              <AttachmentsInput
                 attachments={attachments}
                 setAttachments={setAttachments}
               />
@@ -109,7 +111,7 @@ const Form = () => {
                 }
                 isLoading={form.formState.isSubmitting}
               >
-                Post
+                {t("post")}
               </LoadingButton>
             </>
           )}

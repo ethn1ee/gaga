@@ -15,18 +15,20 @@ import {
 } from "@/components/ui/form";
 import { type PostInput } from "@/lib/schema";
 import { PaperclipIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { type Dispatch, type SetStateAction } from "react";
 import { useFormContext } from "react-hook-form";
 
 const MAX_SIZE_MB = 10,
   MAX_FILES = 10;
 
-type AttachmentInputProps = {
+type AttachmentsInputProps = {
   attachments: File[];
   setAttachments: Dispatch<SetStateAction<File[]>>;
 };
 
-const AttachmentInput = (props: AttachmentInputProps) => {
+const AttachmentsInput = (props: AttachmentsInputProps) => {
+  const t = useTranslations("new.inputs.attachments");
   const { attachments, setAttachments } = props;
 
   const form = useFormContext<PostInput>();
@@ -42,7 +44,7 @@ const AttachmentInput = (props: AttachmentInputProps) => {
       name="attachments"
       render={() => (
         <FormItem>
-          <FormLabel className="text-muted-foreground">Attachments</FormLabel>
+          <FormLabel className="text-muted-foreground">{t("label")}</FormLabel>
           <FormControl>
             <FileUploader
               value={attachments}
@@ -55,12 +57,14 @@ const AttachmentInput = (props: AttachmentInputProps) => {
               <FileInput className="border border-dashed">
                 <div className="flex items-center justify-center flex-col gap-1 p-8 w-full ">
                   <PaperclipIcon className="text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground font-semibold">
-                    Click to upload or drag and drop
+                  <p className="text-sm text-muted-foreground font-semibold!">
+                    {t("instruction")}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Please ensure each file is less than {MAX_SIZE_MB}MB.
-                    Maximum {MAX_FILES} files.
+                    {t("sub-instruction", {
+                      maxSize: MAX_SIZE_MB,
+                      maxFiles: MAX_FILES,
+                    })}
                   </p>
                 </div>
               </FileInput>
@@ -80,4 +84,4 @@ const AttachmentInput = (props: AttachmentInputProps) => {
   );
 };
 
-export default AttachmentInput;
+export default AttachmentsInput;

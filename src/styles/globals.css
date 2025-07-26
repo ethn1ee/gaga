@@ -109,10 +109,14 @@
   h3 {
     @apply scroll-m-20 text-xl font-medium tracking-tight;
   }
+
+  input {
+    @apply bg-transparent!;
+  }
 }
 
 @utility clear-input-style {
-  @apply border-none bg-transparent! shadow-none ring-0! focus-visible:ring-0!;
+  @apply border-none! shadow-none! ring-0!;
 }
 
 @utility animate {

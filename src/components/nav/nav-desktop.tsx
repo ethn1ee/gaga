@@ -27,7 +27,7 @@ const NavDesktop = ({
   return (
     <NavigationMenu viewport={false} className={className}>
       <NavigationMenuList className="w-screen flex justify-between items-center py-4 px-5 relative z-50">
-        <div className="flex items-center max-w-[600px] gap-4 flex-1">
+        <div className="flex items-center max-w-[600px] gap-2 flex-1">
           <NavigationMenuItem>
             <NavigationMenuLink asChild>
               <Link
