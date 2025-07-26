@@ -263,6 +263,10 @@
     "sign-out": "Sign out"
   },
 
+  "search": {
+    "title": "Search"
+  },
+
   "misc": {
     "new-post": "New Post",
     "home": "Home"

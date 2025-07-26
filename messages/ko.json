@@ -263,6 +263,10 @@
     "sign-out": "로그아웃"
   },
 
+  "search": {
+    "title": "검색"
+  },
+
   "misc": {
     "new-post": "새 게시물",
     "home": "홈"
