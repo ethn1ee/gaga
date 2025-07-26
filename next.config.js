@@ -12,7 +12,6 @@ const config = {
     qualities: [25, 50, 75],
   },
   experimental: {
-    nodeMiddleware: true,
     ppr: "incremental",
   },
 };
